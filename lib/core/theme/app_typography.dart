@@ -46,87 +46,86 @@ class AppTypography extends ThemeExtension<AppTypography> {
     required this.caption,
   });
 
-  // ── Dark Preset ──────────────────────────────────────────────
   static const dark = AppTypography(
-    // — Display (white on dark) —
+    // Display
     displayLarge: TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w600,
       height: 1.12,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
     displayMedium: TextStyle(
       fontSize: 45,
       fontWeight: FontWeight.w400,
       height: 1.16,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
     displaySmall: TextStyle(
       fontSize: 36,
       fontWeight: FontWeight.w400,
       height: 1.22,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
 
-    // — Headline —
+    // Headline
     headlineLarge: TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w600,
       height: 1.25,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
     headlineMedium: TextStyle(
       fontSize: 28,
       fontWeight: FontWeight.w400,
       height: 1.29,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
     headlineSmall: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w400,
       height: 1.33,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
 
-    // — Title —
+    // Title
     titleLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w600,
       height: 1.27,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
     titleMedium: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w500,
-      height: 1.5,
+      height: 1.50,
       letterSpacing: 0.15,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
     titleSmall: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       height: 1.43,
-      letterSpacing: 0.1,
+      letterSpacing: 0.10,
       fontFamily: 'Inter',
-      color: Color(0xFFF8FAFC),
+      color: Color(0xFFFFF8F1),
     ),
 
-    // — Body —
+    // Body
     bodyLarge: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-      height: 1.5,
-      letterSpacing: 0.5,
+      height: 1.50,
+      letterSpacing: 0.50,
       fontFamily: 'Inter',
-      color: Color(0xFFCBD5E1),
+      color: Color(0xFFE7DCCF),
     ),
     bodyMedium: TextStyle(
       fontSize: 14,
@@ -134,117 +133,115 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.43,
       letterSpacing: 0.25,
       fontFamily: 'Inter',
-      color: Color(0xFFCBD5E1),
+      color: Color(0xFFE7DCCF),
     ),
     bodySmall: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       height: 1.33,
-      letterSpacing: 0.4,
+      letterSpacing: 0.40,
       fontFamily: 'Inter',
-      color: Color(0xFF94A3B8),
+      color: Color(0xFFCBB9A8),
     ),
 
-    // — Label —
+    // Label
     labelLarge: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       height: 1.43,
-      letterSpacing: 0.1,
+      letterSpacing: 0.10,
       fontFamily: 'Inter',
-      color: Color(0xFFCBD5E1),
+      color: Color(0xFFE7DCCF),
     ),
     labelMedium: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w500,
       height: 1.33,
-      letterSpacing: 0.5,
+      letterSpacing: 0.50,
       fontFamily: 'Inter',
-      color: Color(0xFF94A3B8),
+      color: Color(0xFFCBB9A8),
     ),
     labelSmall: TextStyle(
       fontSize: 11,
       fontWeight: FontWeight.w500,
       height: 1.45,
-      letterSpacing: 0.5,
+      letterSpacing: 0.50,
       fontFamily: 'Inter',
-      color: Color(0xFF64748B),
+      color: Color(0xFFA58E7D),
     ),
 
-    // — Custom —
     button: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       height: 1.42,
-      letterSpacing: 0.1,
+      letterSpacing: 0.10,
       fontFamily: 'Inter',
       color: Color(0xFFFFFFFF),
     ),
+
     caption: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       height: 1.33,
-      letterSpacing: 0.4,
+      letterSpacing: 0.40,
       fontFamily: 'Inter',
-      color: Color(0xFF94A3B8),
+      color: Color(0xFFCBB9A8),
     ),
   );
-  // ── LIGHT PRESET ─────────────────────────────────────────────
-  // Same font sizes, weights, heights — only colors flipped for dark text on white
   static const light = AppTypography(
-    // Display — slate-900
+    // Display
     displayLarge: TextStyle(
       fontSize: 57,
       fontWeight: FontWeight.w600,
       height: 1.12,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
     displayMedium: TextStyle(
       fontSize: 45,
       fontWeight: FontWeight.w400,
       height: 1.16,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
     displaySmall: TextStyle(
       fontSize: 36,
       fontWeight: FontWeight.w400,
       height: 1.22,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
 
-    // Headline — slate-900
+    // Headline
     headlineLarge: TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w600,
       height: 1.25,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
     headlineMedium: TextStyle(
       fontSize: 28,
       fontWeight: FontWeight.w400,
       height: 1.29,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
     headlineSmall: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w400,
       height: 1.33,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
 
-    // Title — slate-900
+    // Title
     titleLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w600,
       height: 1.27,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
     titleMedium: TextStyle(
       fontSize: 16,
@@ -252,7 +249,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.50,
       letterSpacing: 0.15,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
     titleSmall: TextStyle(
       fontSize: 14,
@@ -260,17 +257,17 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.43,
       letterSpacing: 0.10,
       fontFamily: 'Inter',
-      color: Color(0xFF0F172A),
+      color: Color(0xFF2D1B12),
     ),
 
-    // Body — slate-700 for large, slate-500 for small
+    // Body
     bodyLarge: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
       height: 1.50,
       letterSpacing: 0.50,
       fontFamily: 'Inter',
-      color: Color(0xFF334155),
+      color: Color(0xFF5F4B43),
     ),
     bodyMedium: TextStyle(
       fontSize: 14,
@@ -278,7 +275,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.43,
       letterSpacing: 0.25,
       fontFamily: 'Inter',
-      color: Color(0xFF334155),
+      color: Color(0xFF5F4B43),
     ),
     bodySmall: TextStyle(
       fontSize: 12,
@@ -286,17 +283,17 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.33,
       letterSpacing: 0.40,
       fontFamily: 'Inter',
-      color: Color(0xFF64748B),
+      color: Color(0xFF8B776D),
     ),
 
-    // Label — slate-700 / slate-500 / slate-400
+    // Label
     labelLarge: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       height: 1.43,
       letterSpacing: 0.10,
       fontFamily: 'Inter',
-      color: Color(0xFF334155),
+      color: Color(0xFF5F4B43),
     ),
     labelMedium: TextStyle(
       fontSize: 12,
@@ -304,7 +301,7 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.33,
       letterSpacing: 0.50,
       fontFamily: 'Inter',
-      color: Color(0xFF64748B),
+      color: Color(0xFF8B776D),
     ),
     labelSmall: TextStyle(
       fontSize: 11,
@@ -312,10 +309,9 @@ class AppTypography extends ThemeExtension<AppTypography> {
       height: 1.45,
       letterSpacing: 0.50,
       fontFamily: 'Inter',
-      color: Color(0xFF94A3B8),
+      color: Color(0xFFB09A8F),
     ),
 
-    // Button — always white (sits on colored button backgrounds)
     button: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w500,
@@ -325,17 +321,15 @@ class AppTypography extends ThemeExtension<AppTypography> {
       color: Color(0xFFFFFFFF),
     ),
 
-    // Caption — slate-500
     caption: TextStyle(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       height: 1.33,
       letterSpacing: 0.40,
       fontFamily: 'Inter',
-      color: Color(0xFF64748B),
+      color: Color(0xFF8B776D),
     ),
   );
-  // ── copyWith ─────────────────────────────────────────────────
   @override
   AppTypography copyWith({
     TextStyle? displayLarge,

@@ -364,6 +364,7 @@ class AppGradients extends ThemeExtension<AppGradients> {
       colors: [Color(0xFF10B981), Color(0xFF059669)],
     ),
   );
+
   @override
   AppGradients copyWith({
     LinearGradient? primary,
