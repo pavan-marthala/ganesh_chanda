@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/DI/injection.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
+import 'package:ganesh_chanda/core/utils/app_text_field.dart';
 import 'package:ganesh_chanda/core/utils/app_toast.dart';
 import 'package:ganesh_chanda/features/auth/presentation/bloc/sign_in/sign_in_bloc.dart';
 
@@ -72,29 +73,17 @@ class _EmailLoginFormCardState extends State<EmailLoginFormCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Email Address Label & Input
-                Text(
-                  'Email Address',
-                  style: typography.labelLarge.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.textSecondary,
-                    fontSize: 13,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
+                AppTextField(
+                  labelText: 'Email Address',
+                  hintText: 'Enter your email',
+                  errorText: state.emailError,
                   keyboardType: TextInputType.emailAddress,
-                  style: typography.bodyMedium.copyWith(
-                    color: colors.textPrimary,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'you@example.com',
-                    prefixIcon: Icon(
-                      Icons.mail_outline_rounded,
-                      color: colors.text4,
-                      size: 20,
-                    ),
-                    errorText: state.emailError,
+                  textInputAction: TextInputAction.next,
+                  autofillHints: const [AutofillHints.email],
+                  prefixIcon: Icon(
+                    Icons.mail_outline_rounded,
+                    color: colors.text4,
+                    size: 20,
                   ),
                   onChanged: (val) {
                     context.read<SignInBloc>().add(
@@ -104,18 +93,28 @@ class _EmailLoginFormCardState extends State<EmailLoginFormCard> {
                 ),
                 const SizedBox(height: 18),
 
-                // Password Label, Forgot Password & Input
+                AppTextField(
+                  labelText: 'Password',
+                  hintText: 'Enter your password',
+                  errorText: state.passwordError,
+                  isPassword: true,
+                  textInputAction: TextInputAction.done,
+                  autofillHints: const [AutofillHints.password],
+                  prefixIcon: Icon(
+                    Icons.lock_open_outlined,
+                    color: colors.text4,
+                    size: 20,
+                  ),
+                  onChanged: (val) {
+                    context.read<SignInBloc>().add(
+                      SignInEvent.passwordChanged(val),
+                    );
+                  },
+                ),
+                const SizedBox(height: 14),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Password',
-                      style: typography.labelLarge.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: colors.textSecondary,
-                        fontSize: 13,
-                      ),
-                    ),
                     GestureDetector(
                       onTap: () {
                         // Forgot password action
@@ -131,44 +130,7 @@ class _EmailLoginFormCardState extends State<EmailLoginFormCard> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  obscureText: _obscurePassword,
-                  style: typography.bodyMedium.copyWith(
-                    color: colors.textPrimary,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: '••••••••',
-                    prefixIcon: Icon(
-                      Icons.lock_outline_rounded,
-                      color: colors.text4,
-                      size: 20,
-                    ),
-                    errorText: state.passwordError,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
-                        color: colors.text4,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
-                  ),
-                  onChanged: (val) {
-                    context.read<SignInBloc>().add(
-                      SignInEvent.passwordChanged(val),
-                    );
-                  },
-                ),
-                const SizedBox(height: 24),
-
-                // Primary Sign In Button
+                const SizedBox(height: 14),
                 AppButton(
                   onPressed: state.isSubmitting
                       ? null
