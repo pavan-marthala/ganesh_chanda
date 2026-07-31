@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
-import 'package:ganesh_chanda/core/utils/app_routes.dart';
 
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:ganesh_chanda/features/festival/presentation/widgets/create_festival_bottom_sheet.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class FestivalsHomeScreen extends StatefulWidget {
@@ -129,7 +128,9 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                         color: colors.textPrimary,
                         size: 20,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        CreateFestivalBottomSheet.show(context);
+                      },
                     ),
                   ),
                 ),
@@ -239,7 +240,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                 elevation: 4,
               ),
               onPressed: () {
-                context.push(AppRoutes.createCommunity);
+                CreateFestivalBottomSheet.show(context);
               },
               icon: const Icon(Icons.add_rounded, size: 20),
               label: const Text(
@@ -512,7 +513,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: Color(0xFFF59E0B).withValues(alpha: .2),
+              color: const Color(0xFFF59E0B).withValues(alpha: .2),
               borderRadius: BorderRadius.circular(16),
             ),
             child: const Text(
