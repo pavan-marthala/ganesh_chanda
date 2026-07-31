@@ -79,6 +79,9 @@ class _AppTextFieldState extends State<AppTextField> {
           onChanged: widget.onChanged,
           autofillHints: widget.autofillHints,
           style: typography.bodyMedium.copyWith(color: colors.textPrimary),
+          onTapOutside: (event) {
+            FocusScope.of(context).unfocus();
+          },
           decoration: InputDecoration(
             hintText: widget.hintText,
             errorText: widget.errorText,

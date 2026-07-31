@@ -116,9 +116,7 @@ class _EmailLoginFormCardState extends State<EmailLoginFormCard> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        // Forgot password action
-                      },
+                      onTap: () {},
                       child: Text(
                         'Forgot Password?',
                         style: typography.labelSmall.copyWith(

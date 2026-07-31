@@ -18,7 +18,8 @@ import 'package:ganesh_chanda/features/dashboard/presentation/screens/dashboard_
 import 'package:ganesh_chanda/features/donation/presentation/screens/donation_screen.dart';
 import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.dart';
 import 'package:ganesh_chanda/features/expense/presentation/screens/expense_screen.dart';
-import 'package:ganesh_chanda/features/festival/presentation/screens/festival_list_screen.dart';
+import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
+import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_home_screen.dart';
 import 'package:ganesh_chanda/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ganesh_chanda/features/splash/presentation/screens/splash_screen.dart';
 import 'package:ganesh_chanda/firebase_options.dart';
@@ -52,6 +53,7 @@ void main() async {
               getIt<AuthBloc>()..add(const AuthEvent.started()),
         ),
         BlocProvider(create: (context) => getIt<CommunityBloc>()),
+        BlocProvider(create: (context) => getIt<FestivalBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -116,6 +118,7 @@ class _MyAppState extends State<MyApp> {
               AccountSetupStatus.communityCreated => AppRoutes.festivalsHome,
               AccountSetupStatus.onboardingCompleted => AppRoutes.dashboard,
             };
+
             if (isSplash || isSignIn || isSignUp) {
               return targetRoute;
             }
@@ -149,7 +152,7 @@ class _MyAppState extends State<MyApp> {
         ),
         GoRoute(
           path: AppRoutes.festivalsHome,
-          builder: (context, state) => FestivalListScreen(),
+          builder: (context, state) => const FestivalsHomeScreen(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>
