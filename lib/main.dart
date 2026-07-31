@@ -12,6 +12,7 @@ import 'package:ganesh_chanda/features/auth/domain/models/account_setup_status.d
 import 'package:ganesh_chanda/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:ganesh_chanda/features/community/presentation/screens/create_community_screen.dart';
 import 'package:ganesh_chanda/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:ganesh_chanda/features/donation/presentation/screens/donation_screen.dart';
 import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.dart';
@@ -45,7 +46,8 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt<AuthBloc>()..add(const AuthEvent.started()),
+          create: (context) =>
+              getIt<AuthBloc>()..add(const AuthEvent.started()),
         ),
       ],
       child: const MyApp(),
@@ -141,9 +143,7 @@ class _MyAppState extends State<MyApp> {
         ),
         GoRoute(
           path: AppRoutes.createCommunity,
-          builder: (context, state) => const Scaffold(
-            body: Center(child: Text('Create Community Placeholder')),
-          ),
+          builder: (context, state) => const CreateCommunityScreen(),
         ),
         GoRoute(
           path: AppRoutes.festivalsHome,

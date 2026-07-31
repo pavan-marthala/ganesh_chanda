@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/DI/injection.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
+import 'package:ganesh_chanda/core/utils/app_routes.dart';
 import 'package:ganesh_chanda/core/utils/app_toast.dart';
 import 'package:ganesh_chanda/features/auth/presentation/bloc/sign_in/sign_in_bloc.dart';
 import 'package:ganesh_chanda/features/auth/presentation/widgets/email_login_form_card.dart';
 import 'package:ganesh_chanda/features/auth/presentation/widgets/hero_panel_header.dart';
+import 'package:go_router/go_router.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -78,7 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 // Create Your Community Text Button
                                 TextButton(
                                   onPressed: () {
-                                    // Navigate / Action to create community
+                                    context.push(AppRoutes.signUp);
                                   },
                                   child: Text(
                                     'Create Your Community',

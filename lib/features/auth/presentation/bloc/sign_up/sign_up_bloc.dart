@@ -111,8 +111,14 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         );
         return;
       }
-      emit(state.copyWith(displayNameError: null));
 
+      emit(
+        state.copyWith(
+          displayNameError: null,
+          isSubmitting: true,
+          errorMessage: null,
+        ),
+      );
       // 2. Email Format Validation
       final email = state.email.trim();
       if (email.isEmpty) {
