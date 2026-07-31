@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "139550162253",
+    "project_id": "ganesh-chanda-9cf2a",
+    "storage_bucket": "ganesh-chanda-9cf2a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139550162253:android:d9980efbdcd882342bcb04",
+        "android_client_info": {
+          "package_name": "com.pk.ganesh_chanda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139550162253-h9vrdidcduckh6g75plgs8eusbuthiqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhcTDaRXNBxYkAcDw9Dmu89Uf-zp7HMWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139550162253-h9vrdidcduckh6g75plgs8eusbuthiqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
