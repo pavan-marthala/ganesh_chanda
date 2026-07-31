@@ -35,6 +35,30 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     return name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase();
   }
 
+  bool _isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  bool _isUpcoming(Festival festival, DateTime now) {
+    final startDay = DateTime(festival.startDate.year, festival.startDate.month, festival.startDate.day);
+    final today = DateTime(now.year, now.month, now.day);
+    return startDay.isAfter(today);
+  }
+
+  bool _isLive(Festival festival, DateTime now) {
+    final startDay = DateTime(festival.startDate.year, festival.startDate.month, festival.startDate.day);
+    final endDay = DateTime(festival.endDate.year, festival.endDate.month, festival.endDate.day);
+    final today = DateTime(now.year, now.month, now.day);
+    return (today.isAfter(startDay) || _isSameDay(today, startDay)) &&
+        (today.isBefore(endDay) || _isSameDay(today, endDay));
+  }
+
+  bool _isCompleted(Festival festival, DateTime now) {
+    final endDay = DateTime(festival.endDate.year, festival.endDate.month, festival.endDate.day);
+    final today = DateTime(now.year, now.month, now.day);
+    return endDay.isBefore(today);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.appColors;
@@ -260,24 +284,13 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
   ) {
     final colors = context.appColors;
     final typography = context.appTypography;
+    final now = DateTime.now();
 
-    final liveFestivals = festivals
-        .where((f) => f.status == FestivalStatus.active)
-        .toList();
-    final upcomingFestivals = festivals
-        .where(
-          (f) =>
-              f.status == FestivalStatus.upcoming ||
-              f.status == FestivalStatus.draft,
-        )
-        .toList();
-    final completedFestivals = festivals
-        .where(
-          (f) =>
-              f.status == FestivalStatus.completed ||
-              f.status == FestivalStatus.cancelled,
-        )
-        .toList();
+    final liveFestivals = festivals.where((f) => _isLive(f, now)).toList();
+    final upcomingFestivals =
+        festivals.where((f) => _isUpcoming(f, now)).toList();
+    final completedFestivals =
+        festivals.where((f) => _isCompleted(f, now)).toList();
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),

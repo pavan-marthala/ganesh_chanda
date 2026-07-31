@@ -9,6 +9,7 @@ import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
+import 'package:intl/intl.dart';
 
 class CreateFestivalBottomSheet extends StatefulWidget {
   const CreateFestivalBottomSheet({super.key});
@@ -44,6 +45,8 @@ class _CreateFestivalBottomSheetState
   StateStatus _prevActionStatus = StateStatus.initial;
   String? _prevActionError;
 
+  final DateFormat _dateFormat = DateFormat('d MMM yyyy');
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -67,33 +70,28 @@ class _CreateFestivalBottomSheetState
       setState(() {
         if (isStart) {
           _startDate = picked;
-          _startDateController.text =
-              '${picked.day} ${_monthName(picked.month)} ${picked.year}';
+          _startDateController.text = _dateFormat.format(picked);
         } else {
           _endDate = picked;
-          _endDateController.text =
-              '${picked.day} ${_monthName(picked.month)} ${picked.year}';
+          _endDateController.text = _dateFormat.format(picked);
         }
       });
     }
   }
 
-  String _monthName(int month) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ];
-    return months[month - 1];
+  FestivalStatus _calculateStatus(DateTime startDate, DateTime endDate) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final startDay = DateTime(startDate.year, startDate.month, startDate.day);
+    final endDay = DateTime(endDate.year, endDate.month, endDate.day);
+
+    if (startDay.isAfter(today)) {
+      return FestivalStatus.upcoming;
+    } else if (endDay.isBefore(today)) {
+      return FestivalStatus.completed;
+    } else {
+      return FestivalStatus.active;
+    }
   }
 
   void _onSubmit(BuildContext context) {
@@ -122,6 +120,8 @@ class _CreateFestivalBottomSheetState
       return;
     }
 
+    final calculatedStatus = _calculateStatus(_startDate!, _endDate!);
+
     final festival = Festival(
       id: '',
       communityId: '',
@@ -129,7 +129,7 @@ class _CreateFestivalBottomSheetState
       description: _descriptionController.text.trim(),
       startDate: _startDate!,
       endDate: _endDate!,
-      status: FestivalStatus.upcoming,
+      status: calculatedStatus,
       createdBy: '',
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
