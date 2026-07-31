@@ -9,4 +9,6 @@ class AppRoutes {
   static const signIn = '/sign-in';
   static const signUp = '/sign-up';
   static const onboarding = '/onboarding';
+  static const createCommunity = '/create-community';
+  static const festivalsHome = '/festivals-home';
 }

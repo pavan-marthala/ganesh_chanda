@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ganesh_chanda/features/auth/domain/models/app_user.dart';
 import 'package:ganesh_chanda/features/auth/domain/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,21 +13,22 @@ part 'auth_bloc.freezed.dart';
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  StreamSubscription<User?>? _authStateSubscription;
+  StreamSubscription<AppUser?>? _authStateSubscription;
+
   AuthBloc(this._authRepository) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
       await event.map(
         started: (e) async {
           await _authStateSubscription?.cancel();
 
-          final user = _authRepository.currentUser;
-          if (user != null) {
-            emit(AuthState.authenticated(user: user));
+          final appUser = await _authRepository.currentAppUser;
+          if (appUser != null) {
+            emit(AuthState.authenticated(user: appUser));
           } else {
             emit(const AuthState.unauthenticated());
           }
 
-          _authStateSubscription = _authRepository.authStateChanges.listen((
+          _authStateSubscription = _authRepository.appUserChanges.listen((
             user,
           ) {
             add(AuthEvent.authStateChanged(user: user));
@@ -41,10 +42,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           }
         },
         signOutRequested: (e) async {
-          final uid = _authRepository.currentUser?.uid;
-          if (uid != null) {
-            // TODO: Clean Up Tasks
-          }
           await _authRepository.signOut();
         },
       );

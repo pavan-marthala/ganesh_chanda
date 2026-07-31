@@ -125,7 +125,7 @@ return signOutRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( User? user)?  authStateChanged,TResult Function()?  signOutRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( AppUser? user)?  authStateChanged,TResult Function()?  signOutRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _AuthStateChanged() when authStateChanged != null:
@@ -148,7 +148,7 @@ return signOutRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( User? user)  authStateChanged,required TResult Function()  signOutRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( AppUser? user)  authStateChanged,required TResult Function()  signOutRequested,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _AuthStateChanged():
@@ -170,7 +170,7 @@ return signOutRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( User? user)?  authStateChanged,TResult? Function()?  signOutRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( AppUser? user)?  authStateChanged,TResult? Function()?  signOutRequested,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _AuthStateChanged() when authStateChanged != null:
@@ -222,7 +222,7 @@ class _AuthStateChanged implements AuthEvent {
   const _AuthStateChanged({required this.user});
   
 
- final  User? user;
+ final  AppUser? user;
 
 /// Create a copy of AuthEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -254,11 +254,11 @@ abstract mixin class _$AuthStateChangedCopyWith<$Res> implements $AuthEventCopyW
   factory _$AuthStateChangedCopyWith(_AuthStateChanged value, $Res Function(_AuthStateChanged) _then) = __$AuthStateChangedCopyWithImpl;
 @useResult
 $Res call({
- User? user
+ AppUser? user
 });
 
 
-
+$AppUserCopyWith<$Res>? get user;
 
 }
 /// @nodoc
@@ -274,11 +274,23 @@ class __$AuthStateChangedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? user = freezed,}) {
   return _then(_AuthStateChanged(
 user: freezed == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as User?,
+as AppUser?,
   ));
 }
 
+/// Create a copy of AuthEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppUserCopyWith<$Res>? get user {
+    if (_self.user == null) {
+    return null;
+  }
 
+  return $AppUserCopyWith<$Res>(_self.user!, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
 }
 
 /// @nodoc
@@ -427,7 +439,7 @@ return unauthenticated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( User user)?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( AppUser user)?  authenticated,TResult Function()?  unauthenticated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Authenticated() when authenticated != null:
@@ -450,7 +462,7 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( User user)  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( AppUser user)  authenticated,required TResult Function()  unauthenticated,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _Authenticated():
@@ -472,7 +484,7 @@ return unauthenticated();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( User user)?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( AppUser user)?  authenticated,TResult? Function()?  unauthenticated,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _Authenticated() when authenticated != null:
@@ -524,7 +536,7 @@ class _Authenticated implements AuthState {
   const _Authenticated({required this.user});
   
 
- final  User user;
+ final  AppUser user;
 
 /// Create a copy of AuthState
 /// with the given fields replaced by the non-null parameter values.
@@ -556,11 +568,11 @@ abstract mixin class _$AuthenticatedCopyWith<$Res> implements $AuthStateCopyWith
   factory _$AuthenticatedCopyWith(_Authenticated value, $Res Function(_Authenticated) _then) = __$AuthenticatedCopyWithImpl;
 @useResult
 $Res call({
- User user
+ AppUser user
 });
 
 
-
+$AppUserCopyWith<$Res> get user;
 
 }
 /// @nodoc
@@ -576,11 +588,20 @@ class __$AuthenticatedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
   return _then(_Authenticated(
 user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
-as User,
+as AppUser,
   ));
 }
 
-
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppUserCopyWith<$Res> get user {
+  
+  return $AppUserCopyWith<$Res>(_self.user, (value) {
+    return _then(_self.copyWith(user: value));
+  });
+}
 }
 
 /// @nodoc

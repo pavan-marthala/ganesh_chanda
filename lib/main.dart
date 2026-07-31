@@ -8,6 +8,7 @@ import 'package:ganesh_chanda/core/DI/injection.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_routes.dart';
 import 'package:ganesh_chanda/features/app_shell/presentation/screens/app_shell_screen.dart';
+import 'package:ganesh_chanda/features/auth/domain/models/account_setup_status.dart';
 import 'package:ganesh_chanda/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_screen.dart';
@@ -44,7 +45,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => getIt<AuthBloc>()..add(AuthEvent.started()),
+          create: (context) => getIt<AuthBloc>()..add(const AuthEvent.started()),
         ),
       ],
       child: const MyApp(),
@@ -79,6 +80,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late final GoRouter _goRouter;
   late final AuthBloc _authBloc;
+
   @override
   void initState() {
     _authBloc = context.read<AuthBloc>();
@@ -102,10 +104,18 @@ class _MyAppState extends State<MyApp> {
             }
             return null;
           },
-          authenticated: (_) {
+          authenticated: (authenticatedState) {
+            final appUser = authenticatedState.user;
+            final targetRoute = switch (appUser.accountSetupStatus) {
+              AccountSetupStatus.adminRegistered => AppRoutes.createCommunity,
+              AccountSetupStatus.communityCreated => AppRoutes.festivalsHome,
+              AccountSetupStatus.onboardingCompleted => AppRoutes.dashboard,
+            };
+
             if (isSplash || isSignIn || isSignUp) {
-              return AppRoutes.dashboard;
+              return targetRoute;
             }
+
             return null;
           },
           unauthenticated: (_) {
@@ -129,6 +139,18 @@ class _MyAppState extends State<MyApp> {
           path: AppRoutes.signUp,
           builder: (context, state) => const SignUpScreen(),
         ),
+        GoRoute(
+          path: AppRoutes.createCommunity,
+          builder: (context, state) => const Scaffold(
+            body: Center(child: Text('Create Community Placeholder')),
+          ),
+        ),
+        GoRoute(
+          path: AppRoutes.festivalsHome,
+          builder: (context, state) => const Scaffold(
+            body: Center(child: Text('Festivals Home Placeholder')),
+          ),
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>
               AppShellScreen(navigationShell: navigationShell),
@@ -144,7 +166,6 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-
             StatefulShellBranch(
               navigatorKey: _shellNavigatorKeyDonations,
               routes: [
@@ -156,7 +177,6 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-
             StatefulShellBranch(
               navigatorKey: _shellNavigatorKeyExpense,
               routes: [
@@ -168,7 +188,6 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-
             StatefulShellBranch(
               navigatorKey: _shellNavigatorKeyEvents,
               routes: [
@@ -180,7 +199,6 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-
             StatefulShellBranch(
               navigatorKey: _shellNavigatorKeyProfile,
               routes: [
@@ -209,7 +227,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
-        return child ?? Scaffold();
+        return child ?? const Scaffold();
       },
     );
   }
