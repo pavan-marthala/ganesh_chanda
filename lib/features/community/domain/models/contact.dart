@@ -6,6 +6,7 @@ part 'contact.g.dart';
 @freezed
 abstract class Contact with _$Contact {
   const factory Contact({
+    @Default('') String name,
     @Default('') String phone,
     @Default('') String email,
   }) = _Contact;

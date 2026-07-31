@@ -7,15 +7,23 @@ part of 'community.dart';
 // **************************************************************************
 
 _Community _$CommunityFromJson(Map<String, dynamic> json) => _Community(
-  id: json['id'] as String,
-  name: json['name'] as String,
+  id: json['id'] as String? ?? '',
+  name: json['name'] as String? ?? '',
   description: json['description'] as String? ?? '',
   logoUrl: json['logoUrl'] as String?,
-  address: Address.fromJson(json['address'] as Map<String, dynamic>),
-  contact: Contact.fromJson(json['contact'] as Map<String, dynamic>),
-  createdBy: json['createdBy'] as String,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  updatedAt: DateTime.parse(json['updatedAt'] as String),
+  address: json['address'] == null
+      ? null
+      : Address.fromJson(json['address'] as Map<String, dynamic>),
+  contact: json['contact'] == null
+      ? null
+      : Contact.fromJson(json['contact'] as Map<String, dynamic>),
+  createdBy: json['createdBy'] as String? ?? '',
+  createdAt: json['createdAt'] == null
+      ? null
+      : DateTime.parse(json['createdAt'] as String),
+  updatedAt: json['updatedAt'] == null
+      ? null
+      : DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$CommunityToJson(_Community instance) =>
@@ -24,9 +32,9 @@ Map<String, dynamic> _$CommunityToJson(_Community instance) =>
       'name': instance.name,
       'description': instance.description,
       'logoUrl': instance.logoUrl,
-      'address': instance.address,
-      'contact': instance.contact,
+      'address': instance.address?.toJson(),
+      'contact': instance.contact?.toJson(),
       'createdBy': instance.createdBy,
-      'createdAt': instance.createdAt.toIso8601String(),
-      'updatedAt': instance.updatedAt.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
     };

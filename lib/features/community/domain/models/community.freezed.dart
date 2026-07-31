@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Community {
 
- String get id; String get name; String get description; String? get logoUrl; Address get address; Contact get contact; String get createdBy; DateTime get createdAt; DateTime get updatedAt;
+ String get id; String get name; String get description; String? get logoUrl; Address? get address; Contact? get contact; String get createdBy; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,11 +48,11 @@ abstract mixin class $CommunityCopyWith<$Res>  {
   factory $CommunityCopyWith(Community value, $Res Function(Community) _then) = _$CommunityCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String description, String? logoUrl, Address address, Contact contact, String createdBy, DateTime createdAt, DateTime updatedAt
+ String id, String name, String description, String? logoUrl, Address? address, Contact? contact, String createdBy, DateTime? createdAt, DateTime? updatedAt
 });
 
 
-$AddressCopyWith<$Res> get address;$ContactCopyWith<$Res> get contact;
+$AddressCopyWith<$Res>? get address;$ContactCopyWith<$Res>? get contact;
 
 }
 /// @nodoc
@@ -65,36 +65,42 @@ class _$CommunityCopyWithImpl<$Res>
 
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? logoUrl = freezed,Object? address = null,Object? contact = null,Object? createdBy = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? logoUrl = freezed,Object? address = freezed,Object? contact = freezed,Object? createdBy = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
-as String?,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as Address,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
-as Contact,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as Address?,contact: freezed == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
+as Contact?,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$AddressCopyWith<$Res> get address {
-  
-  return $AddressCopyWith<$Res>(_self.address, (value) {
+$AddressCopyWith<$Res>? get address {
+    if (_self.address == null) {
+    return null;
+  }
+
+  return $AddressCopyWith<$Res>(_self.address!, (value) {
     return _then(_self.copyWith(address: value));
   });
 }/// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ContactCopyWith<$Res> get contact {
-  
-  return $ContactCopyWith<$Res>(_self.contact, (value) {
+$ContactCopyWith<$Res>? get contact {
+    if (_self.contact == null) {
+    return null;
+  }
+
+  return $ContactCopyWith<$Res>(_self.contact!, (value) {
     return _then(_self.copyWith(contact: value));
   });
 }
@@ -179,7 +185,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String? logoUrl,  Address address,  Contact contact,  String createdBy,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Community() when $default != null:
 return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
@@ -200,7 +206,7 @@ return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.addres
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String? logoUrl,  Address address,  Contact contact,  String createdBy,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Community():
 return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
@@ -220,7 +226,7 @@ return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.addres
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  String? logoUrl,  Address address,  Contact contact,  String createdBy,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Community() when $default != null:
 return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
@@ -232,21 +238,21 @@ return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.addres
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(explicitToJson: true)
 class _Community implements Community {
-  const _Community({required this.id, required this.name, this.description = '', this.logoUrl, required this.address, required this.contact, required this.createdBy, required this.createdAt, required this.updatedAt});
+  const _Community({this.id = '', this.name = '', this.description = '', this.logoUrl, this.address, this.contact, this.createdBy = '', this.createdAt, this.updatedAt});
   factory _Community.fromJson(Map<String, dynamic> json) => _$CommunityFromJson(json);
 
-@override final  String id;
-@override final  String name;
+@override@JsonKey() final  String id;
+@override@JsonKey() final  String name;
 @override@JsonKey() final  String description;
 @override final  String? logoUrl;
-@override final  Address address;
-@override final  Contact contact;
-@override final  String createdBy;
-@override final  DateTime createdAt;
-@override final  DateTime updatedAt;
+@override final  Address? address;
+@override final  Contact? contact;
+@override@JsonKey() final  String createdBy;
+@override final  DateTime? createdAt;
+@override final  DateTime? updatedAt;
 
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
@@ -281,11 +287,11 @@ abstract mixin class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Re
   factory _$CommunityCopyWith(_Community value, $Res Function(_Community) _then) = __$CommunityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String description, String? logoUrl, Address address, Contact contact, String createdBy, DateTime createdAt, DateTime updatedAt
+ String id, String name, String description, String? logoUrl, Address? address, Contact? contact, String createdBy, DateTime? createdAt, DateTime? updatedAt
 });
 
 
-@override $AddressCopyWith<$Res> get address;@override $ContactCopyWith<$Res> get contact;
+@override $AddressCopyWith<$Res>? get address;@override $ContactCopyWith<$Res>? get contact;
 
 }
 /// @nodoc
@@ -298,18 +304,18 @@ class __$CommunityCopyWithImpl<$Res>
 
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? logoUrl = freezed,Object? address = null,Object? contact = null,Object? createdBy = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? logoUrl = freezed,Object? address = freezed,Object? contact = freezed,Object? createdBy = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_Community(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
-as String?,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as Address,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
-as Contact,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
-as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as Address?,contact: freezed == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
+as Contact?,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as String,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,updatedAt: freezed == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -317,18 +323,24 @@ as DateTime,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$AddressCopyWith<$Res> get address {
-  
-  return $AddressCopyWith<$Res>(_self.address, (value) {
+$AddressCopyWith<$Res>? get address {
+    if (_self.address == null) {
+    return null;
+  }
+
+  return $AddressCopyWith<$Res>(_self.address!, (value) {
     return _then(_self.copyWith(address: value));
   });
 }/// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ContactCopyWith<$Res> get contact {
-  
-  return $ContactCopyWith<$Res>(_self.contact, (value) {
+$ContactCopyWith<$Res>? get contact {
+    if (_self.contact == null) {
+    return null;
+  }
+
+  return $ContactCopyWith<$Res>(_self.contact!, (value) {
     return _then(_self.copyWith(contact: value));
   });
 }

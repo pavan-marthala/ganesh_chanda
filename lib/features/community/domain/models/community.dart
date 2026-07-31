@@ -7,18 +7,19 @@ part 'community.g.dart';
 
 @freezed
 abstract class Community with _$Community {
+  @JsonSerializable(explicitToJson: true)
   const factory Community({
-    required String id,
-    required String name,
+    @Default('') String id,
+    @Default('') String name,
     @Default('') String description,
     String? logoUrl,
-    required Address address,
-    required Contact contact,
-    required String createdBy,
-    required DateTime createdAt,
-    required DateTime updatedAt,
+    Address? address,
+    Contact? contact,
+    @Default('') String createdBy,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) = _Community;
-
+  //
   factory Community.fromJson(Map<String, dynamic> json) =>
       _$CommunityFromJson(json);
 }

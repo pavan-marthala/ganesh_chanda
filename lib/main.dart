@@ -12,11 +12,13 @@ import 'package:ganesh_chanda/features/auth/domain/models/account_setup_status.d
 import 'package:ganesh_chanda/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/community/presentation/screens/create_community_screen.dart';
 import 'package:ganesh_chanda/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:ganesh_chanda/features/donation/presentation/screens/donation_screen.dart';
 import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.dart';
 import 'package:ganesh_chanda/features/expense/presentation/screens/expense_screen.dart';
+import 'package:ganesh_chanda/features/festival/presentation/screens/festival_list_screen.dart';
 import 'package:ganesh_chanda/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ganesh_chanda/features/splash/presentation/screens/splash_screen.dart';
 import 'package:ganesh_chanda/firebase_options.dart';
@@ -49,6 +51,7 @@ void main() async {
           create: (context) =>
               getIt<AuthBloc>()..add(const AuthEvent.started()),
         ),
+        BlocProvider(create: (context) => getIt<CommunityBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -113,7 +116,6 @@ class _MyAppState extends State<MyApp> {
               AccountSetupStatus.communityCreated => AppRoutes.festivalsHome,
               AccountSetupStatus.onboardingCompleted => AppRoutes.dashboard,
             };
-
             if (isSplash || isSignIn || isSignUp) {
               return targetRoute;
             }
@@ -147,9 +149,7 @@ class _MyAppState extends State<MyApp> {
         ),
         GoRoute(
           path: AppRoutes.festivalsHome,
-          builder: (context, state) => const Scaffold(
-            body: Center(child: Text('Festivals Home Placeholder')),
-          ),
+          builder: (context, state) => FestivalListScreen(),
         ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>

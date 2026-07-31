@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Contact {
 
- String get phone; String get email;
+ String get name; String get phone; String get email;
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ContactCopyWith<Contact> get copyWith => _$ContactCopyWithImpl<Contact>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Contact&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Contact&&(identical(other.name, name) || other.name == name)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,phone,email);
+int get hashCode => Object.hash(runtimeType,name,phone,email);
 
 @override
 String toString() {
-  return 'Contact(phone: $phone, email: $email)';
+  return 'Contact(name: $name, phone: $phone, email: $email)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ContactCopyWith<$Res>  {
   factory $ContactCopyWith(Contact value, $Res Function(Contact) _then) = _$ContactCopyWithImpl;
 @useResult
 $Res call({
- String phone, String email
+ String name, String phone, String email
 });
 
 
@@ -65,9 +65,10 @@ class _$ContactCopyWithImpl<$Res>
 
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? phone = null,Object? email = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? phone = null,Object? email = null,}) {
   return _then(_self.copyWith(
-phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String phone,  String email)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String phone,  String email)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Contact() when $default != null:
-return $default(_that.phone,_that.email);case _:
+return $default(_that.name,_that.phone,_that.email);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.phone,_that.email);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String phone,  String email)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String phone,  String email)  $default,) {final _that = this;
 switch (_that) {
 case _Contact():
-return $default(_that.phone,_that.email);case _:
+return $default(_that.name,_that.phone,_that.email);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.phone,_that.email);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String phone,  String email)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String phone,  String email)?  $default,) {final _that = this;
 switch (_that) {
 case _Contact() when $default != null:
-return $default(_that.phone,_that.email);case _:
+return $default(_that.name,_that.phone,_that.email);case _:
   return null;
 
 }
@@ -210,9 +211,10 @@ return $default(_that.phone,_that.email);case _:
 @JsonSerializable()
 
 class _Contact implements Contact {
-  const _Contact({this.phone = '', this.email = ''});
+  const _Contact({this.name = '', this.phone = '', this.email = ''});
   factory _Contact.fromJson(Map<String, dynamic> json) => _$ContactFromJson(json);
 
+@override@JsonKey() final  String name;
 @override@JsonKey() final  String phone;
 @override@JsonKey() final  String email;
 
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Contact&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Contact&&(identical(other.name, name) || other.name == name)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.email, email) || other.email == email));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,phone,email);
+int get hashCode => Object.hash(runtimeType,name,phone,email);
 
 @override
 String toString() {
-  return 'Contact(phone: $phone, email: $email)';
+  return 'Contact(name: $name, phone: $phone, email: $email)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$ContactCopyWith<$Res> implements $ContactCopyWith<$Res> {
   factory _$ContactCopyWith(_Contact value, $Res Function(_Contact) _then) = __$ContactCopyWithImpl;
 @override @useResult
 $Res call({
- String phone, String email
+ String name, String phone, String email
 });
 
 
@@ -266,9 +268,10 @@ class __$ContactCopyWithImpl<$Res>
 
 /// Create a copy of Contact
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? phone = null,Object? email = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? phone = null,Object? email = null,}) {
   return _then(_Contact(
-phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,
   ));

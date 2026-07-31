@@ -61,17 +61,23 @@ class CommunityRemoteDataSourceImpl implements CommunityRemoteDataSource {
     final communityId = userDoc.data()!['communityId'] as String?;
     if (communityId == null || communityId.isEmpty) return null;
 
-    final communityDoc =
-        await _firestore.collection('communities').doc(communityId).get();
+    final communityDoc = await _firestore
+        .collection('communities')
+        .doc(communityId)
+        .get();
     if (!communityDoc.exists || communityDoc.data() == null) return null;
 
     final data = communityDoc.data()!;
     // Convert Timestamp to ISO String for JsonSerializable parsing
     if (data['createdAt'] is Timestamp) {
-      data['createdAt'] = (data['createdAt'] as Timestamp).toDate().toIso8601String();
+      data['createdAt'] = (data['createdAt'] as Timestamp)
+          .toDate()
+          .toIso8601String();
     }
     if (data['updatedAt'] is Timestamp) {
-      data['updatedAt'] = (data['updatedAt'] as Timestamp).toDate().toIso8601String();
+      data['updatedAt'] = (data['updatedAt'] as Timestamp)
+          .toDate()
+          .toIso8601String();
     }
 
     return Community.fromJson(data);
