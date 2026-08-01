@@ -14,6 +14,12 @@ abstract class VolunteerEvent with _$VolunteerEvent {
     required AppUser volunteer,
     required String communityId,
   }) = _AddVolunteerRequested;
+  const factory VolunteerEvent.sendInvite({
+    required String to,
+    required String subject,
+    required String path,
+    required Map<String, String> parameters,
+  }) = _SendInvite;
 
   const factory VolunteerEvent.updateVolunteerRequested({
     required AppUser volunteer,

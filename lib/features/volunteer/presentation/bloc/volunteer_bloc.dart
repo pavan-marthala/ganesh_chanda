@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ganesh_chanda/core/services/email_service.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/auth/domain/models/app_user.dart';
 import 'package:injectable/injectable.dart';
@@ -13,8 +14,10 @@ part 'volunteer_bloc.freezed.dart';
 @injectable
 class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
   final VolunteerRepository _volunteerRepository;
+  final EmailService _emailService;
 
-  VolunteerBloc(this._volunteerRepository) : super(const VolunteerState()) {
+  VolunteerBloc(this._volunteerRepository, this._emailService)
+    : super(const VolunteerState()) {
     on<VolunteerEvent>((event, emit) async {
       await event.map(
         loadVolunteersRequested: (e) async {
@@ -39,9 +42,9 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 volunteersStatus: StateStatus.error,
@@ -58,10 +61,8 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             ),
           );
           try {
-            final assignedVolunteers =
-                await _volunteerRepository.getVolunteersByIds(
-              e.volunteerIds,
-            );
+            final assignedVolunteers = await _volunteerRepository
+                .getVolunteersByIds(e.volunteerIds);
             emit(
               state.copyWith(
                 assignedVolunteers: assignedVolunteers,
@@ -73,9 +74,9 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 assignedVolunteersStatus: StateStatus.error,
@@ -92,10 +93,7 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             ),
           );
           try {
-            await _volunteerRepository.addVolunteer(
-              e.volunteer,
-              e.communityId,
-            );
+            await _volunteerRepository.addVolunteer(e.volunteer, e.communityId);
             emit(
               state.copyWith(
                 volunteerActionStatus: StateStatus.loaded,
@@ -109,9 +107,42 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
+            emit(
+              state.copyWith(
+                volunteerActionStatus: StateStatus.error,
+                volunteerActionError: errorMessage,
+              ),
+            );
+          }
+        },
+        sendInvite: (e) async {
+          emit(
+            state.copyWith(
+              volunteerActionStatus: StateStatus.loading,
+              volunteerActionError: null,
+            ),
+          );
+          try {
+            await _emailService.sendEmail(
+              e.to,
+              e.subject,
+              e.path,
+              e.parameters,
+            );
+            emit(
+              state.copyWith(
+                volunteerActionStatus: StateStatus.loaded,
+                volunteerActionError: null,
+              ),
+            );
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst(
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 volunteerActionStatus: StateStatus.error,
@@ -142,9 +173,9 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 volunteerActionStatus: StateStatus.error,
@@ -175,9 +206,9 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 volunteerActionStatus: StateStatus.error,
@@ -208,9 +239,9 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 volunteerActionStatus: StateStatus.error,
@@ -241,9 +272,9 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 volunteerActionStatus: StateStatus.error,

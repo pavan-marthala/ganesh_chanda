@@ -55,13 +55,14 @@ extension VolunteerEventPatterns on VolunteerEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult Function( _LoadVolunteersByIdsRequested value)?  loadVolunteersByIdsRequested,TResult Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult Function( _LoadVolunteersByIdsRequested value)?  loadVolunteersByIdsRequested,TResult Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult Function( _SendInvite value)?  sendInvite,TResult Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
 return loadVolunteersRequested(_that);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
 return loadVolunteersByIdsRequested(_that);case _AddVolunteerRequested() when addVolunteerRequested != null:
-return addVolunteerRequested(_that);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
+return addVolunteerRequested(_that);case _SendInvite() when sendInvite != null:
+return sendInvite(_that);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
 return deactivateVolunteerRequested(_that);case _DeleteVolunteerRequested() when deleteVolunteerRequested != null:
@@ -83,13 +84,14 @@ return deleteVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadVolunteersRequested value)  loadVolunteersRequested,required TResult Function( _LoadVolunteersByIdsRequested value)  loadVolunteersByIdsRequested,required TResult Function( _AddVolunteerRequested value)  addVolunteerRequested,required TResult Function( _UpdateVolunteerRequested value)  updateVolunteerRequested,required TResult Function( _ActivateVolunteerRequested value)  activateVolunteerRequested,required TResult Function( _DeactivateVolunteerRequested value)  deactivateVolunteerRequested,required TResult Function( _DeleteVolunteerRequested value)  deleteVolunteerRequested,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadVolunteersRequested value)  loadVolunteersRequested,required TResult Function( _LoadVolunteersByIdsRequested value)  loadVolunteersByIdsRequested,required TResult Function( _AddVolunteerRequested value)  addVolunteerRequested,required TResult Function( _SendInvite value)  sendInvite,required TResult Function( _UpdateVolunteerRequested value)  updateVolunteerRequested,required TResult Function( _ActivateVolunteerRequested value)  activateVolunteerRequested,required TResult Function( _DeactivateVolunteerRequested value)  deactivateVolunteerRequested,required TResult Function( _DeleteVolunteerRequested value)  deleteVolunteerRequested,}){
 final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested():
 return loadVolunteersRequested(_that);case _LoadVolunteersByIdsRequested():
 return loadVolunteersByIdsRequested(_that);case _AddVolunteerRequested():
-return addVolunteerRequested(_that);case _UpdateVolunteerRequested():
+return addVolunteerRequested(_that);case _SendInvite():
+return sendInvite(_that);case _UpdateVolunteerRequested():
 return updateVolunteerRequested(_that);case _ActivateVolunteerRequested():
 return activateVolunteerRequested(_that);case _DeactivateVolunteerRequested():
 return deactivateVolunteerRequested(_that);case _DeleteVolunteerRequested():
@@ -110,13 +112,14 @@ return deleteVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult? Function( _LoadVolunteersByIdsRequested value)?  loadVolunteersByIdsRequested,TResult? Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult? Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult? Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult? Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult? Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult? Function( _LoadVolunteersByIdsRequested value)?  loadVolunteersByIdsRequested,TResult? Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult? Function( _SendInvite value)?  sendInvite,TResult? Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult? Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult? Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult? Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,}){
 final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
 return loadVolunteersRequested(_that);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
 return loadVolunteersByIdsRequested(_that);case _AddVolunteerRequested() when addVolunteerRequested != null:
-return addVolunteerRequested(_that);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
+return addVolunteerRequested(_that);case _SendInvite() when sendInvite != null:
+return sendInvite(_that);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
 return deactivateVolunteerRequested(_that);case _DeleteVolunteerRequested() when deleteVolunteerRequested != null:
@@ -137,12 +140,13 @@ return deleteVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String communityId)?  loadVolunteersRequested,TResult Function( List<String> volunteerIds)?  loadVolunteersByIdsRequested,TResult Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult Function( String userId,  String communityId)?  activateVolunteerRequested,TResult Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult Function( String userId,  String communityId)?  deleteVolunteerRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String communityId)?  loadVolunteersRequested,TResult Function( List<String> volunteerIds)?  loadVolunteersByIdsRequested,TResult Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult Function( String to,  String subject,  String path,  Map<String, String> parameters)?  sendInvite,TResult Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult Function( String userId,  String communityId)?  activateVolunteerRequested,TResult Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult Function( String userId,  String communityId)?  deleteVolunteerRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
 return loadVolunteersRequested(_that.communityId);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
 return loadVolunteersByIdsRequested(_that.volunteerIds);case _AddVolunteerRequested() when addVolunteerRequested != null:
-return addVolunteerRequested(_that.volunteer,_that.communityId);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
+return addVolunteerRequested(_that.volunteer,_that.communityId);case _SendInvite() when sendInvite != null:
+return sendInvite(_that.to,_that.subject,_that.path,_that.parameters);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that.volunteer,_that.communityId);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that.userId,_that.communityId);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
 return deactivateVolunteerRequested(_that.userId,_that.communityId);case _DeleteVolunteerRequested() when deleteVolunteerRequested != null:
@@ -164,12 +168,13 @@ return deleteVolunteerRequested(_that.userId,_that.communityId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String communityId)  loadVolunteersRequested,required TResult Function( List<String> volunteerIds)  loadVolunteersByIdsRequested,required TResult Function( AppUser volunteer,  String communityId)  addVolunteerRequested,required TResult Function( AppUser volunteer,  String communityId)  updateVolunteerRequested,required TResult Function( String userId,  String communityId)  activateVolunteerRequested,required TResult Function( String userId,  String communityId)  deactivateVolunteerRequested,required TResult Function( String userId,  String communityId)  deleteVolunteerRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String communityId)  loadVolunteersRequested,required TResult Function( List<String> volunteerIds)  loadVolunteersByIdsRequested,required TResult Function( AppUser volunteer,  String communityId)  addVolunteerRequested,required TResult Function( String to,  String subject,  String path,  Map<String, String> parameters)  sendInvite,required TResult Function( AppUser volunteer,  String communityId)  updateVolunteerRequested,required TResult Function( String userId,  String communityId)  activateVolunteerRequested,required TResult Function( String userId,  String communityId)  deactivateVolunteerRequested,required TResult Function( String userId,  String communityId)  deleteVolunteerRequested,}) {final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested():
 return loadVolunteersRequested(_that.communityId);case _LoadVolunteersByIdsRequested():
 return loadVolunteersByIdsRequested(_that.volunteerIds);case _AddVolunteerRequested():
-return addVolunteerRequested(_that.volunteer,_that.communityId);case _UpdateVolunteerRequested():
+return addVolunteerRequested(_that.volunteer,_that.communityId);case _SendInvite():
+return sendInvite(_that.to,_that.subject,_that.path,_that.parameters);case _UpdateVolunteerRequested():
 return updateVolunteerRequested(_that.volunteer,_that.communityId);case _ActivateVolunteerRequested():
 return activateVolunteerRequested(_that.userId,_that.communityId);case _DeactivateVolunteerRequested():
 return deactivateVolunteerRequested(_that.userId,_that.communityId);case _DeleteVolunteerRequested():
@@ -190,12 +195,13 @@ return deleteVolunteerRequested(_that.userId,_that.communityId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String communityId)?  loadVolunteersRequested,TResult? Function( List<String> volunteerIds)?  loadVolunteersByIdsRequested,TResult? Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult? Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult? Function( String userId,  String communityId)?  activateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deleteVolunteerRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String communityId)?  loadVolunteersRequested,TResult? Function( List<String> volunteerIds)?  loadVolunteersByIdsRequested,TResult? Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult? Function( String to,  String subject,  String path,  Map<String, String> parameters)?  sendInvite,TResult? Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult? Function( String userId,  String communityId)?  activateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deleteVolunteerRequested,}) {final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
 return loadVolunteersRequested(_that.communityId);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
 return loadVolunteersByIdsRequested(_that.volunteerIds);case _AddVolunteerRequested() when addVolunteerRequested != null:
-return addVolunteerRequested(_that.volunteer,_that.communityId);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
+return addVolunteerRequested(_that.volunteer,_that.communityId);case _SendInvite() when sendInvite != null:
+return sendInvite(_that.to,_that.subject,_that.path,_that.parameters);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that.volunteer,_that.communityId);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that.userId,_that.communityId);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
 return deactivateVolunteerRequested(_that.userId,_that.communityId);case _DeleteVolunteerRequested() when deleteVolunteerRequested != null:
@@ -420,6 +426,84 @@ $AppUserCopyWith<$Res> get volunteer {
     return _then(_self.copyWith(volunteer: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class _SendInvite implements VolunteerEvent {
+  const _SendInvite({required this.to, required this.subject, required this.path, required final  Map<String, String> parameters}): _parameters = parameters;
+  
+
+ final  String to;
+ final  String subject;
+ final  String path;
+ final  Map<String, String> _parameters;
+ Map<String, String> get parameters {
+  if (_parameters is EqualUnmodifiableMapView) return _parameters;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_parameters);
+}
+
+
+/// Create a copy of VolunteerEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SendInviteCopyWith<_SendInvite> get copyWith => __$SendInviteCopyWithImpl<_SendInvite>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendInvite&&(identical(other.to, to) || other.to == to)&&(identical(other.subject, subject) || other.subject == subject)&&(identical(other.path, path) || other.path == path)&&const DeepCollectionEquality().equals(other._parameters, _parameters));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,to,subject,path,const DeepCollectionEquality().hash(_parameters));
+
+@override
+String toString() {
+  return 'VolunteerEvent.sendInvite(to: $to, subject: $subject, path: $path, parameters: $parameters)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SendInviteCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
+  factory _$SendInviteCopyWith(_SendInvite value, $Res Function(_SendInvite) _then) = __$SendInviteCopyWithImpl;
+@useResult
+$Res call({
+ String to, String subject, String path, Map<String, String> parameters
+});
+
+
+
+
+}
+/// @nodoc
+class __$SendInviteCopyWithImpl<$Res>
+    implements _$SendInviteCopyWith<$Res> {
+  __$SendInviteCopyWithImpl(this._self, this._then);
+
+  final _SendInvite _self;
+  final $Res Function(_SendInvite) _then;
+
+/// Create a copy of VolunteerEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? to = null,Object? subject = null,Object? path = null,Object? parameters = null,}) {
+  return _then(_SendInvite(
+to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as String,subject: null == subject ? _self.subject : subject // ignore: cast_nullable_to_non_nullable
+as String,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
+as String,parameters: null == parameters ? _self._parameters : parameters // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,
+  ));
+}
+
+
 }
 
 /// @nodoc

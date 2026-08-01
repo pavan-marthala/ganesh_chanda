@@ -12,6 +12,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:ganesh_chanda/core/DI/firebase_module.dart' as _i723;
+import 'package:ganesh_chanda/core/services/email_service.dart' as _i307;
 import 'package:ganesh_chanda/features/auth/data/datasource/auth_remote_data_source.dart'
     as _i428;
 import 'package:ganesh_chanda/features/auth/data/repository_impl/auth_repository_impl.dart'
@@ -65,6 +66,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i974.FirebaseFirestore>(
       () => firebaseModule.firebaseFirestore,
     );
+    gh.lazySingleton<_i307.EmailService>(() => _i307.EmailService());
     gh.lazySingleton<_i900.CommunityRemoteDataSource>(
       () => _i900.CommunityRemoteDataSourceImpl(
         gh<_i974.FirebaseFirestore>(),
@@ -89,12 +91,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i444.AuthRepository>(
       () => _i299.AuthRepositoryImpl(gh<_i428.AuthRemoteDataSource>()),
     );
-    gh.factory<_i820.VolunteerBloc>(
-      () => _i820.VolunteerBloc(gh<_i71.VolunteerRepository>()),
-    );
     gh.lazySingleton<_i836.CommunityRepository>(
       () =>
           _i131.CommunityRepositoryImpl(gh<_i900.CommunityRemoteDataSource>()),
+    );
+    gh.factory<_i820.VolunteerBloc>(
+      () => _i820.VolunteerBloc(
+        gh<_i71.VolunteerRepository>(),
+        gh<_i307.EmailService>(),
+      ),
     );
     gh.lazySingleton<_i984.FestivalRepository>(
       () => _i954.FestivalRepositoryImpl(gh<_i820.FestivalRemoteDataSource>()),

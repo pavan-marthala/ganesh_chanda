@@ -30,15 +30,6 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     super.initState();
   }
 
-  String _getInitials(String name) {
-    if (name.trim().isEmpty) return 'GC';
-    final parts = name.trim().split(' ');
-    if (parts.length >= 2) {
-      return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-    }
-    return name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase();
-  }
-
   bool _isSameDay(DateTime a, DateTime b) {
     return a.year == b.year && a.month == b.month && a.day == b.day;
   }
@@ -142,7 +133,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                       ),
                       child: Center(
                         child: Text(
-                          _getInitials(community?.name ?? 'Community Name'),
+                          getInitials(community?.name ?? 'Community Name'),
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15,
@@ -670,4 +661,13 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
       ),
     );
   }
+}
+
+String getInitials(String name) {
+  if (name.trim().isEmpty) return 'GC';
+  final parts = name.trim().split(' ');
+  if (parts.length >= 2) {
+    return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+  }
+  return name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase();
 }
