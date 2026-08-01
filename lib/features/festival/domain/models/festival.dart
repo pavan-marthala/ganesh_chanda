@@ -20,6 +20,7 @@ abstract class Festival with _$Festival {
     @Default(0.0) double totalExpenseAmount,
     @Default(0) int totalExpenseCount,
     @Default(0) int totalVolunteerCount,
+    @Default([]) List<String> assignedVolunteerIds,
     required String createdBy,
     required DateTime createdAt,
     required DateTime updatedAt,

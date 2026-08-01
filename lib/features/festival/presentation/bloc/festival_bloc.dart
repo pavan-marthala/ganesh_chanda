@@ -17,7 +17,7 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
   FestivalBloc(this._festivalRepository) : super(const FestivalState()) {
     on<FestivalEvent>((event, emit) async {
       await event.map(
-        loadCurrentCommunityFestivalRequested: (e) async {
+        getFestivalByIdRequested: (e) async {
           emit(
             state.copyWith(
               festivalStatus: StateStatus.loading,
@@ -25,8 +25,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             ),
           );
           try {
-            final festival = await _festivalRepository
-                .getCurrentCommunityFestival(e.communityId);
+            final festival = await _festivalRepository.getFestivalById(
+              e.festivalId,
+            );
             if (festival != null) {
               emit(
                 state.copyWith(
@@ -39,15 +40,15 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
               emit(
                 state.copyWith(
                   festivalStatus: StateStatus.empty,
-                  festivalError: 'No festival found for current community.',
+                  festivalError: 'Festival not found.',
                 ),
               );
             }
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-              'Exception: ',
-              '',
-            );
+                  'Exception: ',
+                  '',
+                );
             emit(
               state.copyWith(
                 festivalStatus: StateStatus.error,
@@ -78,9 +79,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-              'Exception: ',
-              '',
-            );
+                  'Exception: ',
+                  '',
+                );
             emit(
               state.copyWith(
                 festivalsStatus: StateStatus.error,
@@ -113,9 +114,134 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-              'Exception: ',
-              '',
+                  'Exception: ',
+                  '',
+                );
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.error,
+                festivalActionError: errorMessage,
+              ),
             );
+          }
+        },
+        updateFestivalRequested: (e) async {
+          emit(
+            state.copyWith(
+              festivalActionStatus: StateStatus.loading,
+              festivalActionError: null,
+            ),
+          );
+          try {
+            final updatedFestival = await _festivalRepository.updateFestival(
+              e.festival,
+            );
+            emit(
+              state.copyWith(
+                festival: updatedFestival,
+                festivalActionStatus: StateStatus.loaded,
+                festivalActionError: null,
+              ),
+            );
+            add(FestivalEvent.loadFestivalsRequested(e.communityId));
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst(
+                  'Exception: ',
+                  '',
+                );
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.error,
+                festivalActionError: errorMessage,
+              ),
+            );
+          }
+        },
+        deleteFestivalRequested: (e) async {
+          emit(
+            state.copyWith(
+              festivalActionStatus: StateStatus.loading,
+              festivalActionError: null,
+            ),
+          );
+          try {
+            await _festivalRepository.deleteFestival(e.festivalId);
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.loaded,
+                festivalActionError: null,
+              ),
+            );
+            add(FestivalEvent.loadFestivalsRequested(e.communityId));
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst(
+                  'Exception: ',
+                  '',
+                );
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.error,
+                festivalActionError: errorMessage,
+              ),
+            );
+          }
+        },
+        assignVolunteerRequested: (e) async {
+          emit(
+            state.copyWith(
+              festivalActionStatus: StateStatus.loading,
+              festivalActionError: null,
+            ),
+          );
+          try {
+            await _festivalRepository.assignVolunteer(
+              festivalId: e.festivalId,
+              volunteerId: e.volunteerId,
+            );
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.loaded,
+                festivalActionError: null,
+              ),
+            );
+            add(FestivalEvent.loadFestivalsRequested(e.communityId));
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst(
+                  'Exception: ',
+                  '',
+                );
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.error,
+                festivalActionError: errorMessage,
+              ),
+            );
+          }
+        },
+        removeVolunteerRequested: (e) async {
+          emit(
+            state.copyWith(
+              festivalActionStatus: StateStatus.loading,
+              festivalActionError: null,
+            ),
+          );
+          try {
+            await _festivalRepository.removeVolunteer(
+              festivalId: e.festivalId,
+              volunteerId: e.volunteerId,
+            );
+            emit(
+              state.copyWith(
+                festivalActionStatus: StateStatus.loaded,
+                festivalActionError: null,
+              ),
+            );
+            add(FestivalEvent.loadFestivalsRequested(e.communityId));
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst(
+                  'Exception: ',
+                  '',
+                );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,

@@ -16,12 +16,44 @@ class FestivalRepositoryImpl implements FestivalRepository {
   }
 
   @override
-  Future<Festival?> getCurrentCommunityFestival(String communityId) async {
-    return await _remoteDataSource.getCurrentCommunityFestival(communityId);
+  Future<Festival?> getFestivalById(String festivalId) async {
+    return await _remoteDataSource.getFestivalById(festivalId);
   }
 
   @override
   Future<List<Festival>> getCommunityFestivals(String communityId) async {
     return await _remoteDataSource.getCommunityFestivals(communityId);
+  }
+
+  @override
+  Future<Festival> updateFestival(Festival festival) async {
+    return await _remoteDataSource.updateFestival(festival);
+  }
+
+  @override
+  Future<void> deleteFestival(String festivalId) async {
+    await _remoteDataSource.deleteFestival(festivalId);
+  }
+
+  @override
+  Future<void> assignVolunteer({
+    required String festivalId,
+    required String volunteerId,
+  }) async {
+    await _remoteDataSource.assignVolunteer(
+      festivalId: festivalId,
+      volunteerId: volunteerId,
+    );
+  }
+
+  @override
+  Future<void> removeVolunteer({
+    required String festivalId,
+    required String volunteerId,
+  }) async {
+    await _remoteDataSource.removeVolunteer(
+      festivalId: festivalId,
+      volunteerId: volunteerId,
+    );
   }
 }
