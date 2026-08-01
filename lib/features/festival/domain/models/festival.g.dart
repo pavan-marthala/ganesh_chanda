@@ -17,6 +17,11 @@ _Festival _$FestivalFromJson(Map<String, dynamic> json) => _Festival(
   status:
       $enumDecodeNullable(_$FestivalStatusEnumMap, json['status']) ??
       FestivalStatus.draft,
+  totalDonationAmount: (json['totalDonationAmount'] as num?)?.toDouble() ?? 0.0,
+  totalDonationCount: (json['totalDonationCount'] as num?)?.toInt() ?? 0,
+  totalExpenseAmount: (json['totalExpenseAmount'] as num?)?.toDouble() ?? 0.0,
+  totalExpenseCount: (json['totalExpenseCount'] as num?)?.toInt() ?? 0,
+  totalVolunteerCount: (json['totalVolunteerCount'] as num?)?.toInt() ?? 0,
   createdBy: json['createdBy'] as String,
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
@@ -31,6 +36,11 @@ Map<String, dynamic> _$FestivalToJson(_Festival instance) => <String, dynamic>{
   'startDate': instance.startDate.toIso8601String(),
   'endDate': instance.endDate.toIso8601String(),
   'status': _$FestivalStatusEnumMap[instance.status]!,
+  'totalDonationAmount': instance.totalDonationAmount,
+  'totalDonationCount': instance.totalDonationCount,
+  'totalExpenseAmount': instance.totalExpenseAmount,
+  'totalExpenseCount': instance.totalExpenseCount,
+  'totalVolunteerCount': instance.totalVolunteerCount,
   'createdBy': instance.createdBy,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),

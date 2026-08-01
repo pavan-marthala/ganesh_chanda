@@ -8,6 +8,7 @@ import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/widgets/create_festival_bottom_sheet.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class FestivalsHomeScreen extends StatefulWidget {
@@ -57,6 +58,23 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     final endDay = DateTime(festival.endDate.year, festival.endDate.month, festival.endDate.day);
     final today = DateTime(now.year, now.month, now.day);
     return endDay.isBefore(today);
+  }
+
+  String _formatAmount(double amount) {
+    if (amount >= 100000) {
+      final inLakhs = amount / 100000;
+      return '₹${inLakhs.toStringAsFixed(inLakhs.truncateToDouble() == inLakhs ? 0 : 1)}L';
+    } else if (amount >= 1000) {
+      final inThousands = amount / 1000;
+      return '₹${inThousands.toStringAsFixed(inThousands.truncateToDouble() == inThousands ? 0 : 1)}K';
+    }
+    return '₹${amount.toStringAsFixed(0)}';
+  }
+
+  String _formatDateRange(DateTime start, DateTime end) {
+    final startFormat = DateFormat('d MMM');
+    final endFormat = DateFormat('d MMM');
+    return '${startFormat.format(start)} – ${endFormat.format(end)}';
   }
 
   @override
@@ -153,10 +171,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                         size: 20,
                       ),
                       onPressed: () {
-                        // CreateFestivalBottomSheet.show(context);
-                        context.read<FestivalBloc>().add(
-                          FestivalEvent.loadFestivalsRequested(communityState.community!.id),
-                        );
+                        CreateFestivalBottomSheet.show(context);
                       },
                     ),
                   ),
@@ -191,9 +206,11 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                     );
                   }
 
-                  if(festivalState.festivalsStatus == StateStatus.error){
+                  if (festivalState.festivalsStatus == StateStatus.error) {
                     return Center(
-                      child: Text(festivalState.festivalsError ?? 'Something went wrong'),
+                      child: Text(
+                        festivalState.festivalsError ?? 'Something went wrong',
+                      ),
                     );
                   }
 
@@ -434,7 +451,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            '${festival.startDate.day} Sep – ${festival.endDate.day} Sep',
+            _formatDateRange(festival.startDate, festival.endDate),
             style: typography.bodyMedium.copyWith(
               color: Colors.white.withValues(alpha: 0.88),
               fontSize: 13.5,
@@ -447,7 +464,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '₹2.4L',
+                    _formatAmount(festival.totalDonationAmount),
                     style: typography.titleLarge.copyWith(
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
@@ -470,7 +487,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '18',
+                    '${festival.totalVolunteerCount}',
                     style: typography.titleLarge.copyWith(
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
@@ -524,7 +541,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
               ),
               const SizedBox(height: 2),
               Text(
-                '${festival.startDate.day} Oct – ${festival.endDate.day} Oct',
+                _formatDateRange(festival.startDate, festival.endDate),
                 style: typography.caption.copyWith(
                   color: colors.text4,
                   fontSize: 12,
@@ -587,7 +604,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '₹1.9L collected',
+                  '${_formatAmount(festival.totalDonationAmount)} collected',
                   style: typography.caption.copyWith(
                     color: colors.text4,
                     fontSize: 12,

@@ -40,6 +40,11 @@ class FestivalRemoteDataSourceImpl implements FestivalRemoteDataSource {
     final fullFestival = festival.copyWith(
       id: docRef.id,
       communityId: communityId,
+      totalDonationAmount: 0.0,
+      totalDonationCount: 0,
+      totalExpenseAmount: 0.0,
+      totalExpenseCount: 0,
+      totalVolunteerCount: 0,
       createdBy: user.uid,
       createdAt: now,
       updatedAt: now,

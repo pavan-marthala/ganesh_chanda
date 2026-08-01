@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Festival {
 
- String get id; String get communityId; String get name; String get description; String? get bannerUrl; DateTime get startDate; DateTime get endDate; FestivalStatus get status; String get createdBy; DateTime get createdAt; DateTime get updatedAt;
+ String get id; String get communityId; String get name; String get description; String? get bannerUrl; DateTime get startDate; DateTime get endDate; FestivalStatus get status; double get totalDonationAmount; int get totalDonationCount; double get totalExpenseAmount; int get totalExpenseCount; int get totalVolunteerCount; String get createdBy; DateTime get createdAt; DateTime get updatedAt;
 /// Create a copy of Festival
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $FestivalCopyWith<Festival> get copyWith => _$FestivalCopyWithImpl<Festival>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Festival&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.bannerUrl, bannerUrl) || other.bannerUrl == bannerUrl)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Festival&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.bannerUrl, bannerUrl) || other.bannerUrl == bannerUrl)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.status, status) || other.status == status)&&(identical(other.totalDonationAmount, totalDonationAmount) || other.totalDonationAmount == totalDonationAmount)&&(identical(other.totalDonationCount, totalDonationCount) || other.totalDonationCount == totalDonationCount)&&(identical(other.totalExpenseAmount, totalExpenseAmount) || other.totalExpenseAmount == totalExpenseAmount)&&(identical(other.totalExpenseCount, totalExpenseCount) || other.totalExpenseCount == totalExpenseCount)&&(identical(other.totalVolunteerCount, totalVolunteerCount) || other.totalVolunteerCount == totalVolunteerCount)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,communityId,name,description,bannerUrl,startDate,endDate,status,createdBy,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,communityId,name,description,bannerUrl,startDate,endDate,status,totalDonationAmount,totalDonationCount,totalExpenseAmount,totalExpenseCount,totalVolunteerCount,createdBy,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Festival(id: $id, communityId: $communityId, name: $name, description: $description, bannerUrl: $bannerUrl, startDate: $startDate, endDate: $endDate, status: $status, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Festival(id: $id, communityId: $communityId, name: $name, description: $description, bannerUrl: $bannerUrl, startDate: $startDate, endDate: $endDate, status: $status, totalDonationAmount: $totalDonationAmount, totalDonationCount: $totalDonationCount, totalExpenseAmount: $totalExpenseAmount, totalExpenseCount: $totalExpenseCount, totalVolunteerCount: $totalVolunteerCount, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $FestivalCopyWith<$Res>  {
   factory $FestivalCopyWith(Festival value, $Res Function(Festival) _then) = _$FestivalCopyWithImpl;
 @useResult
 $Res call({
- String id, String communityId, String name, String description, String? bannerUrl, DateTime startDate, DateTime endDate, FestivalStatus status, String createdBy, DateTime createdAt, DateTime updatedAt
+ String id, String communityId, String name, String description, String? bannerUrl, DateTime startDate, DateTime endDate, FestivalStatus status, double totalDonationAmount, int totalDonationCount, double totalExpenseAmount, int totalExpenseCount, int totalVolunteerCount, String createdBy, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -65,7 +65,7 @@ class _$FestivalCopyWithImpl<$Res>
 
 /// Create a copy of Festival
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? communityId = null,Object? name = null,Object? description = null,Object? bannerUrl = freezed,Object? startDate = null,Object? endDate = null,Object? status = null,Object? createdBy = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? communityId = null,Object? name = null,Object? description = null,Object? bannerUrl = freezed,Object? startDate = null,Object? endDate = null,Object? status = null,Object? totalDonationAmount = null,Object? totalDonationCount = null,Object? totalExpenseAmount = null,Object? totalExpenseCount = null,Object? totalVolunteerCount = null,Object? createdBy = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -75,7 +75,12 @@ as String,bannerUrl: freezed == bannerUrl ? _self.bannerUrl : bannerUrl // ignor
 as String?,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FestivalStatus,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as FestivalStatus,totalDonationAmount: null == totalDonationAmount ? _self.totalDonationAmount : totalDonationAmount // ignore: cast_nullable_to_non_nullable
+as double,totalDonationCount: null == totalDonationCount ? _self.totalDonationCount : totalDonationCount // ignore: cast_nullable_to_non_nullable
+as int,totalExpenseAmount: null == totalExpenseAmount ? _self.totalExpenseAmount : totalExpenseAmount // ignore: cast_nullable_to_non_nullable
+as double,totalExpenseCount: null == totalExpenseCount ? _self.totalExpenseCount : totalExpenseCount // ignore: cast_nullable_to_non_nullable
+as int,totalVolunteerCount: null == totalVolunteerCount ? _self.totalVolunteerCount : totalVolunteerCount // ignore: cast_nullable_to_non_nullable
+as int,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
@@ -163,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String communityId,  String name,  String description,  String? bannerUrl,  DateTime startDate,  DateTime endDate,  FestivalStatus status,  String createdBy,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String communityId,  String name,  String description,  String? bannerUrl,  DateTime startDate,  DateTime endDate,  FestivalStatus status,  double totalDonationAmount,  int totalDonationCount,  double totalExpenseAmount,  int totalExpenseCount,  int totalVolunteerCount,  String createdBy,  DateTime createdAt,  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Festival() when $default != null:
-return $default(_that.id,_that.communityId,_that.name,_that.description,_that.bannerUrl,_that.startDate,_that.endDate,_that.status,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.communityId,_that.name,_that.description,_that.bannerUrl,_that.startDate,_that.endDate,_that.status,_that.totalDonationAmount,_that.totalDonationCount,_that.totalExpenseAmount,_that.totalExpenseCount,_that.totalVolunteerCount,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -184,10 +189,10 @@ return $default(_that.id,_that.communityId,_that.name,_that.description,_that.ba
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String communityId,  String name,  String description,  String? bannerUrl,  DateTime startDate,  DateTime endDate,  FestivalStatus status,  String createdBy,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String communityId,  String name,  String description,  String? bannerUrl,  DateTime startDate,  DateTime endDate,  FestivalStatus status,  double totalDonationAmount,  int totalDonationCount,  double totalExpenseAmount,  int totalExpenseCount,  int totalVolunteerCount,  String createdBy,  DateTime createdAt,  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Festival():
-return $default(_that.id,_that.communityId,_that.name,_that.description,_that.bannerUrl,_that.startDate,_that.endDate,_that.status,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.communityId,_that.name,_that.description,_that.bannerUrl,_that.startDate,_that.endDate,_that.status,_that.totalDonationAmount,_that.totalDonationCount,_that.totalExpenseAmount,_that.totalExpenseCount,_that.totalVolunteerCount,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -204,10 +209,10 @@ return $default(_that.id,_that.communityId,_that.name,_that.description,_that.ba
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String communityId,  String name,  String description,  String? bannerUrl,  DateTime startDate,  DateTime endDate,  FestivalStatus status,  String createdBy,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String communityId,  String name,  String description,  String? bannerUrl,  DateTime startDate,  DateTime endDate,  FestivalStatus status,  double totalDonationAmount,  int totalDonationCount,  double totalExpenseAmount,  int totalExpenseCount,  int totalVolunteerCount,  String createdBy,  DateTime createdAt,  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Festival() when $default != null:
-return $default(_that.id,_that.communityId,_that.name,_that.description,_that.bannerUrl,_that.startDate,_that.endDate,_that.status,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.communityId,_that.name,_that.description,_that.bannerUrl,_that.startDate,_that.endDate,_that.status,_that.totalDonationAmount,_that.totalDonationCount,_that.totalExpenseAmount,_that.totalExpenseCount,_that.totalVolunteerCount,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -219,7 +224,7 @@ return $default(_that.id,_that.communityId,_that.name,_that.description,_that.ba
 @JsonSerializable()
 
 class _Festival implements Festival {
-  const _Festival({required this.id, required this.communityId, required this.name, this.description = '', this.bannerUrl, required this.startDate, required this.endDate, this.status = FestivalStatus.draft, required this.createdBy, required this.createdAt, required this.updatedAt});
+  const _Festival({required this.id, required this.communityId, required this.name, this.description = '', this.bannerUrl, required this.startDate, required this.endDate, this.status = FestivalStatus.draft, this.totalDonationAmount = 0.0, this.totalDonationCount = 0, this.totalExpenseAmount = 0.0, this.totalExpenseCount = 0, this.totalVolunteerCount = 0, required this.createdBy, required this.createdAt, required this.updatedAt});
   factory _Festival.fromJson(Map<String, dynamic> json) => _$FestivalFromJson(json);
 
 @override final  String id;
@@ -230,6 +235,11 @@ class _Festival implements Festival {
 @override final  DateTime startDate;
 @override final  DateTime endDate;
 @override@JsonKey() final  FestivalStatus status;
+@override@JsonKey() final  double totalDonationAmount;
+@override@JsonKey() final  int totalDonationCount;
+@override@JsonKey() final  double totalExpenseAmount;
+@override@JsonKey() final  int totalExpenseCount;
+@override@JsonKey() final  int totalVolunteerCount;
 @override final  String createdBy;
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
@@ -247,16 +257,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Festival&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.bannerUrl, bannerUrl) || other.bannerUrl == bannerUrl)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Festival&&(identical(other.id, id) || other.id == id)&&(identical(other.communityId, communityId) || other.communityId == communityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.bannerUrl, bannerUrl) || other.bannerUrl == bannerUrl)&&(identical(other.startDate, startDate) || other.startDate == startDate)&&(identical(other.endDate, endDate) || other.endDate == endDate)&&(identical(other.status, status) || other.status == status)&&(identical(other.totalDonationAmount, totalDonationAmount) || other.totalDonationAmount == totalDonationAmount)&&(identical(other.totalDonationCount, totalDonationCount) || other.totalDonationCount == totalDonationCount)&&(identical(other.totalExpenseAmount, totalExpenseAmount) || other.totalExpenseAmount == totalExpenseAmount)&&(identical(other.totalExpenseCount, totalExpenseCount) || other.totalExpenseCount == totalExpenseCount)&&(identical(other.totalVolunteerCount, totalVolunteerCount) || other.totalVolunteerCount == totalVolunteerCount)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,communityId,name,description,bannerUrl,startDate,endDate,status,createdBy,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,communityId,name,description,bannerUrl,startDate,endDate,status,totalDonationAmount,totalDonationCount,totalExpenseAmount,totalExpenseCount,totalVolunteerCount,createdBy,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Festival(id: $id, communityId: $communityId, name: $name, description: $description, bannerUrl: $bannerUrl, startDate: $startDate, endDate: $endDate, status: $status, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Festival(id: $id, communityId: $communityId, name: $name, description: $description, bannerUrl: $bannerUrl, startDate: $startDate, endDate: $endDate, status: $status, totalDonationAmount: $totalDonationAmount, totalDonationCount: $totalDonationCount, totalExpenseAmount: $totalExpenseAmount, totalExpenseCount: $totalExpenseCount, totalVolunteerCount: $totalVolunteerCount, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -267,7 +277,7 @@ abstract mixin class _$FestivalCopyWith<$Res> implements $FestivalCopyWith<$Res>
   factory _$FestivalCopyWith(_Festival value, $Res Function(_Festival) _then) = __$FestivalCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String communityId, String name, String description, String? bannerUrl, DateTime startDate, DateTime endDate, FestivalStatus status, String createdBy, DateTime createdAt, DateTime updatedAt
+ String id, String communityId, String name, String description, String? bannerUrl, DateTime startDate, DateTime endDate, FestivalStatus status, double totalDonationAmount, int totalDonationCount, double totalExpenseAmount, int totalExpenseCount, int totalVolunteerCount, String createdBy, DateTime createdAt, DateTime updatedAt
 });
 
 
@@ -284,7 +294,7 @@ class __$FestivalCopyWithImpl<$Res>
 
 /// Create a copy of Festival
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? communityId = null,Object? name = null,Object? description = null,Object? bannerUrl = freezed,Object? startDate = null,Object? endDate = null,Object? status = null,Object? createdBy = null,Object? createdAt = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? communityId = null,Object? name = null,Object? description = null,Object? bannerUrl = freezed,Object? startDate = null,Object? endDate = null,Object? status = null,Object? totalDonationAmount = null,Object? totalDonationCount = null,Object? totalExpenseAmount = null,Object? totalExpenseCount = null,Object? totalVolunteerCount = null,Object? createdBy = null,Object? createdAt = null,Object? updatedAt = null,}) {
   return _then(_Festival(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -294,7 +304,12 @@ as String,bannerUrl: freezed == bannerUrl ? _self.bannerUrl : bannerUrl // ignor
 as String?,startDate: null == startDate ? _self.startDate : startDate // ignore: cast_nullable_to_non_nullable
 as DateTime,endDate: null == endDate ? _self.endDate : endDate // ignore: cast_nullable_to_non_nullable
 as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FestivalStatus,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
+as FestivalStatus,totalDonationAmount: null == totalDonationAmount ? _self.totalDonationAmount : totalDonationAmount // ignore: cast_nullable_to_non_nullable
+as double,totalDonationCount: null == totalDonationCount ? _self.totalDonationCount : totalDonationCount // ignore: cast_nullable_to_non_nullable
+as int,totalExpenseAmount: null == totalExpenseAmount ? _self.totalExpenseAmount : totalExpenseAmount // ignore: cast_nullable_to_non_nullable
+as double,totalExpenseCount: null == totalExpenseCount ? _self.totalExpenseCount : totalExpenseCount // ignore: cast_nullable_to_non_nullable
+as int,totalVolunteerCount: null == totalVolunteerCount ? _self.totalVolunteerCount : totalVolunteerCount // ignore: cast_nullable_to_non_nullable
+as int,createdBy: null == createdBy ? _self.createdBy : createdBy // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
