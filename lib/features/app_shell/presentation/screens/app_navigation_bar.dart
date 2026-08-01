@@ -4,8 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ganesh_chanda/core/theme/app_colors.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
-import 'package:ganesh_chanda/core/utils/app_routes.dart';
-import 'package:go_router/go_router.dart';
+import 'package:ganesh_chanda/core/utils/sized_context.dart';
 
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({
@@ -47,78 +46,27 @@ class AppNavigationBar extends StatelessWidget {
         unreadCount: 0,
         icon: Icon(CupertinoIcons.calendar, color: colors.textPrimary, size: 24),
       ),
-      NavigationItem(
-        title: 'Profile',
-        unreadCount: 0,
-        icon: Icon(CupertinoIcons.person, color: colors.textPrimary, size: 24),
-      ),
+      // NavigationItem(
+      //   title: 'Profile',
+      //   unreadCount: 0,
+      //   icon: Icon(CupertinoIcons.person, color: colors.textPrimary, size: 24),
+      // ),
     ];
-    final screenWidth = MediaQuery.of(context).size.width;
-    final bool isMobile = screenWidth < 600;
     return Align(
       alignment: Alignment.bottomCenter,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: isMobile ? screenWidth : 450),
+        constraints: BoxConstraints(maxWidth: context.isMobile ? context.widthPx : 450),
         child: LayoutBuilder(
           builder: (context, constraints) {
             final size = Size(constraints.maxWidth, constraints.maxHeight);
             return SafeArea(
               top: false,
-              child: Row(
-                children: [
-                  NavBar(
-                    colors: colors,
-                    items: items,
-                    selectedIndex: selectedIndex,
-                    onTabSelected: onTabSelected,
-                    size: size,
-                  ),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     context.push(AppRoutes.dashboard);
-                  //   },
-                  //   child: Container(
-                  //     margin: const EdgeInsets.only(
-                  //       right: 24,
-                  //       left: 8,
-                  //       bottom: 8,
-                  //       top: 8,
-                  //     ),
-                  //     decoration: BoxDecoration(
-                  //       shape: BoxShape.circle,
-                  //       boxShadow: [
-                  //         BoxShadow(
-                  //           color: colors.textPrimary.withValues(alpha: 0.05),
-                  //           blurRadius: 10,
-                  //           offset: const Offset(0, 4),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     child: ClipOval(
-                  //       child: BackdropFilter(
-                  //         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                  //         child: Container(
-                  //           padding: const EdgeInsets.all(18),
-                  //           decoration: BoxDecoration(
-                  //             color: colors.background.withValues(alpha: 0.75),
-                  //             shape: BoxShape.circle,
-                  //             border: Border.all(
-                  //               color: colors.textPrimary.withValues(
-                  //                 alpha: 0.1,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //           child: Icon(
-                  //             CupertinoIcons.search,
-                  //             color: colors.textPrimary,
-                  //             size: 24,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
+              child: NavBar(
+                colors: colors,
+                items: items,
+                selectedIndex: selectedIndex,
+                onTabSelected: onTabSelected,
+                size: size,
               ),
             );
           },
@@ -146,50 +94,48 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.only(left: 24, right: 8, bottom: 8, top: 8),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          boxShadow: [
-            BoxShadow(
-              color: colors.textPrimary.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+    return Container(
+      margin: const EdgeInsets.only(left: 8, right: 8, bottom: 8, top: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+        boxShadow: [
+          BoxShadow(
+            color: colors.textPrimary.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              color: colors.background.withValues(alpha: 0.75),
+              borderRadius: BorderRadius.circular(40),
+              border: Border.all(
+                color: colors.textPrimary.withValues(alpha: 0.1),
+                width: 1,
+              ),
             ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(40),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: Container(
-              decoration: BoxDecoration(
-                color: colors.background.withValues(alpha: 0.75),
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(
-                  color: colors.textPrimary.withValues(alpha: 0.1),
-                  width: 1,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(items.length, (index) {
-                  final item = items[index];
-                  final isSelected = index == selectedIndex;
-                  return Expanded(
-                    child: NavBarItem(
-                      onTabSelected: () {
-                        onTabSelected(index);
-                      },
-                      size: size,
-                      isSelected: isSelected,
-                      colors: colors,
-                      item: item,
-                    ),
-                  );
-                }),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(items.length, (index) {
+                final item = items[index];
+                final isSelected = index == selectedIndex;
+                return Expanded(
+                  child: NavBarItem(
+                    onTabSelected: () {
+                      onTabSelected(index);
+                    },
+                    size: size,
+                    isSelected: isSelected,
+                    colors: colors,
+                    item: item,
+                  ),
+                );
+              }),
             ),
           ),
         ),

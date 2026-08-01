@@ -16,7 +16,6 @@ class VolunteerRemoteDataSourceImpl implements VolunteerRemoteDataSource {
         .where('communityId', isEqualTo: communityId)
         .where('role', isEqualTo: 'volunteer')
         .get();
-
     return querySnapshot.docs
         .map((doc) => AppUser.fromJson({'userId': doc.id, ...doc.data()}))
         .toList();

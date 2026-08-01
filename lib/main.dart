@@ -20,7 +20,7 @@ import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.d
 import 'package:ganesh_chanda/features/expense/presentation/screens/expense_screen.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_home_screen.dart';
-import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_setup_screen.dart';
+import 'package:ganesh_chanda/features/festival/presentation/screens/festival_setup_screen.dart';
 import 'package:ganesh_chanda/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ganesh_chanda/features/splash/presentation/screens/splash_screen.dart';
 import 'package:ganesh_chanda/features/volunteer/presentation/bloc/volunteer_bloc.dart';
@@ -161,7 +161,7 @@ class _MyAppState extends State<MyApp> {
           path: AppRoutes.festivalSetup,
           builder: (context, state) {
             final id = state.pathParameters['id'] as String;
-            return FestivalsSetupScreen(id: id);
+            return FestivalSetupScreen(festivalId: id);
           },
         ),
         StatefulShellRoute.indexedStack(
