@@ -124,20 +124,25 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                 enabled: isCommunityLoading,
                 child: Row(
                   children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: context.appGradients.secondary,
-                      ),
-                      child: Center(
-                        child: Text(
-                          getInitials(community?.name ?? 'Community Name'),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
+                    GestureDetector(
+                      onTap: () {
+                        context.push(AppRoutes.profile);
+                      },
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: context.appGradients.secondary,
+                        ),
+                        child: Center(
+                          child: Text(
+                            getInitials(community?.name ?? 'Community Name'),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),

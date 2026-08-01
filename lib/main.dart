@@ -158,6 +158,10 @@ class _MyAppState extends State<MyApp> {
           builder: (context, state) => const FestivalsHomeScreen(),
         ),
         GoRoute(
+          path: AppRoutes.profile,
+          builder: (context, state) => const ProfileScreen(),
+        ),
+        GoRoute(
           path: AppRoutes.festivalSetup,
           builder: (context, state) {
             final id = state.pathParameters['id'] as String;
@@ -216,17 +220,17 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-            StatefulShellBranch(
-              navigatorKey: _shellNavigatorKeyProfile,
-              routes: [
-                GoRoute(
-                  path: AppRoutes.profile,
-                  name: AppRoutes.profile,
-                  pageBuilder: (context, state) =>
-                      const NoTransitionPage(child: ProfileScreen()),
-                ),
-              ],
-            ),
+            // StatefulShellBranch(
+            //   navigatorKey: _shellNavigatorKeyProfile,
+            //   routes: [
+            //     GoRoute(
+            //       path: AppRoutes.profile,
+            //       name: AppRoutes.profile,
+            //       pageBuilder: (context, state) =>
+            //           const NoTransitionPage(child: ProfileScreen()),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ],
