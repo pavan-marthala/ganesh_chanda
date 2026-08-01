@@ -16,12 +16,12 @@ class FestivalRepositoryImpl implements FestivalRepository {
   }
 
   @override
-  Future<Festival?> getCurrentCommunityFestival() async {
-    return await _remoteDataSource.getCurrentCommunityFestival();
+  Future<Festival?> getCurrentCommunityFestival(String communityId) async {
+    return await _remoteDataSource.getCurrentCommunityFestival(communityId);
   }
 
   @override
-  Future<List<Festival>> getCommunityFestivals() async {
-    return await _remoteDataSource.getCommunityFestivals();
+  Future<List<Festival>> getCommunityFestivals(String communityId) async {
+    return await _remoteDataSource.getCommunityFestivals(communityId);
   }
 }

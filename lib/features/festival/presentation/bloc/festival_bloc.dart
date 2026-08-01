@@ -25,8 +25,8 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             ),
           );
           try {
-            final festival =
-                await _festivalRepository.getCurrentCommunityFestival();
+            final festival = await _festivalRepository
+                .getCurrentCommunityFestival(e.communityId);
             if (festival != null) {
               emit(
                 state.copyWith(
@@ -44,8 +44,10 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
               );
             }
           } catch (error) {
-            final errorMessage =
-                error.toString().replaceFirst('Exception: ', '');
+            final errorMessage = error.toString().replaceFirst(
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalStatus: StateStatus.error,
@@ -62,19 +64,23 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             ),
           );
           try {
-            final festivals =
-                await _festivalRepository.getCommunityFestivals();
+            final festivals = await _festivalRepository.getCommunityFestivals(
+              e.communityId,
+            );
             emit(
               state.copyWith(
                 festivals: festivals,
-                festivalsStatus:
-                    festivals.isEmpty ? StateStatus.empty : StateStatus.loaded,
+                festivalsStatus: festivals.isEmpty
+                    ? StateStatus.empty
+                    : StateStatus.loaded,
                 festivalsError: null,
               ),
             );
           } catch (error) {
-            final errorMessage =
-                error.toString().replaceFirst('Exception: ', '');
+            final errorMessage = error.toString().replaceFirst(
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalsStatus: StateStatus.error,
@@ -91,8 +97,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             ),
           );
           try {
-            final createdFestival =
-                await _festivalRepository.createFestival(e.festival);
+            final createdFestival = await _festivalRepository.createFestival(
+              e.festival,
+            );
             final updatedFestivals = [createdFestival, ...state.festivals];
             emit(
               state.copyWith(
@@ -105,8 +112,10 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
               ),
             );
           } catch (error) {
-            final errorMessage =
-                error.toString().replaceFirst('Exception: ', '');
+            final errorMessage = error.toString().replaceFirst(
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,

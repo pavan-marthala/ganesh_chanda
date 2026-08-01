@@ -125,11 +125,11 @@ return createFestivalRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loadCurrentCommunityFestivalRequested,TResult Function()?  loadFestivalsRequested,TResult Function( Festival festival)?  createFestivalRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String communityId)?  loadCurrentCommunityFestivalRequested,TResult Function( String communityId)?  loadFestivalsRequested,TResult Function( Festival festival)?  createFestivalRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoadCurrentCommunityFestivalRequested() when loadCurrentCommunityFestivalRequested != null:
-return loadCurrentCommunityFestivalRequested();case _LoadFestivalsRequested() when loadFestivalsRequested != null:
-return loadFestivalsRequested();case _CreateFestivalRequested() when createFestivalRequested != null:
+return loadCurrentCommunityFestivalRequested(_that.communityId);case _LoadFestivalsRequested() when loadFestivalsRequested != null:
+return loadFestivalsRequested(_that.communityId);case _CreateFestivalRequested() when createFestivalRequested != null:
 return createFestivalRequested(_that.festival);case _:
   return orElse();
 
@@ -148,11 +148,11 @@ return createFestivalRequested(_that.festival);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loadCurrentCommunityFestivalRequested,required TResult Function()  loadFestivalsRequested,required TResult Function( Festival festival)  createFestivalRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String communityId)  loadCurrentCommunityFestivalRequested,required TResult Function( String communityId)  loadFestivalsRequested,required TResult Function( Festival festival)  createFestivalRequested,}) {final _that = this;
 switch (_that) {
 case _LoadCurrentCommunityFestivalRequested():
-return loadCurrentCommunityFestivalRequested();case _LoadFestivalsRequested():
-return loadFestivalsRequested();case _CreateFestivalRequested():
+return loadCurrentCommunityFestivalRequested(_that.communityId);case _LoadFestivalsRequested():
+return loadFestivalsRequested(_that.communityId);case _CreateFestivalRequested():
 return createFestivalRequested(_that.festival);case _:
   throw StateError('Unexpected subclass');
 
@@ -170,11 +170,11 @@ return createFestivalRequested(_that.festival);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loadCurrentCommunityFestivalRequested,TResult? Function()?  loadFestivalsRequested,TResult? Function( Festival festival)?  createFestivalRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String communityId)?  loadCurrentCommunityFestivalRequested,TResult? Function( String communityId)?  loadFestivalsRequested,TResult? Function( Festival festival)?  createFestivalRequested,}) {final _that = this;
 switch (_that) {
 case _LoadCurrentCommunityFestivalRequested() when loadCurrentCommunityFestivalRequested != null:
-return loadCurrentCommunityFestivalRequested();case _LoadFestivalsRequested() when loadFestivalsRequested != null:
-return loadFestivalsRequested();case _CreateFestivalRequested() when createFestivalRequested != null:
+return loadCurrentCommunityFestivalRequested(_that.communityId);case _LoadFestivalsRequested() when loadFestivalsRequested != null:
+return loadFestivalsRequested(_that.communityId);case _CreateFestivalRequested() when createFestivalRequested != null:
 return createFestivalRequested(_that.festival);case _:
   return null;
 
@@ -187,65 +187,133 @@ return createFestivalRequested(_that.festival);case _:
 
 
 class _LoadCurrentCommunityFestivalRequested implements FestivalEvent {
-  const _LoadCurrentCommunityFestivalRequested();
+  const _LoadCurrentCommunityFestivalRequested(this.communityId);
   
 
+ final  String communityId;
 
-
+/// Create a copy of FestivalEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadCurrentCommunityFestivalRequestedCopyWith<_LoadCurrentCommunityFestivalRequested> get copyWith => __$LoadCurrentCommunityFestivalRequestedCopyWithImpl<_LoadCurrentCommunityFestivalRequested>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadCurrentCommunityFestivalRequested);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadCurrentCommunityFestivalRequested&&(identical(other.communityId, communityId) || other.communityId == communityId));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,communityId);
 
 @override
 String toString() {
-  return 'FestivalEvent.loadCurrentCommunityFestivalRequested()';
+  return 'FestivalEvent.loadCurrentCommunityFestivalRequested(communityId: $communityId)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$LoadCurrentCommunityFestivalRequestedCopyWith<$Res> implements $FestivalEventCopyWith<$Res> {
+  factory _$LoadCurrentCommunityFestivalRequestedCopyWith(_LoadCurrentCommunityFestivalRequested value, $Res Function(_LoadCurrentCommunityFestivalRequested) _then) = __$LoadCurrentCommunityFestivalRequestedCopyWithImpl;
+@useResult
+$Res call({
+ String communityId
+});
 
 
+
+
+}
+/// @nodoc
+class __$LoadCurrentCommunityFestivalRequestedCopyWithImpl<$Res>
+    implements _$LoadCurrentCommunityFestivalRequestedCopyWith<$Res> {
+  __$LoadCurrentCommunityFestivalRequestedCopyWithImpl(this._self, this._then);
+
+  final _LoadCurrentCommunityFestivalRequested _self;
+  final $Res Function(_LoadCurrentCommunityFestivalRequested) _then;
+
+/// Create a copy of FestivalEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? communityId = null,}) {
+  return _then(_LoadCurrentCommunityFestivalRequested(
+null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 /// @nodoc
 
 
 class _LoadFestivalsRequested implements FestivalEvent {
-  const _LoadFestivalsRequested();
+  const _LoadFestivalsRequested(this.communityId);
   
 
+ final  String communityId;
 
-
+/// Create a copy of FestivalEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadFestivalsRequestedCopyWith<_LoadFestivalsRequested> get copyWith => __$LoadFestivalsRequestedCopyWithImpl<_LoadFestivalsRequested>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadFestivalsRequested);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadFestivalsRequested&&(identical(other.communityId, communityId) || other.communityId == communityId));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,communityId);
 
 @override
 String toString() {
-  return 'FestivalEvent.loadFestivalsRequested()';
+  return 'FestivalEvent.loadFestivalsRequested(communityId: $communityId)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$LoadFestivalsRequestedCopyWith<$Res> implements $FestivalEventCopyWith<$Res> {
+  factory _$LoadFestivalsRequestedCopyWith(_LoadFestivalsRequested value, $Res Function(_LoadFestivalsRequested) _then) = __$LoadFestivalsRequestedCopyWithImpl;
+@useResult
+$Res call({
+ String communityId
+});
 
 
+
+
+}
+/// @nodoc
+class __$LoadFestivalsRequestedCopyWithImpl<$Res>
+    implements _$LoadFestivalsRequestedCopyWith<$Res> {
+  __$LoadFestivalsRequestedCopyWithImpl(this._self, this._then);
+
+  final _LoadFestivalsRequested _self;
+  final $Res Function(_LoadFestivalsRequested) _then;
+
+/// Create a copy of FestivalEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? communityId = null,}) {
+  return _then(_LoadFestivalsRequested(
+null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

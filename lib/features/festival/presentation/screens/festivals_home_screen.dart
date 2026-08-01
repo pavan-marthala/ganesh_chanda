@@ -68,7 +68,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
       listener: (context, communityState) {
         if (communityState.communityStatus == StateStatus.loaded) {
           context.read<FestivalBloc>().add(
-            const FestivalEvent.loadFestivalsRequested(),
+            FestivalEvent.loadFestivalsRequested(communityState.community!.id),
           );
         }
       },
@@ -153,7 +153,10 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                         size: 20,
                       ),
                       onPressed: () {
-                        CreateFestivalBottomSheet.show(context);
+                        // CreateFestivalBottomSheet.show(context);
+                        context.read<FestivalBloc>().add(
+                          FestivalEvent.loadFestivalsRequested(communityState.community!.id),
+                        );
                       },
                     ),
                   ),
@@ -185,6 +188,12 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                           updatedAt: DateTime.now(),
                         ),
                       ]),
+                    );
+                  }
+
+                  if(festivalState.festivalsStatus == StateStatus.error){
+                    return Center(
+                      child: Text(festivalState.festivalsError ?? 'Something went wrong'),
                     );
                   }
 

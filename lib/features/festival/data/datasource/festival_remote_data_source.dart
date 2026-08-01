@@ -6,8 +6,8 @@ import '../../domain/models/festival.dart';
 
 abstract class FestivalRemoteDataSource {
   Future<Festival> createFestival(Festival festival);
-  Future<Festival?> getCurrentCommunityFestival();
-  Future<List<Festival>> getCommunityFestivals();
+  Future<Festival?> getCurrentCommunityFestival(String communityId);
+  Future<List<Festival>> getCommunityFestivals(String communityId);
 }
 
 @LazySingleton(as: FestivalRemoteDataSource)
@@ -57,15 +57,7 @@ class FestivalRemoteDataSourceImpl implements FestivalRemoteDataSource {
   }
 
   @override
-  Future<Festival?> getCurrentCommunityFestival() async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) return null;
-
-    final userDoc = await _firestore.collection('users').doc(user.uid).get();
-    if (!userDoc.exists || userDoc.data() == null) return null;
-
-    final communityId = userDoc.data()!['communityId'] as String?;
-    if (communityId == null || communityId.isEmpty) return null;
+  Future<Festival?> getCurrentCommunityFestival(String communityId) async {
 
     final querySnapshot = await _firestore
         .collection('festivals')
@@ -77,62 +69,59 @@ class FestivalRemoteDataSourceImpl implements FestivalRemoteDataSource {
     if (querySnapshot.docs.isEmpty) return null;
 
     final data = querySnapshot.docs.first.data();
-
     if (data['startDate'] is Timestamp) {
-      data['startDate'] =
-          (data['startDate'] as Timestamp).toDate().toIso8601String();
+      data['startDate'] = (data['startDate'] as Timestamp)
+          .toDate()
+          .toIso8601String();
     }
     if (data['endDate'] is Timestamp) {
-      data['endDate'] =
-          (data['endDate'] as Timestamp).toDate().toIso8601String();
+      data['endDate'] = (data['endDate'] as Timestamp)
+          .toDate()
+          .toIso8601String();
     }
     if (data['createdAt'] is Timestamp) {
-      data['createdAt'] =
-          (data['createdAt'] as Timestamp).toDate().toIso8601String();
+      data['createdAt'] = (data['createdAt'] as Timestamp)
+          .toDate()
+          .toIso8601String();
     }
     if (data['updatedAt'] is Timestamp) {
-      data['updatedAt'] =
-          (data['updatedAt'] as Timestamp).toDate().toIso8601String();
+      data['updatedAt'] = (data['updatedAt'] as Timestamp)
+          .toDate()
+          .toIso8601String();
     }
 
     return Festival.fromJson(data);
   }
 
   @override
-  Future<List<Festival>> getCommunityFestivals() async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) return [];
-
-    final userDoc = await _firestore.collection('users').doc(user.uid).get();
-    if (!userDoc.exists || userDoc.data() == null) return [];
-
-    final communityId = userDoc.data()!['communityId'] as String?;
-    if (communityId == null || communityId.isEmpty) return [];
-
+  Future<List<Festival>> getCommunityFestivals(String communityId) async {
     final querySnapshot = await _firestore
         .collection('festivals')
         .where('communityId', isEqualTo: communityId)
         .orderBy('createdAt', descending: true)
         .get();
-
     return querySnapshot.docs.map((doc) {
       final data = doc.data();
 
       if (data['startDate'] is Timestamp) {
-        data['startDate'] =
-            (data['startDate'] as Timestamp).toDate().toIso8601String();
+        data['startDate'] = (data['startDate'] as Timestamp)
+            .toDate()
+            .toIso8601String();
       }
       if (data['endDate'] is Timestamp) {
-        data['endDate'] =
-            (data['endDate'] as Timestamp).toDate().toIso8601String();
+        data['endDate'] = (data['endDate'] as Timestamp)
+            .toDate()
+            .toIso8601String();
       }
       if (data['createdAt'] is Timestamp) {
-        data['createdAt'] =
-            (data['createdAt'] as Timestamp).toDate().toIso8601String();
+        data['createdAt'] = (data['createdAt'] as Timestamp)
+            .toDate()
+            .toIso8601String();
       }
       if (data['updatedAt'] is Timestamp) {
-        data['updatedAt'] =
-            (data['updatedAt'] as Timestamp).toDate().toIso8601String();
+        data['updatedAt'] = (data['updatedAt'] as Timestamp)
+            .toDate()
+            .toIso8601String();
       }
 
       return Festival.fromJson(data);
