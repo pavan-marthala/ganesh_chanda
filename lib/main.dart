@@ -14,14 +14,16 @@ import 'package:ganesh_chanda/features/auth/presentation/screens/sign_in_screen.
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/community/presentation/screens/create_community_screen.dart';
-import 'package:ganesh_chanda/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:ganesh_chanda/features/dashboard/presentation/screens/festival_dashboard_screen.dart';
 import 'package:ganesh_chanda/features/donation/presentation/screens/donation_screen.dart';
 import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.dart';
 import 'package:ganesh_chanda/features/expense/presentation/screens/expense_screen.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_home_screen.dart';
+import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_setup_screen.dart';
 import 'package:ganesh_chanda/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ganesh_chanda/features/splash/presentation/screens/splash_screen.dart';
+import 'package:ganesh_chanda/features/volunteer/presentation/bloc/volunteer_bloc.dart';
 import 'package:ganesh_chanda/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 
@@ -54,6 +56,7 @@ void main() async {
         ),
         BlocProvider(create: (context) => getIt<CommunityBloc>()),
         BlocProvider(create: (context) => getIt<FestivalBloc>()),
+        BlocProvider(create: (context) => getIt<VolunteerBloc>()),
       ],
       child: const MyApp(),
     ),
@@ -154,6 +157,13 @@ class _MyAppState extends State<MyApp> {
           path: AppRoutes.festivalsHome,
           builder: (context, state) => const FestivalsHomeScreen(),
         ),
+        GoRoute(
+          path: AppRoutes.festivalSetup,
+          builder: (context, state) {
+            final id = state.pathParameters['id'] as String;
+            return FestivalsSetupScreen(id: id);
+          },
+        ),
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) =>
               AppShellScreen(navigationShell: navigationShell),
@@ -164,8 +174,12 @@ class _MyAppState extends State<MyApp> {
                 GoRoute(
                   path: AppRoutes.dashboard,
                   name: AppRoutes.dashboard,
-                  pageBuilder: (context, state) =>
-                      const NoTransitionPage(child: DashboardScreen()),
+                  pageBuilder: (context, state) {
+                    final id = state.extra as String;
+                    return NoTransitionPage(
+                      child: FestivalDashboardScreen(id: id),
+                    );
+                  },
                 ),
               ],
             ),

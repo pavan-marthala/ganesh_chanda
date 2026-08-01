@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
+import 'package:ganesh_chanda/core/utils/app_routes.dart';
 
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/widgets/create_festival_bottom_sheet.dart';
+import 'package:ganesh_chanda/features/volunteer/presentation/bloc/volunteer_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -41,21 +44,37 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
   }
 
   bool _isUpcoming(Festival festival, DateTime now) {
-    final startDay = DateTime(festival.startDate.year, festival.startDate.month, festival.startDate.day);
+    final startDay = DateTime(
+      festival.startDate.year,
+      festival.startDate.month,
+      festival.startDate.day,
+    );
     final today = DateTime(now.year, now.month, now.day);
     return startDay.isAfter(today);
   }
 
   bool _isLive(Festival festival, DateTime now) {
-    final startDay = DateTime(festival.startDate.year, festival.startDate.month, festival.startDate.day);
-    final endDay = DateTime(festival.endDate.year, festival.endDate.month, festival.endDate.day);
+    final startDay = DateTime(
+      festival.startDate.year,
+      festival.startDate.month,
+      festival.startDate.day,
+    );
+    final endDay = DateTime(
+      festival.endDate.year,
+      festival.endDate.month,
+      festival.endDate.day,
+    );
     final today = DateTime(now.year, now.month, now.day);
     return (today.isAfter(startDay) || _isSameDay(today, startDay)) &&
         (today.isBefore(endDay) || _isSameDay(today, endDay));
   }
 
   bool _isCompleted(Festival festival, DateTime now) {
-    final endDay = DateTime(festival.endDate.year, festival.endDate.month, festival.endDate.day);
+    final endDay = DateTime(
+      festival.endDate.year,
+      festival.endDate.month,
+      festival.endDate.day,
+    );
     final today = DateTime(now.year, now.month, now.day);
     return endDay.isBefore(today);
   }
@@ -87,6 +106,11 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
         if (communityState.communityStatus == StateStatus.loaded) {
           context.read<FestivalBloc>().add(
             FestivalEvent.loadFestivalsRequested(communityState.community!.id),
+          );
+          context.read<VolunteerBloc>().add(
+            VolunteerEvent.loadVolunteersRequested(
+              communityId: communityState.community!.id,
+            ),
           );
         }
       },
@@ -313,10 +337,12 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     final now = DateTime.now();
 
     final liveFestivals = festivals.where((f) => _isLive(f, now)).toList();
-    final upcomingFestivals =
-        festivals.where((f) => _isUpcoming(f, now)).toList();
-    final completedFestivals =
-        festivals.where((f) => _isCompleted(f, now)).toList();
+    final upcomingFestivals = festivals
+        .where((f) => _isUpcoming(f, now))
+        .toList();
+    final completedFestivals = festivals
+        .where((f) => _isCompleted(f, now))
+        .toList();
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -387,127 +413,139 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     final colors = context.appColors;
     final typography = context.appTypography;
 
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: context.appGradients.primary,
-        boxShadow: [
-          BoxShadow(
-            color: colors.primary.withValues(alpha: 0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
+    return GestureDetector(
+      onTap: () {
+        final isReady =
+            festival.assignedVolunteerIds.isNotEmpty &&
+            festival.totalDonationCount > 0;
+        if (isReady) {
+          context.push(AppRoutes.dashboard, extra: festival.id);
+          return;
+        }
+        context.push(AppRoutes.festivalSetup.replaceAll(":id", festival.id));
+      },
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          gradient: context.appGradients.primary,
+          boxShadow: [
+            BoxShadow(
+              color: colors.primary.withValues(alpha: 0.3),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.22),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircleAvatar(radius: 3, backgroundColor: Colors.white),
+                      SizedBox(width: 6),
+                      Text(
+                        'Live now',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.22),
-                  borderRadius: BorderRadius.circular(20),
+                const Icon(
+                  Icons.chevron_right_rounded,
+                  color: Colors.white,
+                  size: 22,
                 ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
+              ],
+            ),
+            const SizedBox(height: 14),
+            Text(
+              festival.name,
+              style: typography.headlineMedium.copyWith(
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              _formatDateRange(festival.startDate, festival.endDate),
+              style: typography.bodyMedium.copyWith(
+                color: Colors.white.withValues(alpha: 0.88),
+                fontSize: 13.5,
+              ),
+            ),
+            const SizedBox(height: 18),
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CircleAvatar(radius: 3, backgroundColor: Colors.white),
-                    SizedBox(width: 6),
                     Text(
-                      'Live now',
-                      style: TextStyle(
+                      _formatAmount(festival.totalDonationAmount),
+                      style: typography.titleLarge.copyWith(
+                        fontWeight: FontWeight.w800,
                         color: Colors.white,
+                        fontSize: 22,
+                      ),
+                    ),
+                    Text(
+                      'COLLECTED',
+                      style: typography.labelSmall.copyWith(
+                        color: Colors.white.withValues(alpha: 0.8),
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
+                        letterSpacing: 0.8,
                       ),
                     ),
                   ],
                 ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: Colors.white,
-                size: 22,
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Text(
-            festival.name,
-            style: typography.headlineMedium.copyWith(
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-              fontSize: 24,
+                const SizedBox(width: 28),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${festival.totalVolunteerCount}',
+                      style: typography.titleLarge.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                        fontSize: 22,
+                      ),
+                    ),
+                    Text(
+                      'VOLUNTEERS',
+                      style: typography.labelSmall.copyWith(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            _formatDateRange(festival.startDate, festival.endDate),
-            style: typography.bodyMedium.copyWith(
-              color: Colors.white.withValues(alpha: 0.88),
-              fontSize: 13.5,
-            ),
-          ),
-          const SizedBox(height: 18),
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _formatAmount(festival.totalDonationAmount),
-                    style: typography.titleLarge.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      fontSize: 22,
-                    ),
-                  ),
-                  Text(
-                    'COLLECTED',
-                    style: typography.labelSmall.copyWith(
-                      color: Colors.white.withValues(alpha: 0.8),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 28),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${festival.totalVolunteerCount}',
-                    style: typography.titleLarge.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                      fontSize: 22,
-                    ),
-                  ),
-                  Text(
-                    'VOLUNTEERS',
-                    style: typography.labelSmall.copyWith(
-                      color: Colors.white.withValues(alpha: 0.8),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

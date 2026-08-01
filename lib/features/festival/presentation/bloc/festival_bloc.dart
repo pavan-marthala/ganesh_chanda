@@ -46,9 +46,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             }
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalStatus: StateStatus.error,
@@ -79,9 +79,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalsStatus: StateStatus.error,
@@ -114,9 +114,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             );
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,
@@ -146,9 +146,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             add(FestivalEvent.loadFestivalsRequested(e.communityId));
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,
@@ -175,9 +175,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             add(FestivalEvent.loadFestivalsRequested(e.communityId));
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,
@@ -207,9 +207,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             add(FestivalEvent.loadFestivalsRequested(e.communityId));
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,
@@ -239,9 +239,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             add(FestivalEvent.loadFestivalsRequested(e.communityId));
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
-                  'Exception: ',
-                  '',
-                );
+              'Exception: ',
+              '',
+            );
             emit(
               state.copyWith(
                 festivalActionStatus: StateStatus.error,

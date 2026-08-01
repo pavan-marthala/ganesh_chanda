@@ -50,6 +50,40 @@ class VolunteerBloc extends Bloc<VolunteerEvent, VolunteerState> {
             );
           }
         },
+        loadVolunteersByIdsRequested: (e) async {
+          emit(
+            state.copyWith(
+              assignedVolunteersStatus: StateStatus.loading,
+              assignedVolunteersError: null,
+            ),
+          );
+          try {
+            final assignedVolunteers =
+                await _volunteerRepository.getVolunteersByIds(
+              e.volunteerIds,
+            );
+            emit(
+              state.copyWith(
+                assignedVolunteers: assignedVolunteers,
+                assignedVolunteersStatus: assignedVolunteers.isEmpty
+                    ? StateStatus.empty
+                    : StateStatus.loaded,
+                assignedVolunteersError: null,
+              ),
+            );
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst(
+                  'Exception: ',
+                  '',
+                );
+            emit(
+              state.copyWith(
+                assignedVolunteersStatus: StateStatus.error,
+                assignedVolunteersError: errorMessage,
+              ),
+            );
+          }
+        },
         addVolunteerRequested: (e) async {
           emit(
             state.copyWith(

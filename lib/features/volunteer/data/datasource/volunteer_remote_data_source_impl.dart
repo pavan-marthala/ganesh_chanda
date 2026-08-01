@@ -23,6 +23,44 @@ class VolunteerRemoteDataSourceImpl implements VolunteerRemoteDataSource {
   }
 
   @override
+  Future<List<AppUser>> getVolunteersByIds(List<String> volunteerIds) async {
+    if (volunteerIds.isEmpty) return [];
+
+    // Firestore FieldPath.documentId whereIn supports chunks of max 30 items
+    final List<AppUser> results = [];
+    const chunkSize = 30;
+
+    for (var i = 0; i < volunteerIds.length; i += chunkSize) {
+      final chunk = volunteerIds.sublist(
+        i,
+        i + chunkSize > volunteerIds.length ? volunteerIds.length : i + chunkSize,
+      );
+
+      final querySnapshot = await _firestore
+          .collection('users')
+          .where(FieldPath.documentId, whereIn: chunk)
+          .get();
+
+      final users = querySnapshot.docs
+          .map((doc) => AppUser.fromJson({'userId': doc.id, ...doc.data()}))
+          .toList();
+
+      results.addAll(users);
+    }
+
+    // Preserve the order of volunteerIds
+    final userMap = {for (var user in results) user.id: user};
+    final orderedResults = <AppUser>[];
+    for (final id in volunteerIds) {
+      if (userMap.containsKey(id)) {
+        orderedResults.add(userMap[id]!);
+      }
+    }
+
+    return orderedResults;
+  }
+
+  @override
   Future<AppUser> addVolunteer(AppUser volunteer, String communityId) async {
     final docRef = volunteer.id.isNotEmpty
         ? _firestore.collection('users').doc(volunteer.id)

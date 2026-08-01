@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
-
+class FestivalDashboardScreen extends StatelessWidget {
+  const FestivalDashboardScreen({super.key, required this.id});
+  final String id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

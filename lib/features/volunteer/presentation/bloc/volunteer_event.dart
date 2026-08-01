@@ -6,6 +6,10 @@ abstract class VolunteerEvent with _$VolunteerEvent {
     required String communityId,
   }) = _LoadVolunteersRequested;
 
+  const factory VolunteerEvent.loadVolunteersByIdsRequested({
+    required List<String> volunteerIds,
+  }) = _LoadVolunteersByIdsRequested;
+
   const factory VolunteerEvent.addVolunteerRequested({
     required AppUser volunteer,
     required String communityId,

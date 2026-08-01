@@ -11,4 +11,5 @@ class AppRoutes {
   static const onboarding = '/onboarding';
   static const createCommunity = '/create-community';
   static const festivalsHome = '/festivals-home';
+  static const festivalSetup = '/festivals-setup/:id';
 }

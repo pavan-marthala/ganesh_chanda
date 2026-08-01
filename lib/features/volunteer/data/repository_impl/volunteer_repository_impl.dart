@@ -15,6 +15,11 @@ class VolunteerRepositoryImpl implements VolunteerRepository {
   }
 
   @override
+  Future<List<AppUser>> getVolunteersByIds(List<String> volunteerIds) {
+    return _remoteDataSource.getVolunteersByIds(volunteerIds);
+  }
+
+  @override
   Future<AppUser> addVolunteer(AppUser volunteer, String communityId) {
     return _remoteDataSource.addVolunteer(volunteer, communityId);
   }

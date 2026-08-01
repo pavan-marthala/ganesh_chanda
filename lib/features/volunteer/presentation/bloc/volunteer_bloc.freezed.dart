@@ -14,61 +14,30 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$VolunteerEvent {
 
- String get communityId;
-/// Create a copy of VolunteerEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$VolunteerEventCopyWith<VolunteerEvent> get copyWith => _$VolunteerEventCopyWithImpl<VolunteerEvent>(this as VolunteerEvent, _$identity);
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VolunteerEvent&&(identical(other.communityId, communityId) || other.communityId == communityId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VolunteerEvent);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,communityId);
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'VolunteerEvent(communityId: $communityId)';
+  return 'VolunteerEvent()';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $VolunteerEventCopyWith<$Res>  {
-  factory $VolunteerEventCopyWith(VolunteerEvent value, $Res Function(VolunteerEvent) _then) = _$VolunteerEventCopyWithImpl;
-@useResult
-$Res call({
- String communityId
-});
-
-
-
-
-}
-/// @nodoc
-class _$VolunteerEventCopyWithImpl<$Res>
-    implements $VolunteerEventCopyWith<$Res> {
-  _$VolunteerEventCopyWithImpl(this._self, this._then);
-
-  final VolunteerEvent _self;
-  final $Res Function(VolunteerEvent) _then;
-
-/// Create a copy of VolunteerEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? communityId = null,}) {
-  return _then(_self.copyWith(
-communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
+class $VolunteerEventCopyWith<$Res>  {
+$VolunteerEventCopyWith(VolunteerEvent _, $Res Function(VolunteerEvent) __);
 }
 
 
@@ -86,11 +55,12 @@ extension VolunteerEventPatterns on VolunteerEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult Function( _LoadVolunteersByIdsRequested value)?  loadVolunteersByIdsRequested,TResult Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
-return loadVolunteersRequested(_that);case _AddVolunteerRequested() when addVolunteerRequested != null:
+return loadVolunteersRequested(_that);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
+return loadVolunteersByIdsRequested(_that);case _AddVolunteerRequested() when addVolunteerRequested != null:
 return addVolunteerRequested(_that);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
@@ -113,11 +83,12 @@ return deleteVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadVolunteersRequested value)  loadVolunteersRequested,required TResult Function( _AddVolunteerRequested value)  addVolunteerRequested,required TResult Function( _UpdateVolunteerRequested value)  updateVolunteerRequested,required TResult Function( _ActivateVolunteerRequested value)  activateVolunteerRequested,required TResult Function( _DeactivateVolunteerRequested value)  deactivateVolunteerRequested,required TResult Function( _DeleteVolunteerRequested value)  deleteVolunteerRequested,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _LoadVolunteersRequested value)  loadVolunteersRequested,required TResult Function( _LoadVolunteersByIdsRequested value)  loadVolunteersByIdsRequested,required TResult Function( _AddVolunteerRequested value)  addVolunteerRequested,required TResult Function( _UpdateVolunteerRequested value)  updateVolunteerRequested,required TResult Function( _ActivateVolunteerRequested value)  activateVolunteerRequested,required TResult Function( _DeactivateVolunteerRequested value)  deactivateVolunteerRequested,required TResult Function( _DeleteVolunteerRequested value)  deleteVolunteerRequested,}){
 final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested():
-return loadVolunteersRequested(_that);case _AddVolunteerRequested():
+return loadVolunteersRequested(_that);case _LoadVolunteersByIdsRequested():
+return loadVolunteersByIdsRequested(_that);case _AddVolunteerRequested():
 return addVolunteerRequested(_that);case _UpdateVolunteerRequested():
 return updateVolunteerRequested(_that);case _ActivateVolunteerRequested():
 return activateVolunteerRequested(_that);case _DeactivateVolunteerRequested():
@@ -139,11 +110,12 @@ return deleteVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult? Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult? Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult? Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult? Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult? Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _LoadVolunteersRequested value)?  loadVolunteersRequested,TResult? Function( _LoadVolunteersByIdsRequested value)?  loadVolunteersByIdsRequested,TResult? Function( _AddVolunteerRequested value)?  addVolunteerRequested,TResult? Function( _UpdateVolunteerRequested value)?  updateVolunteerRequested,TResult? Function( _ActivateVolunteerRequested value)?  activateVolunteerRequested,TResult? Function( _DeactivateVolunteerRequested value)?  deactivateVolunteerRequested,TResult? Function( _DeleteVolunteerRequested value)?  deleteVolunteerRequested,}){
 final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
-return loadVolunteersRequested(_that);case _AddVolunteerRequested() when addVolunteerRequested != null:
+return loadVolunteersRequested(_that);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
+return loadVolunteersByIdsRequested(_that);case _AddVolunteerRequested() when addVolunteerRequested != null:
 return addVolunteerRequested(_that);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
@@ -165,10 +137,11 @@ return deleteVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String communityId)?  loadVolunteersRequested,TResult Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult Function( String userId,  String communityId)?  activateVolunteerRequested,TResult Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult Function( String userId,  String communityId)?  deleteVolunteerRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String communityId)?  loadVolunteersRequested,TResult Function( List<String> volunteerIds)?  loadVolunteersByIdsRequested,TResult Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult Function( String userId,  String communityId)?  activateVolunteerRequested,TResult Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult Function( String userId,  String communityId)?  deleteVolunteerRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
-return loadVolunteersRequested(_that.communityId);case _AddVolunteerRequested() when addVolunteerRequested != null:
+return loadVolunteersRequested(_that.communityId);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
+return loadVolunteersByIdsRequested(_that.volunteerIds);case _AddVolunteerRequested() when addVolunteerRequested != null:
 return addVolunteerRequested(_that.volunteer,_that.communityId);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that.volunteer,_that.communityId);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that.userId,_that.communityId);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
@@ -191,10 +164,11 @@ return deleteVolunteerRequested(_that.userId,_that.communityId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String communityId)  loadVolunteersRequested,required TResult Function( AppUser volunteer,  String communityId)  addVolunteerRequested,required TResult Function( AppUser volunteer,  String communityId)  updateVolunteerRequested,required TResult Function( String userId,  String communityId)  activateVolunteerRequested,required TResult Function( String userId,  String communityId)  deactivateVolunteerRequested,required TResult Function( String userId,  String communityId)  deleteVolunteerRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String communityId)  loadVolunteersRequested,required TResult Function( List<String> volunteerIds)  loadVolunteersByIdsRequested,required TResult Function( AppUser volunteer,  String communityId)  addVolunteerRequested,required TResult Function( AppUser volunteer,  String communityId)  updateVolunteerRequested,required TResult Function( String userId,  String communityId)  activateVolunteerRequested,required TResult Function( String userId,  String communityId)  deactivateVolunteerRequested,required TResult Function( String userId,  String communityId)  deleteVolunteerRequested,}) {final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested():
-return loadVolunteersRequested(_that.communityId);case _AddVolunteerRequested():
+return loadVolunteersRequested(_that.communityId);case _LoadVolunteersByIdsRequested():
+return loadVolunteersByIdsRequested(_that.volunteerIds);case _AddVolunteerRequested():
 return addVolunteerRequested(_that.volunteer,_that.communityId);case _UpdateVolunteerRequested():
 return updateVolunteerRequested(_that.volunteer,_that.communityId);case _ActivateVolunteerRequested():
 return activateVolunteerRequested(_that.userId,_that.communityId);case _DeactivateVolunteerRequested():
@@ -216,10 +190,11 @@ return deleteVolunteerRequested(_that.userId,_that.communityId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String communityId)?  loadVolunteersRequested,TResult? Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult? Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult? Function( String userId,  String communityId)?  activateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deleteVolunteerRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String communityId)?  loadVolunteersRequested,TResult? Function( List<String> volunteerIds)?  loadVolunteersByIdsRequested,TResult? Function( AppUser volunteer,  String communityId)?  addVolunteerRequested,TResult? Function( AppUser volunteer,  String communityId)?  updateVolunteerRequested,TResult? Function( String userId,  String communityId)?  activateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deactivateVolunteerRequested,TResult? Function( String userId,  String communityId)?  deleteVolunteerRequested,}) {final _that = this;
 switch (_that) {
 case _LoadVolunteersRequested() when loadVolunteersRequested != null:
-return loadVolunteersRequested(_that.communityId);case _AddVolunteerRequested() when addVolunteerRequested != null:
+return loadVolunteersRequested(_that.communityId);case _LoadVolunteersByIdsRequested() when loadVolunteersByIdsRequested != null:
+return loadVolunteersByIdsRequested(_that.volunteerIds);case _AddVolunteerRequested() when addVolunteerRequested != null:
 return addVolunteerRequested(_that.volunteer,_that.communityId);case _UpdateVolunteerRequested() when updateVolunteerRequested != null:
 return updateVolunteerRequested(_that.volunteer,_that.communityId);case _ActivateVolunteerRequested() when activateVolunteerRequested != null:
 return activateVolunteerRequested(_that.userId,_that.communityId);case _DeactivateVolunteerRequested() when deactivateVolunteerRequested != null:
@@ -239,11 +214,11 @@ class _LoadVolunteersRequested implements VolunteerEvent {
   const _LoadVolunteersRequested({required this.communityId});
   
 
-@override final  String communityId;
+ final  String communityId;
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$LoadVolunteersRequestedCopyWith<_LoadVolunteersRequested> get copyWith => __$LoadVolunteersRequestedCopyWithImpl<_LoadVolunteersRequested>(this, _$identity);
 
@@ -269,7 +244,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$LoadVolunteersRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
   factory _$LoadVolunteersRequestedCopyWith(_LoadVolunteersRequested value, $Res Function(_LoadVolunteersRequested) _then) = __$LoadVolunteersRequestedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  String communityId
 });
@@ -288,10 +263,82 @@ class __$LoadVolunteersRequestedCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? communityId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? communityId = null,}) {
   return _then(_LoadVolunteersRequested(
 communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
 as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _LoadVolunteersByIdsRequested implements VolunteerEvent {
+  const _LoadVolunteersByIdsRequested({required final  List<String> volunteerIds}): _volunteerIds = volunteerIds;
+  
+
+ final  List<String> _volunteerIds;
+ List<String> get volunteerIds {
+  if (_volunteerIds is EqualUnmodifiableListView) return _volunteerIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_volunteerIds);
+}
+
+
+/// Create a copy of VolunteerEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadVolunteersByIdsRequestedCopyWith<_LoadVolunteersByIdsRequested> get copyWith => __$LoadVolunteersByIdsRequestedCopyWithImpl<_LoadVolunteersByIdsRequested>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadVolunteersByIdsRequested&&const DeepCollectionEquality().equals(other._volunteerIds, _volunteerIds));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_volunteerIds));
+
+@override
+String toString() {
+  return 'VolunteerEvent.loadVolunteersByIdsRequested(volunteerIds: $volunteerIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LoadVolunteersByIdsRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
+  factory _$LoadVolunteersByIdsRequestedCopyWith(_LoadVolunteersByIdsRequested value, $Res Function(_LoadVolunteersByIdsRequested) _then) = __$LoadVolunteersByIdsRequestedCopyWithImpl;
+@useResult
+$Res call({
+ List<String> volunteerIds
+});
+
+
+
+
+}
+/// @nodoc
+class __$LoadVolunteersByIdsRequestedCopyWithImpl<$Res>
+    implements _$LoadVolunteersByIdsRequestedCopyWith<$Res> {
+  __$LoadVolunteersByIdsRequestedCopyWithImpl(this._self, this._then);
+
+  final _LoadVolunteersByIdsRequested _self;
+  final $Res Function(_LoadVolunteersByIdsRequested) _then;
+
+/// Create a copy of VolunteerEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? volunteerIds = null,}) {
+  return _then(_LoadVolunteersByIdsRequested(
+volunteerIds: null == volunteerIds ? _self._volunteerIds : volunteerIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
   ));
 }
 
@@ -306,11 +353,11 @@ class _AddVolunteerRequested implements VolunteerEvent {
   
 
  final  AppUser volunteer;
-@override final  String communityId;
+ final  String communityId;
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$AddVolunteerRequestedCopyWith<_AddVolunteerRequested> get copyWith => __$AddVolunteerRequestedCopyWithImpl<_AddVolunteerRequested>(this, _$identity);
 
@@ -336,7 +383,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$AddVolunteerRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
   factory _$AddVolunteerRequestedCopyWith(_AddVolunteerRequested value, $Res Function(_AddVolunteerRequested) _then) = __$AddVolunteerRequestedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  AppUser volunteer, String communityId
 });
@@ -355,7 +402,7 @@ class __$AddVolunteerRequestedCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? volunteer = null,Object? communityId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? volunteer = null,Object? communityId = null,}) {
   return _then(_AddVolunteerRequested(
 volunteer: null == volunteer ? _self.volunteer : volunteer // ignore: cast_nullable_to_non_nullable
 as AppUser,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -383,11 +430,11 @@ class _UpdateVolunteerRequested implements VolunteerEvent {
   
 
  final  AppUser volunteer;
-@override final  String communityId;
+ final  String communityId;
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$UpdateVolunteerRequestedCopyWith<_UpdateVolunteerRequested> get copyWith => __$UpdateVolunteerRequestedCopyWithImpl<_UpdateVolunteerRequested>(this, _$identity);
 
@@ -413,7 +460,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$UpdateVolunteerRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
   factory _$UpdateVolunteerRequestedCopyWith(_UpdateVolunteerRequested value, $Res Function(_UpdateVolunteerRequested) _then) = __$UpdateVolunteerRequestedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  AppUser volunteer, String communityId
 });
@@ -432,7 +479,7 @@ class __$UpdateVolunteerRequestedCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? volunteer = null,Object? communityId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? volunteer = null,Object? communityId = null,}) {
   return _then(_UpdateVolunteerRequested(
 volunteer: null == volunteer ? _self.volunteer : volunteer // ignore: cast_nullable_to_non_nullable
 as AppUser,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -460,11 +507,11 @@ class _ActivateVolunteerRequested implements VolunteerEvent {
   
 
  final  String userId;
-@override final  String communityId;
+ final  String communityId;
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$ActivateVolunteerRequestedCopyWith<_ActivateVolunteerRequested> get copyWith => __$ActivateVolunteerRequestedCopyWithImpl<_ActivateVolunteerRequested>(this, _$identity);
 
@@ -490,7 +537,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$ActivateVolunteerRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
   factory _$ActivateVolunteerRequestedCopyWith(_ActivateVolunteerRequested value, $Res Function(_ActivateVolunteerRequested) _then) = __$ActivateVolunteerRequestedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  String userId, String communityId
 });
@@ -509,7 +556,7 @@ class __$ActivateVolunteerRequestedCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? communityId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? communityId = null,}) {
   return _then(_ActivateVolunteerRequested(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -528,11 +575,11 @@ class _DeactivateVolunteerRequested implements VolunteerEvent {
   
 
  final  String userId;
-@override final  String communityId;
+ final  String communityId;
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$DeactivateVolunteerRequestedCopyWith<_DeactivateVolunteerRequested> get copyWith => __$DeactivateVolunteerRequestedCopyWithImpl<_DeactivateVolunteerRequested>(this, _$identity);
 
@@ -558,7 +605,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$DeactivateVolunteerRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
   factory _$DeactivateVolunteerRequestedCopyWith(_DeactivateVolunteerRequested value, $Res Function(_DeactivateVolunteerRequested) _then) = __$DeactivateVolunteerRequestedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  String userId, String communityId
 });
@@ -577,7 +624,7 @@ class __$DeactivateVolunteerRequestedCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? communityId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? communityId = null,}) {
   return _then(_DeactivateVolunteerRequested(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -596,11 +643,11 @@ class _DeleteVolunteerRequested implements VolunteerEvent {
   
 
  final  String userId;
-@override final  String communityId;
+ final  String communityId;
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 _$DeleteVolunteerRequestedCopyWith<_DeleteVolunteerRequested> get copyWith => __$DeleteVolunteerRequestedCopyWithImpl<_DeleteVolunteerRequested>(this, _$identity);
 
@@ -626,7 +673,7 @@ String toString() {
 /// @nodoc
 abstract mixin class _$DeleteVolunteerRequestedCopyWith<$Res> implements $VolunteerEventCopyWith<$Res> {
   factory _$DeleteVolunteerRequestedCopyWith(_DeleteVolunteerRequested value, $Res Function(_DeleteVolunteerRequested) _then) = __$DeleteVolunteerRequestedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  String userId, String communityId
 });
@@ -645,7 +692,7 @@ class __$DeleteVolunteerRequestedCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? communityId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? userId = null,Object? communityId = null,}) {
   return _then(_DeleteVolunteerRequested(
 userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
 as String,communityId: null == communityId ? _self.communityId : communityId // ignore: cast_nullable_to_non_nullable
@@ -659,7 +706,7 @@ as String,
 /// @nodoc
 mixin _$VolunteerState {
 
- List<AppUser> get volunteers; StateStatus get volunteersStatus; String? get volunteersError; StateStatus get volunteerActionStatus; String? get volunteerActionError;
+ List<AppUser> get volunteers; StateStatus get volunteersStatus; String? get volunteersError; List<AppUser> get assignedVolunteers; StateStatus get assignedVolunteersStatus; String? get assignedVolunteersError; StateStatus get volunteerActionStatus; String? get volunteerActionError;
 /// Create a copy of VolunteerState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -670,16 +717,16 @@ $VolunteerStateCopyWith<VolunteerState> get copyWith => _$VolunteerStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VolunteerState&&const DeepCollectionEquality().equals(other.volunteers, volunteers)&&(identical(other.volunteersStatus, volunteersStatus) || other.volunteersStatus == volunteersStatus)&&(identical(other.volunteersError, volunteersError) || other.volunteersError == volunteersError)&&(identical(other.volunteerActionStatus, volunteerActionStatus) || other.volunteerActionStatus == volunteerActionStatus)&&(identical(other.volunteerActionError, volunteerActionError) || other.volunteerActionError == volunteerActionError));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VolunteerState&&const DeepCollectionEquality().equals(other.volunteers, volunteers)&&(identical(other.volunteersStatus, volunteersStatus) || other.volunteersStatus == volunteersStatus)&&(identical(other.volunteersError, volunteersError) || other.volunteersError == volunteersError)&&const DeepCollectionEquality().equals(other.assignedVolunteers, assignedVolunteers)&&(identical(other.assignedVolunteersStatus, assignedVolunteersStatus) || other.assignedVolunteersStatus == assignedVolunteersStatus)&&(identical(other.assignedVolunteersError, assignedVolunteersError) || other.assignedVolunteersError == assignedVolunteersError)&&(identical(other.volunteerActionStatus, volunteerActionStatus) || other.volunteerActionStatus == volunteerActionStatus)&&(identical(other.volunteerActionError, volunteerActionError) || other.volunteerActionError == volunteerActionError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(volunteers),volunteersStatus,volunteersError,volunteerActionStatus,volunteerActionError);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(volunteers),volunteersStatus,volunteersError,const DeepCollectionEquality().hash(assignedVolunteers),assignedVolunteersStatus,assignedVolunteersError,volunteerActionStatus,volunteerActionError);
 
 @override
 String toString() {
-  return 'VolunteerState(volunteers: $volunteers, volunteersStatus: $volunteersStatus, volunteersError: $volunteersError, volunteerActionStatus: $volunteerActionStatus, volunteerActionError: $volunteerActionError)';
+  return 'VolunteerState(volunteers: $volunteers, volunteersStatus: $volunteersStatus, volunteersError: $volunteersError, assignedVolunteers: $assignedVolunteers, assignedVolunteersStatus: $assignedVolunteersStatus, assignedVolunteersError: $assignedVolunteersError, volunteerActionStatus: $volunteerActionStatus, volunteerActionError: $volunteerActionError)';
 }
 
 
@@ -690,7 +737,7 @@ abstract mixin class $VolunteerStateCopyWith<$Res>  {
   factory $VolunteerStateCopyWith(VolunteerState value, $Res Function(VolunteerState) _then) = _$VolunteerStateCopyWithImpl;
 @useResult
 $Res call({
- List<AppUser> volunteers, StateStatus volunteersStatus, String? volunteersError, StateStatus volunteerActionStatus, String? volunteerActionError
+ List<AppUser> volunteers, StateStatus volunteersStatus, String? volunteersError, List<AppUser> assignedVolunteers, StateStatus assignedVolunteersStatus, String? assignedVolunteersError, StateStatus volunteerActionStatus, String? volunteerActionError
 });
 
 
@@ -707,11 +754,14 @@ class _$VolunteerStateCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? volunteers = null,Object? volunteersStatus = null,Object? volunteersError = freezed,Object? volunteerActionStatus = null,Object? volunteerActionError = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? volunteers = null,Object? volunteersStatus = null,Object? volunteersError = freezed,Object? assignedVolunteers = null,Object? assignedVolunteersStatus = null,Object? assignedVolunteersError = freezed,Object? volunteerActionStatus = null,Object? volunteerActionError = freezed,}) {
   return _then(_self.copyWith(
 volunteers: null == volunteers ? _self.volunteers : volunteers // ignore: cast_nullable_to_non_nullable
 as List<AppUser>,volunteersStatus: null == volunteersStatus ? _self.volunteersStatus : volunteersStatus // ignore: cast_nullable_to_non_nullable
 as StateStatus,volunteersError: freezed == volunteersError ? _self.volunteersError : volunteersError // ignore: cast_nullable_to_non_nullable
+as String?,assignedVolunteers: null == assignedVolunteers ? _self.assignedVolunteers : assignedVolunteers // ignore: cast_nullable_to_non_nullable
+as List<AppUser>,assignedVolunteersStatus: null == assignedVolunteersStatus ? _self.assignedVolunteersStatus : assignedVolunteersStatus // ignore: cast_nullable_to_non_nullable
+as StateStatus,assignedVolunteersError: freezed == assignedVolunteersError ? _self.assignedVolunteersError : assignedVolunteersError // ignore: cast_nullable_to_non_nullable
 as String?,volunteerActionStatus: null == volunteerActionStatus ? _self.volunteerActionStatus : volunteerActionStatus // ignore: cast_nullable_to_non_nullable
 as StateStatus,volunteerActionError: freezed == volunteerActionError ? _self.volunteerActionError : volunteerActionError // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -799,10 +849,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AppUser> volunteers,  StateStatus volunteersStatus,  String? volunteersError,  StateStatus volunteerActionStatus,  String? volunteerActionError)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<AppUser> volunteers,  StateStatus volunteersStatus,  String? volunteersError,  List<AppUser> assignedVolunteers,  StateStatus assignedVolunteersStatus,  String? assignedVolunteersError,  StateStatus volunteerActionStatus,  String? volunteerActionError)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VolunteerState() when $default != null:
-return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_that.volunteerActionStatus,_that.volunteerActionError);case _:
+return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_that.assignedVolunteers,_that.assignedVolunteersStatus,_that.assignedVolunteersError,_that.volunteerActionStatus,_that.volunteerActionError);case _:
   return orElse();
 
 }
@@ -820,10 +870,10 @@ return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AppUser> volunteers,  StateStatus volunteersStatus,  String? volunteersError,  StateStatus volunteerActionStatus,  String? volunteerActionError)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<AppUser> volunteers,  StateStatus volunteersStatus,  String? volunteersError,  List<AppUser> assignedVolunteers,  StateStatus assignedVolunteersStatus,  String? assignedVolunteersError,  StateStatus volunteerActionStatus,  String? volunteerActionError)  $default,) {final _that = this;
 switch (_that) {
 case _VolunteerState():
-return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_that.volunteerActionStatus,_that.volunteerActionError);case _:
+return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_that.assignedVolunteers,_that.assignedVolunteersStatus,_that.assignedVolunteersError,_that.volunteerActionStatus,_that.volunteerActionError);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -840,10 +890,10 @@ return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AppUser> volunteers,  StateStatus volunteersStatus,  String? volunteersError,  StateStatus volunteerActionStatus,  String? volunteerActionError)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<AppUser> volunteers,  StateStatus volunteersStatus,  String? volunteersError,  List<AppUser> assignedVolunteers,  StateStatus assignedVolunteersStatus,  String? assignedVolunteersError,  StateStatus volunteerActionStatus,  String? volunteerActionError)?  $default,) {final _that = this;
 switch (_that) {
 case _VolunteerState() when $default != null:
-return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_that.volunteerActionStatus,_that.volunteerActionError);case _:
+return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_that.assignedVolunteers,_that.assignedVolunteersStatus,_that.assignedVolunteersError,_that.volunteerActionStatus,_that.volunteerActionError);case _:
   return null;
 
 }
@@ -855,7 +905,7 @@ return $default(_that.volunteers,_that.volunteersStatus,_that.volunteersError,_t
 
 
 class _VolunteerState implements VolunteerState {
-  const _VolunteerState({final  List<AppUser> volunteers = const [], this.volunteersStatus = StateStatus.initial, this.volunteersError, this.volunteerActionStatus = StateStatus.initial, this.volunteerActionError}): _volunteers = volunteers;
+  const _VolunteerState({final  List<AppUser> volunteers = const [], this.volunteersStatus = StateStatus.initial, this.volunteersError, final  List<AppUser> assignedVolunteers = const [], this.assignedVolunteersStatus = StateStatus.initial, this.assignedVolunteersError, this.volunteerActionStatus = StateStatus.initial, this.volunteerActionError}): _volunteers = volunteers,_assignedVolunteers = assignedVolunteers;
   
 
  final  List<AppUser> _volunteers;
@@ -867,6 +917,15 @@ class _VolunteerState implements VolunteerState {
 
 @override@JsonKey() final  StateStatus volunteersStatus;
 @override final  String? volunteersError;
+ final  List<AppUser> _assignedVolunteers;
+@override@JsonKey() List<AppUser> get assignedVolunteers {
+  if (_assignedVolunteers is EqualUnmodifiableListView) return _assignedVolunteers;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_assignedVolunteers);
+}
+
+@override@JsonKey() final  StateStatus assignedVolunteersStatus;
+@override final  String? assignedVolunteersError;
 @override@JsonKey() final  StateStatus volunteerActionStatus;
 @override final  String? volunteerActionError;
 
@@ -880,16 +939,16 @@ _$VolunteerStateCopyWith<_VolunteerState> get copyWith => __$VolunteerStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VolunteerState&&const DeepCollectionEquality().equals(other._volunteers, _volunteers)&&(identical(other.volunteersStatus, volunteersStatus) || other.volunteersStatus == volunteersStatus)&&(identical(other.volunteersError, volunteersError) || other.volunteersError == volunteersError)&&(identical(other.volunteerActionStatus, volunteerActionStatus) || other.volunteerActionStatus == volunteerActionStatus)&&(identical(other.volunteerActionError, volunteerActionError) || other.volunteerActionError == volunteerActionError));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VolunteerState&&const DeepCollectionEquality().equals(other._volunteers, _volunteers)&&(identical(other.volunteersStatus, volunteersStatus) || other.volunteersStatus == volunteersStatus)&&(identical(other.volunteersError, volunteersError) || other.volunteersError == volunteersError)&&const DeepCollectionEquality().equals(other._assignedVolunteers, _assignedVolunteers)&&(identical(other.assignedVolunteersStatus, assignedVolunteersStatus) || other.assignedVolunteersStatus == assignedVolunteersStatus)&&(identical(other.assignedVolunteersError, assignedVolunteersError) || other.assignedVolunteersError == assignedVolunteersError)&&(identical(other.volunteerActionStatus, volunteerActionStatus) || other.volunteerActionStatus == volunteerActionStatus)&&(identical(other.volunteerActionError, volunteerActionError) || other.volunteerActionError == volunteerActionError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_volunteers),volunteersStatus,volunteersError,volunteerActionStatus,volunteerActionError);
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_volunteers),volunteersStatus,volunteersError,const DeepCollectionEquality().hash(_assignedVolunteers),assignedVolunteersStatus,assignedVolunteersError,volunteerActionStatus,volunteerActionError);
 
 @override
 String toString() {
-  return 'VolunteerState(volunteers: $volunteers, volunteersStatus: $volunteersStatus, volunteersError: $volunteersError, volunteerActionStatus: $volunteerActionStatus, volunteerActionError: $volunteerActionError)';
+  return 'VolunteerState(volunteers: $volunteers, volunteersStatus: $volunteersStatus, volunteersError: $volunteersError, assignedVolunteers: $assignedVolunteers, assignedVolunteersStatus: $assignedVolunteersStatus, assignedVolunteersError: $assignedVolunteersError, volunteerActionStatus: $volunteerActionStatus, volunteerActionError: $volunteerActionError)';
 }
 
 
@@ -900,7 +959,7 @@ abstract mixin class _$VolunteerStateCopyWith<$Res> implements $VolunteerStateCo
   factory _$VolunteerStateCopyWith(_VolunteerState value, $Res Function(_VolunteerState) _then) = __$VolunteerStateCopyWithImpl;
 @override @useResult
 $Res call({
- List<AppUser> volunteers, StateStatus volunteersStatus, String? volunteersError, StateStatus volunteerActionStatus, String? volunteerActionError
+ List<AppUser> volunteers, StateStatus volunteersStatus, String? volunteersError, List<AppUser> assignedVolunteers, StateStatus assignedVolunteersStatus, String? assignedVolunteersError, StateStatus volunteerActionStatus, String? volunteerActionError
 });
 
 
@@ -917,11 +976,14 @@ class __$VolunteerStateCopyWithImpl<$Res>
 
 /// Create a copy of VolunteerState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? volunteers = null,Object? volunteersStatus = null,Object? volunteersError = freezed,Object? volunteerActionStatus = null,Object? volunteerActionError = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? volunteers = null,Object? volunteersStatus = null,Object? volunteersError = freezed,Object? assignedVolunteers = null,Object? assignedVolunteersStatus = null,Object? assignedVolunteersError = freezed,Object? volunteerActionStatus = null,Object? volunteerActionError = freezed,}) {
   return _then(_VolunteerState(
 volunteers: null == volunteers ? _self._volunteers : volunteers // ignore: cast_nullable_to_non_nullable
 as List<AppUser>,volunteersStatus: null == volunteersStatus ? _self.volunteersStatus : volunteersStatus // ignore: cast_nullable_to_non_nullable
 as StateStatus,volunteersError: freezed == volunteersError ? _self.volunteersError : volunteersError // ignore: cast_nullable_to_non_nullable
+as String?,assignedVolunteers: null == assignedVolunteers ? _self._assignedVolunteers : assignedVolunteers // ignore: cast_nullable_to_non_nullable
+as List<AppUser>,assignedVolunteersStatus: null == assignedVolunteersStatus ? _self.assignedVolunteersStatus : assignedVolunteersStatus // ignore: cast_nullable_to_non_nullable
+as StateStatus,assignedVolunteersError: freezed == assignedVolunteersError ? _self.assignedVolunteersError : assignedVolunteersError // ignore: cast_nullable_to_non_nullable
 as String?,volunteerActionStatus: null == volunteerActionStatus ? _self.volunteerActionStatus : volunteerActionStatus // ignore: cast_nullable_to_non_nullable
 as StateStatus,volunteerActionError: freezed == volunteerActionError ? _self.volunteerActionError : volunteerActionError // ignore: cast_nullable_to_non_nullable
 as String?,
