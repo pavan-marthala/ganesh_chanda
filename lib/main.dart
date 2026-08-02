@@ -116,6 +116,7 @@ class _MyAppState extends State<MyApp> {
           },
           authenticated: (authenticatedState) {
             final appUser = authenticatedState.user;
+            print(appUser);
             final targetRoute = switch (appUser.accountSetupStatus) {
               AccountSetupStatus.adminRegistered => AppRoutes.createCommunity,
               AccountSetupStatus.communityCreated => AppRoutes.festivalsHome,

@@ -81,6 +81,44 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
             );
           }
         },
+        loadCommunityByCodeRequested: (e) async {
+          emit(
+            state.copyWith(
+              communityLookupStatus: StateStatus.loading,
+              communityLookupError: null,
+            ),
+          );
+          try {
+            final community = await _communityRepository.getCommunityByCode(
+              e.communityCode,
+            );
+            if (community != null) {
+              emit(
+                state.copyWith(
+                  lookedUpCommunity: community,
+                  communityLookupStatus: StateStatus.loaded,
+                  communityLookupError: null,
+                ),
+              );
+            } else {
+              emit(
+                state.copyWith(
+                  lookedUpCommunity: null,
+                  communityLookupStatus: StateStatus.empty,
+                  communityLookupError: 'Community code not found.',
+                ),
+              );
+            }
+          } catch (error) {
+            final errorMessage = error.toString().replaceFirst('Exception: ', '');
+            emit(
+              state.copyWith(
+                communityLookupStatus: StateStatus.error,
+                communityLookupError: errorMessage,
+              ),
+            );
+          }
+        },
       );
     });
   }

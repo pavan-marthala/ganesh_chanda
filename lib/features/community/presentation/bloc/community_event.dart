@@ -8,4 +8,8 @@ class CommunityEvent with _$CommunityEvent {
 
   const factory CommunityEvent.loadCurrentCommunityRequested() =
       _LoadCurrentCommunityRequested;
+
+  const factory CommunityEvent.loadCommunityByCodeRequested({
+    required String communityCode,
+  }) = _LoadCommunityByCodeRequested;
 }

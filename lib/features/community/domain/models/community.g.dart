@@ -10,6 +10,7 @@ _Community _$CommunityFromJson(Map<String, dynamic> json) => _Community(
   id: json['id'] as String? ?? '',
   name: json['name'] as String? ?? '',
   description: json['description'] as String? ?? '',
+  communityCode: json['communityCode'] as String? ?? '',
   logoUrl: json['logoUrl'] as String?,
   address: json['address'] == null
       ? null
@@ -31,6 +32,7 @@ Map<String, dynamic> _$CommunityToJson(_Community instance) =>
       'id': instance.id,
       'name': instance.name,
       'description': instance.description,
+      'communityCode': instance.communityCode,
       'logoUrl': instance.logoUrl,
       'address': instance.address?.toJson(),
       'contact': instance.contact?.toJson(),

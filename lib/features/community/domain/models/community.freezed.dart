@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Community {
 
- String get id; String get name; String get description; String? get logoUrl; Address? get address; Contact? get contact; String get createdBy; DateTime? get createdAt; DateTime? get updatedAt;
+ String get id; String get name; String get description; String get communityCode; String? get logoUrl; Address? get address; Contact? get contact; String get createdBy; DateTime? get createdAt; DateTime? get updatedAt;
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CommunityCopyWith<Community> get copyWith => _$CommunityCopyWithImpl<Community>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Community&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.address, address) || other.address == address)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Community&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.communityCode, communityCode) || other.communityCode == communityCode)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.address, address) || other.address == address)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,logoUrl,address,contact,createdBy,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,description,communityCode,logoUrl,address,contact,createdBy,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Community(id: $id, name: $name, description: $description, logoUrl: $logoUrl, address: $address, contact: $contact, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Community(id: $id, name: $name, description: $description, communityCode: $communityCode, logoUrl: $logoUrl, address: $address, contact: $contact, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CommunityCopyWith<$Res>  {
   factory $CommunityCopyWith(Community value, $Res Function(Community) _then) = _$CommunityCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String description, String? logoUrl, Address? address, Contact? contact, String createdBy, DateTime? createdAt, DateTime? updatedAt
+ String id, String name, String description, String communityCode, String? logoUrl, Address? address, Contact? contact, String createdBy, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -65,11 +65,12 @@ class _$CommunityCopyWithImpl<$Res>
 
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? logoUrl = freezed,Object? address = freezed,Object? contact = freezed,Object? createdBy = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = null,Object? communityCode = null,Object? logoUrl = freezed,Object? address = freezed,Object? contact = freezed,Object? createdBy = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,communityCode: null == communityCode ? _self.communityCode : communityCode // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
 as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as Address?,contact: freezed == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
@@ -185,10 +186,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String communityCode,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Community() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.description,_that.communityCode,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -206,10 +207,10 @@ return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.addres
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String description,  String communityCode,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _Community():
-return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.description,_that.communityCode,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -226,10 +227,10 @@ return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.addres
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String description,  String communityCode,  String? logoUrl,  Address? address,  Contact? contact,  String createdBy,  DateTime? createdAt,  DateTime? updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _Community() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
+return $default(_that.id,_that.name,_that.description,_that.communityCode,_that.logoUrl,_that.address,_that.contact,_that.createdBy,_that.createdAt,_that.updatedAt);case _:
   return null;
 
 }
@@ -241,12 +242,13 @@ return $default(_that.id,_that.name,_that.description,_that.logoUrl,_that.addres
 
 @JsonSerializable(explicitToJson: true)
 class _Community implements Community {
-  const _Community({this.id = '', this.name = '', this.description = '', this.logoUrl, this.address, this.contact, this.createdBy = '', this.createdAt, this.updatedAt});
+  const _Community({this.id = '', this.name = '', this.description = '', this.communityCode = '', this.logoUrl, this.address, this.contact, this.createdBy = '', this.createdAt, this.updatedAt});
   factory _Community.fromJson(Map<String, dynamic> json) => _$CommunityFromJson(json);
 
 @override@JsonKey() final  String id;
 @override@JsonKey() final  String name;
 @override@JsonKey() final  String description;
+@override@JsonKey() final  String communityCode;
 @override final  String? logoUrl;
 @override final  Address? address;
 @override final  Contact? contact;
@@ -267,16 +269,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Community&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.address, address) || other.address == address)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Community&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.communityCode, communityCode) || other.communityCode == communityCode)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.address, address) || other.address == address)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.createdBy, createdBy) || other.createdBy == createdBy)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,logoUrl,address,contact,createdBy,createdAt,updatedAt);
+int get hashCode => Object.hash(runtimeType,id,name,description,communityCode,logoUrl,address,contact,createdBy,createdAt,updatedAt);
 
 @override
 String toString() {
-  return 'Community(id: $id, name: $name, description: $description, logoUrl: $logoUrl, address: $address, contact: $contact, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
+  return 'Community(id: $id, name: $name, description: $description, communityCode: $communityCode, logoUrl: $logoUrl, address: $address, contact: $contact, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt)';
 }
 
 
@@ -287,7 +289,7 @@ abstract mixin class _$CommunityCopyWith<$Res> implements $CommunityCopyWith<$Re
   factory _$CommunityCopyWith(_Community value, $Res Function(_Community) _then) = __$CommunityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String description, String? logoUrl, Address? address, Contact? contact, String createdBy, DateTime? createdAt, DateTime? updatedAt
+ String id, String name, String description, String communityCode, String? logoUrl, Address? address, Contact? contact, String createdBy, DateTime? createdAt, DateTime? updatedAt
 });
 
 
@@ -304,11 +306,12 @@ class __$CommunityCopyWithImpl<$Res>
 
 /// Create a copy of Community
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? logoUrl = freezed,Object? address = freezed,Object? contact = freezed,Object? createdBy = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = null,Object? communityCode = null,Object? logoUrl = freezed,Object? address = freezed,Object? contact = freezed,Object? createdBy = null,Object? createdAt = freezed,Object? updatedAt = freezed,}) {
   return _then(_Community(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String,communityCode: null == communityCode ? _self.communityCode : communityCode // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
 as String?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as Address?,contact: freezed == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable

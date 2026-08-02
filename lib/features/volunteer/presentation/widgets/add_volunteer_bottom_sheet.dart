@@ -83,7 +83,7 @@ class _AddVolunteerBottomSheetState extends State<AddVolunteerBottomSheet> {
         parameters: {
           "volunteer_name": name,
           "volunteer_email": email,
-          "community_id": community.id,
+          "community_id": community.communityCode,
           "community_name": community.name,
           "community_initials": getInitials(community.name),
           "community_city": community.address?.city ?? "",

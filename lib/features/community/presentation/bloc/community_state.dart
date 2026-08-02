@@ -6,5 +6,8 @@ abstract class CommunityState with _$CommunityState {
     Community? community,
     @Default(StateStatus.initial) StateStatus communityStatus,
     String? communityError,
+    Community? lookedUpCommunity,
+    @Default(StateStatus.initial) StateStatus communityLookupStatus,
+    String? communityLookupError,
   }) = _CommunityState;
 }

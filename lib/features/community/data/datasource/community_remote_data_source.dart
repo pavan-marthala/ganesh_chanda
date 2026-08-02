@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -7,6 +8,7 @@ import '../../domain/models/community.dart';
 abstract class CommunityRemoteDataSource {
   Future<Community> createCommunity(Community community);
   Future<Community?> getCurrentUserCommunity();
+  Future<Community?> getCommunityByCode(String communityCode);
 }
 
 @LazySingleton(as: CommunityRemoteDataSource)
@@ -15,6 +17,34 @@ class CommunityRemoteDataSourceImpl implements CommunityRemoteDataSource {
   final FirebaseAuth _firebaseAuth;
 
   CommunityRemoteDataSourceImpl(this._firestore, this._firebaseAuth);
+
+  String _generateCommunityCode(String documentId) {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    final bytes = utf8.encode(documentId);
+
+    // Pure deterministic 6-character string from documentId bytes
+    int hash1 = 5381;
+    int hash2 = 0;
+    for (final b in bytes) {
+      hash1 = ((hash1 << 5) + hash1) ^ b;
+      hash2 = ((hash2 << 7) + hash2) ^ b;
+    }
+
+    final code = StringBuffer();
+    var val1 = hash1.abs();
+    var val2 = hash2.abs();
+
+    for (var i = 0; i < 3; i++) {
+      code.write(chars[val1 % chars.length]);
+      val1 = (val1 / chars.length).floor();
+    }
+    for (var i = 0; i < 3; i++) {
+      code.write(chars[val2 % chars.length]);
+      val2 = (val2 / chars.length).floor();
+    }
+
+    return code.toString().padRight(6, 'X').substring(0, 6);
+  }
 
   @override
   Future<Community> createCommunity(Community community) async {
@@ -25,22 +55,22 @@ class CommunityRemoteDataSourceImpl implements CommunityRemoteDataSource {
 
     final docRef = _firestore.collection('communities').doc();
     final now = DateTime.now();
+    final communityCode = _generateCommunityCode(docRef.id);
 
     final fullCommunity = community.copyWith(
       id: docRef.id,
+      communityCode: communityCode,
       createdBy: user.uid,
       createdAt: now,
       updatedAt: now,
     );
 
     final jsonMap = fullCommunity.toJson();
-    // Convert DateTime fields for Firestore compatibility
     jsonMap['createdAt'] = Timestamp.fromDate(now);
     jsonMap['updatedAt'] = Timestamp.fromDate(now);
 
     await docRef.set(jsonMap);
 
-    // Also update current user doc with communityId & onboarding state
     await _firestore.collection('users').doc(user.uid).update({
       'communityId': docRef.id,
       'onboardingState': 'COMMUNITY_CREATED',
@@ -61,14 +91,33 @@ class CommunityRemoteDataSourceImpl implements CommunityRemoteDataSource {
     final communityId = userDoc.data()!['communityId'] as String?;
     if (communityId == null || communityId.isEmpty) return null;
 
-    final communityDoc = await _firestore
-        .collection('communities')
-        .doc(communityId)
-        .get();
+    final communityDoc =
+        await _firestore.collection('communities').doc(communityId).get();
     if (!communityDoc.exists || communityDoc.data() == null) return null;
 
     final data = communityDoc.data()!;
-    // Convert Timestamp to ISO String for JsonSerializable parsing
+    _convertTimestamps(data);
+
+    return Community.fromJson(data);
+  }
+
+  @override
+  Future<Community?> getCommunityByCode(String communityCode) async {
+    final querySnapshot = await _firestore
+        .collection('communities')
+        .where('communityCode', isEqualTo: communityCode.toUpperCase().trim())
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) return null;
+
+    final data = querySnapshot.docs.first.data();
+    _convertTimestamps(data);
+
+    return Community.fromJson(data);
+  }
+
+  void _convertTimestamps(Map<String, dynamic> data) {
     if (data['createdAt'] is Timestamp) {
       data['createdAt'] = (data['createdAt'] as Timestamp)
           .toDate()
@@ -79,7 +128,5 @@ class CommunityRemoteDataSourceImpl implements CommunityRemoteDataSource {
           .toDate()
           .toIso8601String();
     }
-
-    return Community.fromJson(data);
   }
 }

@@ -55,12 +55,13 @@ extension CommunityEventPatterns on CommunityEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _CreateCommunityRequested value)?  createCommunityRequested,TResult Function( _LoadCurrentCommunityRequested value)?  loadCurrentCommunityRequested,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _CreateCommunityRequested value)?  createCommunityRequested,TResult Function( _LoadCurrentCommunityRequested value)?  loadCurrentCommunityRequested,TResult Function( _LoadCommunityByCodeRequested value)?  loadCommunityByCodeRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _CreateCommunityRequested() when createCommunityRequested != null:
 return createCommunityRequested(_that);case _LoadCurrentCommunityRequested() when loadCurrentCommunityRequested != null:
-return loadCurrentCommunityRequested(_that);case _:
+return loadCurrentCommunityRequested(_that);case _LoadCommunityByCodeRequested() when loadCommunityByCodeRequested != null:
+return loadCommunityByCodeRequested(_that);case _:
   return orElse();
 
 }
@@ -78,12 +79,13 @@ return loadCurrentCommunityRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _CreateCommunityRequested value)  createCommunityRequested,required TResult Function( _LoadCurrentCommunityRequested value)  loadCurrentCommunityRequested,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _CreateCommunityRequested value)  createCommunityRequested,required TResult Function( _LoadCurrentCommunityRequested value)  loadCurrentCommunityRequested,required TResult Function( _LoadCommunityByCodeRequested value)  loadCommunityByCodeRequested,}){
 final _that = this;
 switch (_that) {
 case _CreateCommunityRequested():
 return createCommunityRequested(_that);case _LoadCurrentCommunityRequested():
-return loadCurrentCommunityRequested(_that);case _:
+return loadCurrentCommunityRequested(_that);case _LoadCommunityByCodeRequested():
+return loadCommunityByCodeRequested(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -100,12 +102,13 @@ return loadCurrentCommunityRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _CreateCommunityRequested value)?  createCommunityRequested,TResult? Function( _LoadCurrentCommunityRequested value)?  loadCurrentCommunityRequested,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _CreateCommunityRequested value)?  createCommunityRequested,TResult? Function( _LoadCurrentCommunityRequested value)?  loadCurrentCommunityRequested,TResult? Function( _LoadCommunityByCodeRequested value)?  loadCommunityByCodeRequested,}){
 final _that = this;
 switch (_that) {
 case _CreateCommunityRequested() when createCommunityRequested != null:
 return createCommunityRequested(_that);case _LoadCurrentCommunityRequested() when loadCurrentCommunityRequested != null:
-return loadCurrentCommunityRequested(_that);case _:
+return loadCurrentCommunityRequested(_that);case _LoadCommunityByCodeRequested() when loadCommunityByCodeRequested != null:
+return loadCommunityByCodeRequested(_that);case _:
   return null;
 
 }
@@ -122,11 +125,12 @@ return loadCurrentCommunityRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( Community community)?  createCommunityRequested,TResult Function()?  loadCurrentCommunityRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( Community community)?  createCommunityRequested,TResult Function()?  loadCurrentCommunityRequested,TResult Function( String communityCode)?  loadCommunityByCodeRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateCommunityRequested() when createCommunityRequested != null:
 return createCommunityRequested(_that.community);case _LoadCurrentCommunityRequested() when loadCurrentCommunityRequested != null:
-return loadCurrentCommunityRequested();case _:
+return loadCurrentCommunityRequested();case _LoadCommunityByCodeRequested() when loadCommunityByCodeRequested != null:
+return loadCommunityByCodeRequested(_that.communityCode);case _:
   return orElse();
 
 }
@@ -144,11 +148,12 @@ return loadCurrentCommunityRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( Community community)  createCommunityRequested,required TResult Function()  loadCurrentCommunityRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( Community community)  createCommunityRequested,required TResult Function()  loadCurrentCommunityRequested,required TResult Function( String communityCode)  loadCommunityByCodeRequested,}) {final _that = this;
 switch (_that) {
 case _CreateCommunityRequested():
 return createCommunityRequested(_that.community);case _LoadCurrentCommunityRequested():
-return loadCurrentCommunityRequested();case _:
+return loadCurrentCommunityRequested();case _LoadCommunityByCodeRequested():
+return loadCommunityByCodeRequested(_that.communityCode);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -165,11 +170,12 @@ return loadCurrentCommunityRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( Community community)?  createCommunityRequested,TResult? Function()?  loadCurrentCommunityRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( Community community)?  createCommunityRequested,TResult? Function()?  loadCurrentCommunityRequested,TResult? Function( String communityCode)?  loadCommunityByCodeRequested,}) {final _that = this;
 switch (_that) {
 case _CreateCommunityRequested() when createCommunityRequested != null:
 return createCommunityRequested(_that.community);case _LoadCurrentCommunityRequested() when loadCurrentCommunityRequested != null:
-return loadCurrentCommunityRequested();case _:
+return loadCurrentCommunityRequested();case _LoadCommunityByCodeRequested() when loadCommunityByCodeRequested != null:
+return loadCommunityByCodeRequested(_that.communityCode);case _:
   return null;
 
 }
@@ -285,9 +291,75 @@ String toString() {
 
 
 /// @nodoc
+
+
+class _LoadCommunityByCodeRequested implements CommunityEvent {
+  const _LoadCommunityByCodeRequested({required this.communityCode});
+  
+
+ final  String communityCode;
+
+/// Create a copy of CommunityEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadCommunityByCodeRequestedCopyWith<_LoadCommunityByCodeRequested> get copyWith => __$LoadCommunityByCodeRequestedCopyWithImpl<_LoadCommunityByCodeRequested>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadCommunityByCodeRequested&&(identical(other.communityCode, communityCode) || other.communityCode == communityCode));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,communityCode);
+
+@override
+String toString() {
+  return 'CommunityEvent.loadCommunityByCodeRequested(communityCode: $communityCode)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$LoadCommunityByCodeRequestedCopyWith<$Res> implements $CommunityEventCopyWith<$Res> {
+  factory _$LoadCommunityByCodeRequestedCopyWith(_LoadCommunityByCodeRequested value, $Res Function(_LoadCommunityByCodeRequested) _then) = __$LoadCommunityByCodeRequestedCopyWithImpl;
+@useResult
+$Res call({
+ String communityCode
+});
+
+
+
+
+}
+/// @nodoc
+class __$LoadCommunityByCodeRequestedCopyWithImpl<$Res>
+    implements _$LoadCommunityByCodeRequestedCopyWith<$Res> {
+  __$LoadCommunityByCodeRequestedCopyWithImpl(this._self, this._then);
+
+  final _LoadCommunityByCodeRequested _self;
+  final $Res Function(_LoadCommunityByCodeRequested) _then;
+
+/// Create a copy of CommunityEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? communityCode = null,}) {
+  return _then(_LoadCommunityByCodeRequested(
+communityCode: null == communityCode ? _self.communityCode : communityCode // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$CommunityState {
 
- Community? get community; StateStatus get communityStatus; String? get communityError;
+ Community? get community; StateStatus get communityStatus; String? get communityError; Community? get lookedUpCommunity; StateStatus get communityLookupStatus; String? get communityLookupError;
 /// Create a copy of CommunityState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -298,16 +370,16 @@ $CommunityStateCopyWith<CommunityState> get copyWith => _$CommunityStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityState&&(identical(other.community, community) || other.community == community)&&(identical(other.communityStatus, communityStatus) || other.communityStatus == communityStatus)&&(identical(other.communityError, communityError) || other.communityError == communityError));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommunityState&&(identical(other.community, community) || other.community == community)&&(identical(other.communityStatus, communityStatus) || other.communityStatus == communityStatus)&&(identical(other.communityError, communityError) || other.communityError == communityError)&&(identical(other.lookedUpCommunity, lookedUpCommunity) || other.lookedUpCommunity == lookedUpCommunity)&&(identical(other.communityLookupStatus, communityLookupStatus) || other.communityLookupStatus == communityLookupStatus)&&(identical(other.communityLookupError, communityLookupError) || other.communityLookupError == communityLookupError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,community,communityStatus,communityError);
+int get hashCode => Object.hash(runtimeType,community,communityStatus,communityError,lookedUpCommunity,communityLookupStatus,communityLookupError);
 
 @override
 String toString() {
-  return 'CommunityState(community: $community, communityStatus: $communityStatus, communityError: $communityError)';
+  return 'CommunityState(community: $community, communityStatus: $communityStatus, communityError: $communityError, lookedUpCommunity: $lookedUpCommunity, communityLookupStatus: $communityLookupStatus, communityLookupError: $communityLookupError)';
 }
 
 
@@ -318,11 +390,11 @@ abstract mixin class $CommunityStateCopyWith<$Res>  {
   factory $CommunityStateCopyWith(CommunityState value, $Res Function(CommunityState) _then) = _$CommunityStateCopyWithImpl;
 @useResult
 $Res call({
- Community? community, StateStatus communityStatus, String? communityError
+ Community? community, StateStatus communityStatus, String? communityError, Community? lookedUpCommunity, StateStatus communityLookupStatus, String? communityLookupError
 });
 
 
-$CommunityCopyWith<$Res>? get community;
+$CommunityCopyWith<$Res>? get community;$CommunityCopyWith<$Res>? get lookedUpCommunity;
 
 }
 /// @nodoc
@@ -335,11 +407,14 @@ class _$CommunityStateCopyWithImpl<$Res>
 
 /// Create a copy of CommunityState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? community = freezed,Object? communityStatus = null,Object? communityError = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? community = freezed,Object? communityStatus = null,Object? communityError = freezed,Object? lookedUpCommunity = freezed,Object? communityLookupStatus = null,Object? communityLookupError = freezed,}) {
   return _then(_self.copyWith(
 community: freezed == community ? _self.community : community // ignore: cast_nullable_to_non_nullable
 as Community?,communityStatus: null == communityStatus ? _self.communityStatus : communityStatus // ignore: cast_nullable_to_non_nullable
 as StateStatus,communityError: freezed == communityError ? _self.communityError : communityError // ignore: cast_nullable_to_non_nullable
+as String?,lookedUpCommunity: freezed == lookedUpCommunity ? _self.lookedUpCommunity : lookedUpCommunity // ignore: cast_nullable_to_non_nullable
+as Community?,communityLookupStatus: null == communityLookupStatus ? _self.communityLookupStatus : communityLookupStatus // ignore: cast_nullable_to_non_nullable
+as StateStatus,communityLookupError: freezed == communityLookupError ? _self.communityLookupError : communityLookupError // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -354,6 +429,18 @@ $CommunityCopyWith<$Res>? get community {
 
   return $CommunityCopyWith<$Res>(_self.community!, (value) {
     return _then(_self.copyWith(community: value));
+  });
+}/// Create a copy of CommunityState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CommunityCopyWith<$Res>? get lookedUpCommunity {
+    if (_self.lookedUpCommunity == null) {
+    return null;
+  }
+
+  return $CommunityCopyWith<$Res>(_self.lookedUpCommunity!, (value) {
+    return _then(_self.copyWith(lookedUpCommunity: value));
   });
 }
 }
@@ -437,10 +524,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Community? community,  StateStatus communityStatus,  String? communityError)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Community? community,  StateStatus communityStatus,  String? communityError,  Community? lookedUpCommunity,  StateStatus communityLookupStatus,  String? communityLookupError)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CommunityState() when $default != null:
-return $default(_that.community,_that.communityStatus,_that.communityError);case _:
+return $default(_that.community,_that.communityStatus,_that.communityError,_that.lookedUpCommunity,_that.communityLookupStatus,_that.communityLookupError);case _:
   return orElse();
 
 }
@@ -458,10 +545,10 @@ return $default(_that.community,_that.communityStatus,_that.communityError);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Community? community,  StateStatus communityStatus,  String? communityError)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Community? community,  StateStatus communityStatus,  String? communityError,  Community? lookedUpCommunity,  StateStatus communityLookupStatus,  String? communityLookupError)  $default,) {final _that = this;
 switch (_that) {
 case _CommunityState():
-return $default(_that.community,_that.communityStatus,_that.communityError);case _:
+return $default(_that.community,_that.communityStatus,_that.communityError,_that.lookedUpCommunity,_that.communityLookupStatus,_that.communityLookupError);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -478,10 +565,10 @@ return $default(_that.community,_that.communityStatus,_that.communityError);case
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Community? community,  StateStatus communityStatus,  String? communityError)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Community? community,  StateStatus communityStatus,  String? communityError,  Community? lookedUpCommunity,  StateStatus communityLookupStatus,  String? communityLookupError)?  $default,) {final _that = this;
 switch (_that) {
 case _CommunityState() when $default != null:
-return $default(_that.community,_that.communityStatus,_that.communityError);case _:
+return $default(_that.community,_that.communityStatus,_that.communityError,_that.lookedUpCommunity,_that.communityLookupStatus,_that.communityLookupError);case _:
   return null;
 
 }
@@ -493,12 +580,15 @@ return $default(_that.community,_that.communityStatus,_that.communityError);case
 
 
 class _CommunityState implements CommunityState {
-  const _CommunityState({this.community, this.communityStatus = StateStatus.initial, this.communityError});
+  const _CommunityState({this.community, this.communityStatus = StateStatus.initial, this.communityError, this.lookedUpCommunity, this.communityLookupStatus = StateStatus.initial, this.communityLookupError});
   
 
 @override final  Community? community;
 @override@JsonKey() final  StateStatus communityStatus;
 @override final  String? communityError;
+@override final  Community? lookedUpCommunity;
+@override@JsonKey() final  StateStatus communityLookupStatus;
+@override final  String? communityLookupError;
 
 /// Create a copy of CommunityState
 /// with the given fields replaced by the non-null parameter values.
@@ -510,16 +600,16 @@ _$CommunityStateCopyWith<_CommunityState> get copyWith => __$CommunityStateCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityState&&(identical(other.community, community) || other.community == community)&&(identical(other.communityStatus, communityStatus) || other.communityStatus == communityStatus)&&(identical(other.communityError, communityError) || other.communityError == communityError));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CommunityState&&(identical(other.community, community) || other.community == community)&&(identical(other.communityStatus, communityStatus) || other.communityStatus == communityStatus)&&(identical(other.communityError, communityError) || other.communityError == communityError)&&(identical(other.lookedUpCommunity, lookedUpCommunity) || other.lookedUpCommunity == lookedUpCommunity)&&(identical(other.communityLookupStatus, communityLookupStatus) || other.communityLookupStatus == communityLookupStatus)&&(identical(other.communityLookupError, communityLookupError) || other.communityLookupError == communityLookupError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,community,communityStatus,communityError);
+int get hashCode => Object.hash(runtimeType,community,communityStatus,communityError,lookedUpCommunity,communityLookupStatus,communityLookupError);
 
 @override
 String toString() {
-  return 'CommunityState(community: $community, communityStatus: $communityStatus, communityError: $communityError)';
+  return 'CommunityState(community: $community, communityStatus: $communityStatus, communityError: $communityError, lookedUpCommunity: $lookedUpCommunity, communityLookupStatus: $communityLookupStatus, communityLookupError: $communityLookupError)';
 }
 
 
@@ -530,11 +620,11 @@ abstract mixin class _$CommunityStateCopyWith<$Res> implements $CommunityStateCo
   factory _$CommunityStateCopyWith(_CommunityState value, $Res Function(_CommunityState) _then) = __$CommunityStateCopyWithImpl;
 @override @useResult
 $Res call({
- Community? community, StateStatus communityStatus, String? communityError
+ Community? community, StateStatus communityStatus, String? communityError, Community? lookedUpCommunity, StateStatus communityLookupStatus, String? communityLookupError
 });
 
 
-@override $CommunityCopyWith<$Res>? get community;
+@override $CommunityCopyWith<$Res>? get community;@override $CommunityCopyWith<$Res>? get lookedUpCommunity;
 
 }
 /// @nodoc
@@ -547,11 +637,14 @@ class __$CommunityStateCopyWithImpl<$Res>
 
 /// Create a copy of CommunityState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? community = freezed,Object? communityStatus = null,Object? communityError = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? community = freezed,Object? communityStatus = null,Object? communityError = freezed,Object? lookedUpCommunity = freezed,Object? communityLookupStatus = null,Object? communityLookupError = freezed,}) {
   return _then(_CommunityState(
 community: freezed == community ? _self.community : community // ignore: cast_nullable_to_non_nullable
 as Community?,communityStatus: null == communityStatus ? _self.communityStatus : communityStatus // ignore: cast_nullable_to_non_nullable
 as StateStatus,communityError: freezed == communityError ? _self.communityError : communityError // ignore: cast_nullable_to_non_nullable
+as String?,lookedUpCommunity: freezed == lookedUpCommunity ? _self.lookedUpCommunity : lookedUpCommunity // ignore: cast_nullable_to_non_nullable
+as Community?,communityLookupStatus: null == communityLookupStatus ? _self.communityLookupStatus : communityLookupStatus // ignore: cast_nullable_to_non_nullable
+as StateStatus,communityLookupError: freezed == communityLookupError ? _self.communityLookupError : communityLookupError // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -567,6 +660,18 @@ $CommunityCopyWith<$Res>? get community {
 
   return $CommunityCopyWith<$Res>(_self.community!, (value) {
     return _then(_self.copyWith(community: value));
+  });
+}/// Create a copy of CommunityState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CommunityCopyWith<$Res>? get lookedUpCommunity {
+    if (_self.lookedUpCommunity == null) {
+    return null;
+  }
+
+  return $CommunityCopyWith<$Res>(_self.lookedUpCommunity!, (value) {
+    return _then(_self.copyWith(lookedUpCommunity: value));
   });
 }
 }

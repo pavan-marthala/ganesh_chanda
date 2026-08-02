@@ -19,4 +19,9 @@ class CommunityRepositoryImpl implements CommunityRepository {
   Future<Community?> getCurrentUserCommunity() async {
     return await _remoteDataSource.getCurrentUserCommunity();
   }
+
+  @override
+  Future<Community?> getCommunityByCode(String communityCode) async {
+    return await _remoteDataSource.getCommunityByCode(communityCode);
+  }
 }

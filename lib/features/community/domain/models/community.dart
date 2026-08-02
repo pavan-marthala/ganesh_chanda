@@ -12,6 +12,7 @@ abstract class Community with _$Community {
     @Default('') String id,
     @Default('') String name,
     @Default('') String description,
+    @Default('') String communityCode,
     String? logoUrl,
     Address? address,
     Contact? contact,
@@ -19,7 +20,7 @@ abstract class Community with _$Community {
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _Community;
-  //
+
   factory Community.fromJson(Map<String, dynamic> json) =>
       _$CommunityFromJson(json);
 }
