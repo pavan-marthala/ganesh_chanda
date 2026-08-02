@@ -198,13 +198,34 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
               festivalId: e.festivalId,
               volunteerId: e.volunteerId,
             );
-            emit(
-              state.copyWith(
-                festivalActionStatus: StateStatus.loaded,
-                festivalActionError: null,
-              ),
-            );
-            add(FestivalEvent.loadFestivalsRequested(e.communityId));
+            final currentFestival = state.festival;
+            if (currentFestival != null && currentFestival.id == e.festivalId) {
+              final updatedAssignedIds = [
+                ...currentFestival.assignedVolunteerIds,
+                if (!currentFestival.assignedVolunteerIds.contains(e.volunteerId))
+                  e.volunteerId,
+              ];
+              final updatedFestival = currentFestival.copyWith(
+                assignedVolunteerIds: updatedAssignedIds,
+              );
+              emit(
+                state.copyWith(
+                  festival: updatedFestival,
+                  festivalActionStatus: StateStatus.loaded,
+                  festivalActionError: null,
+                ),
+              );
+            } else {
+              emit(
+                state.copyWith(
+                  festivalActionStatus: StateStatus.loaded,
+                  festivalActionError: null,
+                ),
+              );
+            }
+            if (e.communityId.isNotEmpty) {
+              add(FestivalEvent.loadFestivalsRequested(e.communityId));
+            }
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
               'Exception: ',
@@ -230,13 +251,32 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
               festivalId: e.festivalId,
               volunteerId: e.volunteerId,
             );
-            emit(
-              state.copyWith(
-                festivalActionStatus: StateStatus.loaded,
-                festivalActionError: null,
-              ),
-            );
-            add(FestivalEvent.loadFestivalsRequested(e.communityId));
+            final currentFestival = state.festival;
+            if (currentFestival != null && currentFestival.id == e.festivalId) {
+              final updatedAssignedIds = currentFestival.assignedVolunteerIds
+                  .where((id) => id != e.volunteerId)
+                  .toList();
+              final updatedFestival = currentFestival.copyWith(
+                assignedVolunteerIds: updatedAssignedIds,
+              );
+              emit(
+                state.copyWith(
+                  festival: updatedFestival,
+                  festivalActionStatus: StateStatus.loaded,
+                  festivalActionError: null,
+                ),
+              );
+            } else {
+              emit(
+                state.copyWith(
+                  festivalActionStatus: StateStatus.loaded,
+                  festivalActionError: null,
+                ),
+              );
+            }
+            if (e.communityId.isNotEmpty) {
+              add(FestivalEvent.loadFestivalsRequested(e.communityId));
+            }
           } catch (error) {
             final errorMessage = error.toString().replaceFirst(
               'Exception: ',

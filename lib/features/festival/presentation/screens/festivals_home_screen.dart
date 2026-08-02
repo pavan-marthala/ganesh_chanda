@@ -411,9 +411,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
 
     return GestureDetector(
       onTap: () {
-        final isReady =
-            festival.assignedVolunteerIds.isNotEmpty &&
-            festival.totalDonationCount > 0;
+        final isReady = festival.assignedVolunteerIds.isNotEmpty;
         if (isReady) {
           context.push(AppRoutes.dashboard, extra: festival.id);
           return;

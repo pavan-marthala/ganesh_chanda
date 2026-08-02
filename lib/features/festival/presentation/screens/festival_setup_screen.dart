@@ -9,6 +9,7 @@ import 'package:ganesh_chanda/features/community/presentation/bloc/community_blo
 import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
+import 'package:ganesh_chanda/features/festival/presentation/widgets/assign_volunteers_bottom_sheet.dart';
 import 'package:ganesh_chanda/features/volunteer/presentation/bloc/volunteer_bloc.dart';
 import 'package:ganesh_chanda/features/volunteer/presentation/widgets/add_volunteer_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
@@ -136,7 +137,9 @@ class _FestivalSetupScreenState extends State<FestivalSetupScreen> {
                     : festival;
                 double volunteersProgress = volunteers.isNotEmpty ? 0.25 : 0.0;
                 double assignedVolunteersProgress =
-                    (displayFestival?.totalDonationCount ?? 0) > 0 ? 0.25 : 0.0;
+                    (displayFestival?.assignedVolunteerIds.isNotEmpty ?? false)
+                    ? 0.25
+                    : 0.0;
                 final progress =
                     0.5 + volunteersProgress + assignedVolunteersProgress;
                 return Scaffold(
@@ -243,7 +246,9 @@ class _FestivalSetupScreenState extends State<FestivalSetupScreen> {
                                     onTap: volunteersProgress == 0.25
                                         ? null
                                         : () {
-                                            AddVolunteerBottomSheet.show(context);
+                                            AddVolunteerBottomSheet.show(
+                                              context,
+                                            );
                                           },
                                   ),
                                   _buildChecklistItem(
@@ -256,7 +261,12 @@ class _FestivalSetupScreenState extends State<FestivalSetupScreen> {
                                     isLast: true,
                                     onTap: assignedVolunteersProgress == 0.25
                                         ? null
-                                        : () {},
+                                        : () {
+                                            AssignVolunteersBottomSheet.show(
+                                              context,
+                                              displayFestival!,
+                                            );
+                                          },
                                   ),
                                 ],
                               ),
