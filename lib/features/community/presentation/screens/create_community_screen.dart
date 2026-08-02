@@ -139,7 +139,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
         if (state.communityStatus == StateStatus.loaded &&
             _prevStatus != StateStatus.loaded) {
           HapticFeedback.lightImpact();
-          context.push(AppRoutes.festivalsHome);
+          context.pushReplacement(AppRoutes.festivalsHome);
         }
         _prevStatus = state.communityStatus;
         _prevError = state.communityError;
