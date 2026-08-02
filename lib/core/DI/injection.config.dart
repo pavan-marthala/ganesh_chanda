@@ -35,6 +35,12 @@ import 'package:ganesh_chanda/features/community/domain/repository/community_rep
     as _i836;
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart'
     as _i661;
+import 'package:ganesh_chanda/features/donation/data/datasource/donation_remote_data_source.dart'
+    as _i681;
+import 'package:ganesh_chanda/features/donation/data/repository_impl/donation_repository_impl.dart'
+    as _i721;
+import 'package:ganesh_chanda/features/donation/domain/repository/donation_repository.dart'
+    as _i1052;
 import 'package:ganesh_chanda/features/festival/data/datasource/festival_remote_data_source.dart'
     as _i820;
 import 'package:ganesh_chanda/features/festival/data/repository_impl/festival_repository_impl.dart'
@@ -69,6 +75,12 @@ extension GetItInjectableX on _i174.GetIt {
       () => firebaseModule.firebaseFirestore,
     );
     gh.lazySingleton<_i307.EmailService>(() => _i307.EmailService());
+    gh.lazySingleton<_i681.DonationRemoteDataSource>(
+      () => _i681.DonationRemoteDataSourceImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
+    );
     gh.lazySingleton<_i900.CommunityRemoteDataSource>(
       () => _i900.CommunityRemoteDataSourceImpl(
         gh<_i974.FirebaseFirestore>(),
@@ -89,6 +101,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i974.FirebaseFirestore>(),
         gh<_i59.FirebaseAuth>(),
       ),
+    );
+    gh.lazySingleton<_i1052.DonationRepository>(
+      () => _i721.DonationRepositoryImpl(gh<_i681.DonationRemoteDataSource>()),
     );
     gh.lazySingleton<_i444.AuthRepository>(
       () => _i299.AuthRepositoryImpl(gh<_i428.AuthRemoteDataSource>()),
