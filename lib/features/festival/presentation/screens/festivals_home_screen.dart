@@ -518,7 +518,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${festival.totalVolunteerCount}',
+                      '${festival.assignedVolunteerIds.length}',
                       style: typography.titleLarge.copyWith(
                         fontWeight: FontWeight.w800,
                         color: Colors.white,

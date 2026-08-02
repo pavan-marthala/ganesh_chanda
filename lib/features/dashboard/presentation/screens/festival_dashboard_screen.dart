@@ -129,7 +129,7 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
                       child: IconButton(
                         padding: EdgeInsets.zero,
                         icon: Icon(
-                          Icons.add,
+                          Icons.settings,
                           color: colors.textPrimary,
                           size: 20,
                         ),

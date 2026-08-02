@@ -6,7 +6,7 @@ import 'package:ganesh_chanda/features/donation/domain/enums/donation_status.dar
 import 'package:ganesh_chanda/features/donation/domain/enums/payment_mode.dart';
 import 'package:ganesh_chanda/features/donation/domain/models/donation.dart';
 import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart';
-import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
+import 'package:ganesh_chanda/features/donation/presentation/widgets/add_donation_bottom_sheet.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -118,7 +118,9 @@ class _DonationScreenState extends State<DonationScreen> {
                   color: colors.textPrimary,
                   size: 20,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  AddDonationBottomSheet.show(context);
+                },
               ),
             ),
           ),
@@ -197,6 +199,27 @@ class _DonationScreenState extends State<DonationScreen> {
               style: typography.bodyMedium.copyWith(
                 color: colors.text4,
                 fontSize: 13.5,
+              ),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colors.primary,
+                foregroundColor: Colors.white,
+                shape: const StadiumBorder(),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                elevation: 4,
+              ),
+              onPressed: () {
+                AddDonationBottomSheet.show(context);
+              },
+              icon: const Icon(Icons.add_rounded, size: 20),
+              label: const Text(
+                'Record First Donation',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
               ),
             ),
           ],

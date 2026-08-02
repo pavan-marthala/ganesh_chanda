@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 
 import 'dimens.dart';
@@ -16,6 +17,7 @@ class AppTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onChanged;
   final Iterable<String>? autofillHints;
+  final List<TextInputFormatter>? inputFormatters;
 
   const AppTextField({
     super.key,
@@ -30,7 +32,7 @@ class AppTextField extends StatefulWidget {
     this.suffixIcon,
     this.textInputAction,
     this.onChanged,
-    this.autofillHints,
+    this.autofillHints, this.inputFormatters,
   });
 
   @override
@@ -82,6 +84,7 @@ class _AppTextFieldState extends State<AppTextField> {
           onTapOutside: (event) {
             FocusScope.of(context).unfocus();
           },
+          inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             hintText: widget.hintText,
             errorText: widget.errorText,

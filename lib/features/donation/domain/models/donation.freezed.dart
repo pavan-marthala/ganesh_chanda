@@ -219,8 +219,8 @@ return $default(_that.id,_that.festivalId,_that.communityId,_that.donorName,_tha
 }
 
 /// @nodoc
-@JsonSerializable()
 
+@JsonSerializable(explicitToJson: true)
 class _Donation implements Donation {
   const _Donation({required this.id, required this.festivalId, required this.communityId, required this.donorName, this.donorPhone = '', required this.amount, this.paymentMode = PaymentMode.cash, this.referenceNumber, this.notes = '', required this.collectedBy, this.receiptNumber = '', this.status = DonationStatus.received, required this.createdAt, required this.updatedAt});
   factory _Donation.fromJson(Map<String, dynamic> json) => _$DonationFromJson(json);

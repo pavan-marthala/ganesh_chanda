@@ -7,6 +7,7 @@ part 'donation.g.dart';
 
 @freezed
 abstract class Donation with _$Donation {
+  @JsonSerializable(explicitToJson: true)
   const factory Donation({
     required String id,
     required String festivalId,
