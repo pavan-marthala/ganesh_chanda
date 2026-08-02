@@ -41,6 +41,8 @@ import 'package:ganesh_chanda/features/donation/data/repository_impl/donation_re
     as _i721;
 import 'package:ganesh_chanda/features/donation/domain/repository/donation_repository.dart'
     as _i1052;
+import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart'
+    as _i974;
 import 'package:ganesh_chanda/features/festival/data/datasource/festival_remote_data_source.dart'
     as _i820;
 import 'package:ganesh_chanda/features/festival/data/repository_impl/festival_repository_impl.dart'
@@ -117,6 +119,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i71.VolunteerRepository>(),
         gh<_i307.EmailService>(),
       ),
+    );
+    gh.factory<_i974.DonationBloc>(
+      () => _i974.DonationBloc(gh<_i1052.DonationRepository>()),
     );
     gh.lazySingleton<_i984.FestivalRepository>(
       () => _i954.FestivalRepositoryImpl(gh<_i820.FestivalRemoteDataSource>()),

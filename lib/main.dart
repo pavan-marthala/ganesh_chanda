@@ -17,6 +17,7 @@ import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_volunte
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/community/presentation/screens/create_community_screen.dart';
 import 'package:ganesh_chanda/features/dashboard/presentation/screens/festival_dashboard_screen.dart';
+import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart';
 import 'package:ganesh_chanda/features/donation/presentation/screens/donation_screen.dart';
 import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.dart';
 import 'package:ganesh_chanda/features/expense/presentation/screens/expense_screen.dart';
@@ -41,8 +42,6 @@ final GlobalKey<NavigatorState> _shellNavigatorKeyExpense =
     GlobalKey<NavigatorState>(debugLabel: 'shell-expense');
 final GlobalKey<NavigatorState> _shellNavigatorKeyEvents =
     GlobalKey<NavigatorState>(debugLabel: 'shell-events');
-final GlobalKey<NavigatorState> _shellNavigatorKeyProfile =
-    GlobalKey<NavigatorState>(debugLabel: 'shell-profile');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +58,7 @@ void main() async {
         BlocProvider(create: (context) => getIt<CommunityBloc>()),
         BlocProvider(create: (context) => getIt<FestivalBloc>()),
         BlocProvider(create: (context) => getIt<VolunteerBloc>()),
+        BlocProvider(create: (context) => getIt<DonationBloc>()),
       ],
       child: const MyApp(),
     ),
