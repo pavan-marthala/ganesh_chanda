@@ -10,8 +10,10 @@ import 'package:ganesh_chanda/core/utils/app_routes.dart';
 import 'package:ganesh_chanda/features/app_shell/presentation/screens/app_shell_screen.dart';
 import 'package:ganesh_chanda/features/auth/domain/models/account_setup_status.dart';
 import 'package:ganesh_chanda/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:ganesh_chanda/features/auth/presentation/screens/join_community_screen.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_in_screen.dart';
 import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:ganesh_chanda/features/auth/presentation/screens/sign_up_volunteer_screen.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/community/presentation/screens/create_community_screen.dart';
 import 'package:ganesh_chanda/features/dashboard/presentation/screens/festival_dashboard_screen.dart';
@@ -106,6 +108,8 @@ class _MyAppState extends State<MyApp> {
         final isSplash = matchedLocation == AppRoutes.splash;
         final isSignIn = matchedLocation == AppRoutes.signIn;
         final isSignUp = matchedLocation == AppRoutes.signUp;
+        final isJoinCommunity = matchedLocation == AppRoutes.joinCommunity;
+        final isSignUpVolunteer = matchedLocation == AppRoutes.signUpVolunteer;
 
         return authState.map(
           initial: (_) {
@@ -119,17 +123,25 @@ class _MyAppState extends State<MyApp> {
             final targetRoute = switch (appUser.accountSetupStatus) {
               AccountSetupStatus.adminRegistered => AppRoutes.createCommunity,
               AccountSetupStatus.communityCreated => AppRoutes.festivalsHome,
-              AccountSetupStatus.onboardingCompleted => AppRoutes.dashboard,
+              AccountSetupStatus.onboardingCompleted => AppRoutes.festivalsHome,
             };
 
-            if (isSplash || isSignIn || isSignUp) {
+            if ((isSplash ||
+                    isSignIn ||
+                    isSignUp ||
+                    isJoinCommunity ||
+                    isSignUpVolunteer) &&
+                appUser.role != "ADMIN") {
               return targetRoute;
             }
 
             return null;
           },
           unauthenticated: (_) {
-            if (!isSignIn && !isSignUp) {
+            if (!isSignIn &&
+                !isSignUp &&
+                !isJoinCommunity &&
+                !isSignUpVolunteer) {
               return AppRoutes.signIn;
             }
             return null;
@@ -148,6 +160,14 @@ class _MyAppState extends State<MyApp> {
         GoRoute(
           path: AppRoutes.signUp,
           builder: (context, state) => const SignUpScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.signUpVolunteer,
+          builder: (context, state) => const SignUpVolunteerScreen(),
+        ),
+        GoRoute(
+          path: AppRoutes.joinCommunity,
+          builder: (context, state) => const JoinCommunityScreen(),
         ),
         GoRoute(
           path: AppRoutes.createCommunity,
@@ -220,17 +240,6 @@ class _MyAppState extends State<MyApp> {
                 ),
               ],
             ),
-            // StatefulShellBranch(
-            //   navigatorKey: _shellNavigatorKeyProfile,
-            //   routes: [
-            //     GoRoute(
-            //       path: AppRoutes.profile,
-            //       name: AppRoutes.profile,
-            //       pageBuilder: (context, state) =>
-            //           const NoTransitionPage(child: ProfileScreen()),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ],

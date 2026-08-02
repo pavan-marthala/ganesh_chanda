@@ -14,7 +14,7 @@ class VolunteerRemoteDataSourceImpl implements VolunteerRemoteDataSource {
     final querySnapshot = await _firestore
         .collection('users')
         .where('communityId', isEqualTo: communityId)
-        .where('role', isEqualTo: 'volunteer')
+        .where('role', isEqualTo: 'VOLUNTEER')
         .get();
     return querySnapshot.docs
         .map((doc) => AppUser.fromJson({'userId': doc.id, ...doc.data()}))
@@ -32,7 +32,9 @@ class VolunteerRemoteDataSourceImpl implements VolunteerRemoteDataSource {
     for (var i = 0; i < volunteerIds.length; i += chunkSize) {
       final chunk = volunteerIds.sublist(
         i,
-        i + chunkSize > volunteerIds.length ? volunteerIds.length : i + chunkSize,
+        i + chunkSize > volunteerIds.length
+            ? volunteerIds.length
+            : i + chunkSize,
       );
 
       final querySnapshot = await _firestore
@@ -68,7 +70,7 @@ class VolunteerRemoteDataSourceImpl implements VolunteerRemoteDataSource {
     final volunteerData = volunteer.copyWith(
       id: docRef.id,
       communityId: communityId,
-      role: 'volunteer',
+      role: 'VOLUNTEER',
     );
 
     final jsonMap = volunteerData.toJson();
@@ -101,9 +103,7 @@ class VolunteerRemoteDataSourceImpl implements VolunteerRemoteDataSource {
 
   @override
   Future<void> activateVolunteer(String userId) async {
-    await _firestore.collection('users').doc(userId).update({
-      'isActive': true,
-    });
+    await _firestore.collection('users').doc(userId).update({'isActive': true});
   }
 
   @override

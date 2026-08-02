@@ -77,21 +77,57 @@ class _SignInScreenState extends State<SignInScreen> {
                                 const EmailLoginFormCard(),
                                 const SizedBox(height: 20),
 
-                                // Create Your Community Text Button
-                                TextButton(
-                                  onPressed: () {
-                                    context.push(AppRoutes.signUp);
-                                  },
-                                  child: Text(
-                                    'Create Your Community',
-                                    style: typography.labelLarge.copyWith(
-                                      color: colors.primary,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14,
+                                Row(
+                                  mainAxisSize: .min,
+                                  children: [
+                                    Text(
+                                      "New to Ganesh Chanda?",
+                                      style: typography.bodySmall.copyWith(
+                                        fontSize: 12,
+                                        color: colors.text4,
+                                      ),
                                     ),
-                                  ),
+                                    TextButton(
+                                      onPressed: () {
+                                        context.push(AppRoutes.signUp);
+                                      },
+                                      child: Text(
+                                        'Create Your Community',
+                                        style: typography.labelLarge.copyWith(
+                                          color: colors.primary,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 16),
+                                Row(
+                                  mainAxisSize: .min,
+                                  children: [
+                                    Text(
+                                      "Got an invite code?",
+                                      style: typography.bodySmall.copyWith(
+                                        fontSize: 12,
+                                        color: colors.text4,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        context.push(AppRoutes.joinCommunity);
+                                      },
+                                      child: Text(
+                                        'Join Community',
+                                        style: typography.labelLarge.copyWith(
+                                          color: colors.primary,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
 
                                 // Terms & Privacy Policy Footer
                                 Text.rich(

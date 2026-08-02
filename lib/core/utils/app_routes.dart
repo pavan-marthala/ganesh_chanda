@@ -8,6 +8,8 @@ class AppRoutes {
   static const profileEdit = '/profile/edit';
   static const signIn = '/sign-in';
   static const signUp = '/sign-up';
+  static const signUpVolunteer = '/sign-up/volunteer';
+  static const joinCommunity = '/join-community';
   static const onboarding = '/onboarding';
   static const createCommunity = '/create-community';
   static const festivalsHome = '/festivals-home';

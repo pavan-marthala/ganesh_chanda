@@ -25,6 +25,8 @@ import 'package:ganesh_chanda/features/auth/presentation/bloc/sign_in/sign_in_bl
     as _i983;
 import 'package:ganesh_chanda/features/auth/presentation/bloc/sign_up/sign_up_bloc.dart'
     as _i804;
+import 'package:ganesh_chanda/features/auth/presentation/bloc/sign_up_volunteer/sign_up_volunteer_bloc.dart'
+    as _i687;
 import 'package:ganesh_chanda/features/community/data/datasource/community_remote_data_source.dart'
     as _i900;
 import 'package:ganesh_chanda/features/community/data/repository_impl/community_repository_impl.dart'
@@ -115,6 +117,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i804.SignUpBloc>(
       () => _i804.SignUpBloc(gh<_i444.AuthRepository>()),
+    );
+    gh.factory<_i687.SignUpVolunteerBloc>(
+      () => _i687.SignUpVolunteerBloc(gh<_i444.AuthRepository>()),
     );
     gh.factory<_i867.FestivalBloc>(
       () => _i867.FestivalBloc(gh<_i984.FestivalRepository>()),

@@ -8,6 +8,8 @@ abstract class AuthRepository {
     required String email,
     required String password,
     required String displayName,
+    bool isVolunteer = true,
+    String? communityId,
   });
   Future<void> signOut();
 }

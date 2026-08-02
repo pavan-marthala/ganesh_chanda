@@ -67,6 +67,8 @@ class AuthRepositoryImpl extends AuthRepository {
     required String email,
     required String password,
     required String displayName,
+    bool isVolunteer = true,
+    String? communityId,
   }) async {
     User? firebaseUser;
     try {
@@ -83,16 +85,15 @@ class AuthRepositoryImpl extends AuthRepository {
         'lastLoginAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
         'createdBy': firebaseUser.uid,
-        'role': 'ADMIN',
-        'communityId': null,
+        'role': isVolunteer ? 'VOLUNTEER' : 'ADMIN',
+        'communityId': communityId,
         'isEmailVerified': true,
-        'onboardingState': AccountSetupStatus.adminRegistered.toJson(),
+        'onboardingState': isVolunteer
+            ? AccountSetupStatus.onboardingCompleted.toJson()
+            : AccountSetupStatus.adminRegistered.toJson(),
       };
 
-      await _firestore
-          .collection('users')
-          .doc(firebaseUser.uid)
-          .set(userMap);
+      await _firestore.collection('users').doc(firebaseUser.uid).set(userMap);
 
       return AppUser(
         id: firebaseUser.uid,
