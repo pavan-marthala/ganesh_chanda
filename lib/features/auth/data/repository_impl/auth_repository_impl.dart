@@ -19,7 +19,7 @@ class AuthRepositoryImpl extends AuthRepository {
       final doc = await _firestore
           .collection('users')
           .doc(firebaseUser.uid)
-          .get();
+          .get(GetOptions(source: .server));
 
       if (doc.exists && doc.data() != null) {
         return AppUser.fromJson(doc.data()!);
