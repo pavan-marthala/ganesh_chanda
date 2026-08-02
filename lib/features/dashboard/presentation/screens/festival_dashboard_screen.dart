@@ -35,6 +35,9 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
     final colors = context.appColors;
     final typography = context.appTypography;
     return BlocConsumer<FestivalBloc, FestivalState>(
+      listenWhen: (previous, current) {
+        return previous.festivalStatus != current.festivalStatus;
+      },
       listener: (context, state) {
         if (state.festivalStatus == .loaded && state.festival != null) {
           log("Loaded donations");
