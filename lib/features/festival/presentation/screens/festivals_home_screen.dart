@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_routes.dart';
+import 'package:ganesh_chanda/core/utils/app_utils.dart';
 
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/auth/domain/models/app_user.dart';
@@ -78,16 +79,6 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     return endDay.isBefore(today);
   }
 
-  String _formatAmount(double amount) {
-    if (amount >= 100000) {
-      final inLakhs = amount / 100000;
-      return '₹${inLakhs.toStringAsFixed(inLakhs.truncateToDouble() == inLakhs ? 0 : 1)}L';
-    } else if (amount >= 1000) {
-      final inThousands = amount / 1000;
-      return '₹${inThousands.toStringAsFixed(inThousands.truncateToDouble() == inThousands ? 0 : 1)}K';
-    }
-    return '₹${amount.toStringAsFixed(0)}';
-  }
 
   String _formatDateRange(DateTime start, DateTime end) {
     final startFormat = DateFormat('d MMM');
@@ -506,7 +497,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _formatAmount(festival.totalDonationAmount),
+                      formatAmountINRupee(festival.totalDonationAmount),
                       style: typography.titleLarge.copyWith(
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
@@ -657,7 +648,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${_formatAmount(festival.totalDonationAmount)} collected',
+                  '${formatAmountINRupee(festival.totalDonationAmount)} collected',
                   style: typography.caption.copyWith(
                     color: colors.text4,
                     fontSize: 12,

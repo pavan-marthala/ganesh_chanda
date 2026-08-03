@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
+import 'package:ganesh_chanda/features/donation/domain/models/donation.dart';
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_category.dart';
 import 'package:ganesh_chanda/generated/assets.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +13,16 @@ String formatAmount(double amount) {
     decimalDigits: 0,
   );
   return formatter.format(amount);
+}
+String formatAmountINRupee(double amount) {
+  if (amount >= 100000) {
+    final inLakhs = amount / 100000;
+    return '₹${inLakhs.toStringAsFixed(inLakhs.truncateToDouble() == inLakhs ? 0 : 1)}L';
+  } else if (amount >= 1000) {
+    final inThousands = amount / 1000;
+    return '₹${inThousands.toStringAsFixed(inThousands.truncateToDouble() == inThousands ? 0 : 1)}K';
+  }
+  return '₹${amount.toStringAsFixed(0)}';
 }
 
 String getCategoryDisplayName(ExpenseCategory category) {
@@ -109,4 +120,46 @@ Widget displayQRCode(String data) {
       shape: PrettyQrSquaresSymbol(),
     ),
   );
+}
+
+double calculateGoalProgress({
+  required double totalCollected,
+  required double goalAmount,
+}) {
+  if (goalAmount <= 0) return 0.0;
+
+  final progress = totalCollected / goalAmount;
+
+  return progress.clamp(0.0, 1.0);
+}
+
+String goalProgressPercentage({
+  required double totalCollected,
+  required double goalAmount,
+}) {
+  final progress = calculateGoalProgress(
+    totalCollected: totalCollected,
+    goalAmount: goalAmount,
+  );
+
+  return '${(progress * 100).toStringAsFixed(0)}%';
+}
+
+class DonationUtils {
+  static double getTodayCollection(List<Donation> donations) {
+    final now = DateTime.now();
+
+    return donations
+        .where((donation) {
+      final date = donation.createdAt;
+
+      return date.year == now.year &&
+          date.month == now.month &&
+          date.day == now.day;
+    })
+        .fold<double>(
+      0.0,
+          (sum, donation) => sum + donation.amount,
+    );
+  }
 }
