@@ -49,6 +49,8 @@ import 'package:ganesh_chanda/features/expense/data/repository_impl/expense_repo
     as _i126;
 import 'package:ganesh_chanda/features/expense/domain/repository/expense_repository.dart'
     as _i79;
+import 'package:ganesh_chanda/features/expense/presentation/bloc/expense_bloc.dart'
+    as _i673;
 import 'package:ganesh_chanda/features/festival/data/datasource/festival_remote_data_source.dart'
     as _i820;
 import 'package:ganesh_chanda/features/festival/data/repository_impl/festival_repository_impl.dart'
@@ -158,6 +160,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i867.FestivalBloc>(
       () => _i867.FestivalBloc(gh<_i984.FestivalRepository>()),
+    );
+    gh.factory<_i673.ExpenseBloc>(
+      () => _i673.ExpenseBloc(gh<_i79.ExpenseRepository>()),
     );
     return this;
   }
