@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
+import 'package:ganesh_chanda/core/utils/sized_context.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/event/domain/enums/event_status.dart';
 import 'package:ganesh_chanda/features/event/domain/models/event.dart';
@@ -408,6 +409,7 @@ class _EventScreenState extends State<EventScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: selectedDateEvents.length,
+              padding: .only(bottom: context.viewInsets.bottom + 100),
               itemBuilder: (context, index) {
                 final event = selectedDateEvents[index];
                 final isLast = index == selectedDateEvents.length - 1;

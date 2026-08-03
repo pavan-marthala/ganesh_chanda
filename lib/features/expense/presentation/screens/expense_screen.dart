@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_utils.dart';
+import 'package:ganesh_chanda/core/utils/sized_context.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_category.dart';
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_status.dart';
@@ -493,6 +494,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 return _buildExpenseCard(context, expense);
               }).toList(),
             ),
+          SizedBox(height: context.viewInsets.bottom + 100),
         ],
       ),
     );

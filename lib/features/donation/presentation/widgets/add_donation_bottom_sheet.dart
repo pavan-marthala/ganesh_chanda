@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_text_field.dart';
 import 'package:ganesh_chanda/core/utils/app_toast.dart';
+import 'package:ganesh_chanda/core/utils/app_utils.dart';
 import 'package:ganesh_chanda/core/utils/sized_context.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/core/widgets/payment_method_selector.dart';
@@ -12,6 +13,7 @@ import 'package:ganesh_chanda/features/donation/domain/enums/donation_status.dar
 import 'package:ganesh_chanda/features/donation/domain/enums/payment_mode.dart';
 import 'package:ganesh_chanda/features/donation/domain/models/donation.dart';
 import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart';
+import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 
 class AddDonationBottomSheet extends StatefulWidget {
@@ -131,360 +133,376 @@ class _AddDonationBottomSheetState extends State<AddDonationBottomSheet> {
         final isLoading =
             donationState.donationActionStatus == StateStatus.loading;
 
-        return Container(
-          constraints: BoxConstraints(maxHeight: context.heightPx * 0.9),
-          decoration: BoxDecoration(
-            color: colors.background,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Handlebar
-              const SizedBox(height: 12),
-              Container(
-                width: 40,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: colors.border,
-                  borderRadius: BorderRadius.circular(99),
+        return BlocSelector<FestivalBloc, FestivalState, Festival>(
+          selector: (state) {
+            return state.festival!;
+          },
+          builder: (context, festival) {
+            return Container(
+              constraints: BoxConstraints(maxHeight: context.heightPx * 0.9),
+              decoration: BoxDecoration(
+                color: colors.background,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
                 ),
               ),
-              const SizedBox(height: 12),
-
-              // Header
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: colors.border)),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: colors.surfaceLight,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: colors.border),
-                      ),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                          Icons.arrow_back_rounded,
-                          color: colors.textPrimary,
-                          size: 20,
-                        ),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Handlebar
+                  const SizedBox(height: 12),
+                  Container(
+                    width: 40,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: colors.border,
+                      borderRadius: BorderRadius.circular(99),
                     ),
-                    const SizedBox(width: 14),
-                    Text(
-                      'Add Donation',
-                      style: typography.headlineSmall.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                        color: colors.textPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  ),
+                  const SizedBox(height: 12),
 
-              // Form Content
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + context.viewInsets.bottom),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  // Header
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: colors.border)),
+                    ),
+                    child: Row(
                       children: [
-                        // Donor Name
-                        AppTextField(
-                          controller: _donorNameController,
-                          labelText: 'Donor Name',
-                          hintText: 'Enter full name',
-                          prefixIcon: Icon(
-                            Icons.person_outline_rounded,
-                            color: colors.text4,
-                            size: 20,
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: colors.surfaceLight,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: colors.border),
                           ),
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Please enter donor name';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Phone Number
-                        AppTextField(
-                          controller: _donorPhoneController,
-                          labelText: 'Phone Number',
-                          hintText: '+91 98765 43210',
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(10),
-                          ],
-                          prefixIcon: Icon(
-                            Icons.phone_outlined,
-                            color: colors.text4,
-                            size: 20,
-                          ),
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Please enter phone number';
-                            }
-                            if (value.trim().length < 10) {
-                              return 'Enter a valid 10-digit phone number';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Donation Amount
-                        AppTextField(
-                          controller: _amountController,
-                          labelText: 'Donation Amount',
-                          hintText: '0',
-                          keyboardType: TextInputType.number,
-                          prefixIcon: Icon(
-                            Icons.currency_rupee_rounded,
-                            color: colors.text4,
-                            size: 20,
-                          ),
-                          onChanged: (val) {
-                            final parsed = int.tryParse(val.trim());
-                            setState(() {
-                              _selectedQuickAmount = parsed;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Please enter donation amount';
-                            }
-                            final amount = double.tryParse(value.trim());
-                            if (amount == null || amount <= 0) {
-                              return 'Enter a valid amount';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 10),
-
-                        // Quick Amount Chips
-                        Row(
-                          children: [501, 1100, 2100, 5100].map((amt) {
-                            final isSelected = _selectedQuickAmount == amt;
-                            return Expanded(
-                              child: GestureDetector(
-                                onTap: () => _onQuickAmountSelected(amt),
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 6),
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? colors.primary.withValues(alpha: 0.08)
-                                        : colors.surfaceLight,
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                      color: isSelected
-                                          ? colors.primary
-                                          : colors.border,
-                                      width: 1.5,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    '₹$amt',
-                                    textAlign: TextAlign.center,
-                                    style: typography.titleSmall.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 13,
-                                      color: isSelected
-                                          ? colors.primary
-                                          : colors.textSecondary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Reusable Payment Method Selector
-                        PaymentMethodSelector(
-                          selectedMode: _selectedPaymentMode,
-                          onChanged: (mode) {
-                            setState(() {
-                              _selectedPaymentMode = mode;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Conditional QR Code Card for UPI
-                        if (_selectedPaymentMode == PaymentMode.upi) ...[
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: context.appGradients.primary,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: colors.primary.withValues(alpha: 0.25),
-                                  blurRadius: 16,
-                                  offset: const Offset(0, 6),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'SCAN TO PAY',
-                                  style: typography.labelSmall.copyWith(
-                                    color: Colors.white.withValues(alpha: 0.85),
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 1.2,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Shree Ganesh Utsav Mandal',
-                                  style: typography.titleLarge.copyWith(
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                const SizedBox(height: 14),
-                                Container(
-                                  width: 170,
-                                  height: 170,
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Icon(
-                                    Icons.qr_code_2_rounded,
-                                    size: 146,
-                                    color: colors.textPrimary,
-                                  ),
-                                ),
-                                const SizedBox(height: 14),
-                                const Text(
-                                  'ganeshutsav@upi',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Ask donor to scan & pay, then confirm below',
-                                  style: typography.caption.copyWith(
-                                    color: Colors.white.withValues(alpha: 0.85),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-
-                        // Conditional Reference Number Field (UPI, Bank, Cheque)
-                        if (_selectedPaymentMode != PaymentMode.cash) ...[
-                          AppTextField(
-                            controller: _referenceController,
-                            labelText: 'Reference Number',
-                            hintText: 'e.g. 4yr77-hd / UTR Number',
-                            prefixIcon: Icon(
-                              Icons.tag_rounded,
-                              color: colors.text4,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.arrow_back_rounded,
+                              color: colors.textPrimary,
                               size: 20,
                             ),
-                            validator: (value) {
-                              if (_selectedPaymentMode != PaymentMode.cash) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return 'Reference number is required for ${_selectedPaymentMode.name.toUpperCase()}';
-                                }
-                              }
-                              return null;
-                            },
+                            onPressed: () => Navigator.of(context).pop(),
                           ),
-                          const SizedBox(height: 16),
-                        ],
-
-                        // Notes Field
-                        AppTextField(
-                          controller: _notesController,
-                          labelText: 'Notes (optional)',
-                          hintText: 'Any notes about this donation...',
-                          validator: (_) => null,
                         ),
-                        const SizedBox(height: 24),
-
-                        // Submit Button
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: colors.primary,
-                            foregroundColor: Colors.white,
-                            minimumSize: const Size(double.infinity, 52),
-                            shape: const StadiumBorder(),
-                            elevation: 4,
+                        const SizedBox(width: 14),
+                        Text(
+                          'Add Donation',
+                          style: typography.headlineSmall.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            color: colors.textPrimary,
                           ),
-                          onPressed: isLoading
-                              ? null
-                              : () => _onSaveDonation(context),
-                          child: isLoading
-                              ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2.5,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white,
-                                    ),
-                                  ),
-                                )
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.check_rounded, size: 20),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Confirm Payment Received',
-                                      style: typography.titleMedium.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ],
-                                ),
                         ),
                       ],
                     ),
                   ),
-                ),
+
+                  // Form Content
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      padding: EdgeInsets.fromLTRB(
+                        20,
+                        20,
+                        20,
+                        20 + context.viewInsets.bottom,
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Donor Name
+                            AppTextField(
+                              controller: _donorNameController,
+                              labelText: 'Donor Name',
+                              hintText: 'Enter full name',
+                              prefixIcon: Icon(
+                                Icons.person_outline_rounded,
+                                color: colors.text4,
+                                size: 20,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Please enter donor name';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Phone Number
+                            AppTextField(
+                              controller: _donorPhoneController,
+                              labelText: 'Phone Number',
+                              hintText: '+91 98765 43210',
+                              keyboardType: TextInputType.phone,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10),
+                              ],
+                              prefixIcon: Icon(
+                                Icons.phone_outlined,
+                                color: colors.text4,
+                                size: 20,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Please enter phone number';
+                                }
+                                if (value.trim().length < 10) {
+                                  return 'Enter a valid 10-digit phone number';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Donation Amount
+                            AppTextField(
+                              controller: _amountController,
+                              labelText: 'Donation Amount',
+                              hintText: '0',
+                              keyboardType: TextInputType.number,
+                              prefixIcon: Icon(
+                                Icons.currency_rupee_rounded,
+                                color: colors.text4,
+                                size: 20,
+                              ),
+                              onChanged: (val) {
+                                final parsed = int.tryParse(val.trim());
+                                setState(() {
+                                  _selectedQuickAmount = parsed;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Please enter donation amount';
+                                }
+                                final amount = double.tryParse(value.trim());
+                                if (amount == null || amount <= 0) {
+                                  return 'Enter a valid amount';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 10),
+
+                            // Quick Amount Chips
+                            Row(
+                              children: [501, 1100, 2100, 5100].map((amt) {
+                                final isSelected = _selectedQuickAmount == amt;
+                                return Expanded(
+                                  child: GestureDetector(
+                                    onTap: () => _onQuickAmountSelected(amt),
+                                    child: Container(
+                                      margin: const EdgeInsets.only(right: 6),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? colors.primary.withValues(
+                                                alpha: 0.08,
+                                              )
+                                            : colors.surfaceLight,
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: isSelected
+                                              ? colors.primary
+                                              : colors.border,
+                                          width: 1.5,
+                                        ),
+                                      ),
+                                      child: Text(
+                                        '₹$amt',
+                                        textAlign: TextAlign.center,
+                                        style: typography.titleSmall.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 13,
+                                          color: isSelected
+                                              ? colors.primary
+                                              : colors.textSecondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                            const SizedBox(height: 20),
+
+                            // Reusable Payment Method Selector
+                            PaymentMethodSelector(
+                              selectedMode: _selectedPaymentMode,
+                              onChanged: (mode) {
+                                setState(() {
+                                  _selectedPaymentMode = mode;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 16),
+
+                            // Conditional QR Code Card for UPI
+                            if (_selectedPaymentMode == PaymentMode.upi) ...[
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: context.appGradients.primary,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: colors.primary.withValues(
+                                        alpha: 0.25,
+                                      ),
+                                      blurRadius: 16,
+                                      offset: const Offset(0, 6),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'SCAN TO PAY',
+                                      style: typography.labelSmall.copyWith(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.85,
+                                        ),
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: 1.2,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Shree Ganesh Utsav Mandal',
+                                      style: typography.titleLarge.copyWith(
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 14),
+                                    displayQRCode(festival.paymentDetails?.upiId ?? "",),
+                                    const SizedBox(height: 14),
+                                    Text(
+                                      festival.paymentDetails?.upiId ?? "",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Ask donor to scan & pay, then confirm below',
+                                      style: typography.caption.copyWith(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.85,
+                                        ),
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                            ],
+
+                            // Conditional Reference Number Field (UPI, Bank, Cheque)
+                            if (_selectedPaymentMode != PaymentMode.cash) ...[
+                              AppTextField(
+                                controller: _referenceController,
+                                labelText: 'Reference Number',
+                                hintText: 'e.g. 4yr77-hd / UTR Number',
+                                prefixIcon: Icon(
+                                  Icons.tag_rounded,
+                                  color: colors.text4,
+                                  size: 20,
+                                ),
+                                validator: (value) {
+                                  if (_selectedPaymentMode !=
+                                      PaymentMode.cash) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'Reference number is required for ${_selectedPaymentMode.name.toUpperCase()}';
+                                    }
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 16),
+                            ],
+
+                            // Notes Field
+                            AppTextField(
+                              controller: _notesController,
+                              labelText: 'Notes (optional)',
+                              hintText: 'Any notes about this donation...',
+                              validator: (_) => null,
+                            ),
+                            const SizedBox(height: 24),
+
+                            // Submit Button
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: colors.primary,
+                                foregroundColor: Colors.white,
+                                minimumSize: const Size(double.infinity, 52),
+                                shape: const StadiumBorder(),
+                                elevation: 4,
+                              ),
+                              onPressed: isLoading
+                                  ? null
+                                  : () => _onSaveDonation(context),
+                              child: isLoading
+                                  ? const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2.5,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              Colors.white,
+                                            ),
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.check_rounded,
+                                          size: 20,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          'Confirm Payment Received',
+                                          style: typography.titleMedium
+                                              .copyWith(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

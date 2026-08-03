@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_utils.dart';
+import 'package:ganesh_chanda/core/utils/sized_context.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/donation/domain/enums/donation_status.dart';
 import 'package:ganesh_chanda/features/donation/domain/enums/payment_mode.dart';
@@ -36,7 +37,6 @@ class _DonationScreenState extends State<DonationScreen> {
     }
     return parts[0][0].toUpperCase();
   }
-
 
   String _getPaymentModeLabel(PaymentMode mode) {
     switch (mode) {
@@ -358,24 +358,6 @@ class _DonationScreenState extends State<DonationScreen> {
                   fontSize: 18,
                 ),
               ),
-              Row(
-                children: [
-                  Text(
-                    'Sort: Recent',
-                    style: typography.titleSmall.copyWith(
-                      fontWeight: FontWeight.w700,
-                      color: colors.primary,
-                      fontSize: 13,
-                    ),
-                  ),
-                  const SizedBox(width: 2),
-                  Icon(
-                    Icons.keyboard_arrow_down_rounded,
-                    size: 16,
-                    color: colors.primary,
-                  ),
-                ],
-              ),
             ],
           ),
 
@@ -387,6 +369,7 @@ class _DonationScreenState extends State<DonationScreen> {
               return _buildDonorCard(context, donation);
             }).toList(),
           ),
+          SizedBox(height: context.viewInsets.bottom + 100),
         ],
       ),
     );

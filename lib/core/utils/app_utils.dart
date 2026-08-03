@@ -3,6 +3,7 @@ import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_category.dart';
 import 'package:ganesh_chanda/generated/assets.dart';
 import 'package:intl/intl.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 String formatAmount(double amount) {
   final formatter = NumberFormat.currency(
@@ -97,4 +98,15 @@ Color getCategoryIconColor(BuildContext context, ExpenseCategory category) {
     default:
       return colors.textSecondary;
   }
+}
+
+Widget displayQRCode(String data) {
+  return PrettyQrView.data(
+    data: data,
+    decoration: const PrettyQrDecoration(
+      quietZone: PrettyQrQuietZone.pixels(30),
+      background: Colors.white,
+      shape: PrettyQrSquaresSymbol(),
+    ),
+  );
 }
