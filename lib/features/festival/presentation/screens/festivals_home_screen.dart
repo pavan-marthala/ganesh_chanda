@@ -4,6 +4,8 @@ import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_routes.dart';
 
 import 'package:ganesh_chanda/core/utils/state_status.dart';
+import 'package:ganesh_chanda/features/auth/domain/models/app_user.dart';
+import 'package:ganesh_chanda/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
@@ -22,8 +24,14 @@ class FestivalsHomeScreen extends StatefulWidget {
 }
 
 class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
+  late final AppUser user;
   @override
   void initState() {
+    user = context.read<AuthBloc>().state.whenOrNull(
+      authenticated: (user) {
+        return user;
+      },
+    )!;
     context.read<CommunityBloc>().add(
       CommunityEvent.loadCurrentCommunityRequested(),
     );
@@ -91,7 +99,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
   Widget build(BuildContext context) {
     final colors = context.appColors;
     final typography = context.appTypography;
-
+    final isAdmin = user.role == 'ADMIN';
     return BlocListener<CommunityBloc, CommunityState>(
       listener: (context, communityState) {
         if (communityState.communityStatus == StateStatus.loaded) {
@@ -172,31 +180,33 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
                   ],
                 ),
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 16),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: colors.surfaceLight,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: colors.border),
-                    ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        Icons.add,
-                        color: colors.textPrimary,
-                        size: 20,
+              actions: isAdmin
+                  ? [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: colors.surfaceLight,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: colors.border),
+                          ),
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: Icon(
+                              Icons.add,
+                              color: colors.textPrimary,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              CreateFestivalBottomSheet.show(context);
+                            },
+                          ),
+                        ),
                       ),
-                      onPressed: () {
-                        CreateFestivalBottomSheet.show(context);
-                      },
-                    ),
-                  ),
-                ),
-              ],
+                    ]
+                  : [],
             ),
             body: SafeArea(
               child: BlocBuilder<FestivalBloc, FestivalState>(
@@ -298,26 +308,27 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colors.primary,
-                foregroundColor: Colors.white,
-                shape: const StadiumBorder(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 14,
+            if (user.role == 'ADMIN')
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colors.primary,
+                  foregroundColor: Colors.white,
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
+                  elevation: 4,
                 ),
-                elevation: 4,
+                onPressed: () {
+                  CreateFestivalBottomSheet.show(context);
+                },
+                icon: const Icon(Icons.add_rounded, size: 20),
+                label: const Text(
+                  'Create First Festival',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                ),
               ),
-              onPressed: () {
-                CreateFestivalBottomSheet.show(context);
-              },
-              icon: const Icon(Icons.add_rounded, size: 20),
-              label: const Text(
-                'Create First Festival',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
-              ),
-            ),
           ],
         ),
       ),
@@ -412,7 +423,7 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     return GestureDetector(
       onTap: () {
         final isReady = festival.assignedVolunteerIds.isNotEmpty;
-        if (isReady) {
+        if (isReady || user.role == 'VOLUNTEER') {
           context.push(AppRoutes.dashboard, extra: festival.id);
           return;
         }
@@ -548,55 +559,65 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     final colors = context.appColors;
     final typography = context.appTypography;
 
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: colors.border),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                festival.name,
-                style: typography.titleMedium.copyWith(
+    return GestureDetector(
+      onTap: () {
+        final isReady = festival.assignedVolunteerIds.isNotEmpty;
+        if (isReady || user.role == 'VOLUNTEER') {
+          context.push(AppRoutes.dashboard, extra: festival.id);
+          return;
+        }
+        context.push(AppRoutes.festivalSetup.replaceAll(":id", festival.id));
+      },
+      child: Container(
+        width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 12),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: colors.card,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: colors.border),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  festival.name,
+                  style: typography.titleMedium.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: colors.textPrimary,
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  _formatDateRange(festival.startDate, festival.endDate),
+                  style: typography.caption.copyWith(
+                    color: colors.text4,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF59E0B).withValues(alpha: .2),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Text(
+                'Upcoming',
+                style: TextStyle(
+                  color: Color(0xFFF59E0B),
+                  fontSize: 11,
                   fontWeight: FontWeight.w700,
-                  color: colors.textPrimary,
-                  fontSize: 15,
                 ),
               ),
-              const SizedBox(height: 2),
-              Text(
-                _formatDateRange(festival.startDate, festival.endDate),
-                style: typography.caption.copyWith(
-                  color: colors.text4,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF59E0B).withValues(alpha: .2),
-              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Text(
-              'Upcoming',
-              style: TextStyle(
-                color: Color(0xFFF59E0B),
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

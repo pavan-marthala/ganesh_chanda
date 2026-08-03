@@ -150,6 +150,14 @@ class _DonationScreenState extends State<DonationScreen> {
               return _buildEmptyStateView(context);
             }
 
+            if (donationState.donationsStatus == StateStatus.error) {
+              return Center(
+                child: Text(
+                  donationState.donationsError ?? 'Something went wrong',
+                ),
+              );
+            }
+
             return _buildDonationsContent(context, donations);
           },
         ),

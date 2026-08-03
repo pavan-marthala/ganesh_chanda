@@ -43,6 +43,12 @@ import 'package:ganesh_chanda/features/donation/domain/repository/donation_repos
     as _i1052;
 import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart'
     as _i974;
+import 'package:ganesh_chanda/features/expense/data/datasource/expense_remote_data_source.dart'
+    as _i13;
+import 'package:ganesh_chanda/features/expense/data/repository_impl/expense_repository_impl.dart'
+    as _i126;
+import 'package:ganesh_chanda/features/expense/domain/repository/expense_repository.dart'
+    as _i79;
 import 'package:ganesh_chanda/features/festival/data/datasource/festival_remote_data_source.dart'
     as _i820;
 import 'package:ganesh_chanda/features/festival/data/repository_impl/festival_repository_impl.dart'
@@ -92,6 +98,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i428.AuthRemoteDataSource>(
       () => _i428.FirebaseAuthDataSourceImpl(gh<_i59.FirebaseAuth>()),
     );
+    gh.lazySingleton<_i13.ExpenseRemoteDataSource>(
+      () => _i13.ExpenseRemoteDataSourceImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
+    );
     gh.lazySingleton<_i254.VolunteerRemoteDataSource>(
       () => _i195.VolunteerRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
@@ -122,6 +134,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i974.DonationBloc>(
       () => _i974.DonationBloc(gh<_i1052.DonationRepository>()),
+    );
+    gh.lazySingleton<_i79.ExpenseRepository>(
+      () => _i126.ExpenseRepositoryImpl(gh<_i13.ExpenseRemoteDataSource>()),
     );
     gh.lazySingleton<_i984.FestivalRepository>(
       () => _i954.FestivalRepositoryImpl(gh<_i820.FestivalRemoteDataSource>()),
