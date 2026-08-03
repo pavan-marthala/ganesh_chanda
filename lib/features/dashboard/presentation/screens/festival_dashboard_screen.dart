@@ -78,6 +78,11 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
                 communityState.communityStatus == .loading ||
                 communityState.communityStatus == .initial;
             final community = communityState.community;
+            final isUpcoming = festival == null ? false : festival.isUpcoming;
+            final isActive = festival == null ? false : festival.isActive;
+            final isFinalDay = festival == null ? false : festival.isFinalDay;
+            final isCompleted = festival == null ? false : festival.isCompleted;
+
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: colors.background,
@@ -180,7 +185,23 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _HeroSection(festival: festivalState.festival!),
+                            if (isUpcoming)
+                              _UpcomingFestivalHero(
+                                festival: festivalState.festival!,
+                              ),
+                            if (isActive)
+                              _ActiveFestivalHero(
+                                festival: festivalState.festival!,
+                              ),
+                            if (isFinalDay)
+                              _FinalDayFestivalHero(
+                                festival: festivalState.festival!,
+                              ),
+                            if (isCompleted)
+                              _CompletedFestivalHero(
+                                festival: festivalState.festival!,
+                              ),
+                            // _HeroSection(festival: festivalState.festival!),
                             const SizedBox(height: 20),
                             _CollectionProgressCard(
                               festival: festivalState.festival!,
@@ -211,79 +232,79 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
   }
 }
 
-class _HeroSection extends StatelessWidget {
-  const _HeroSection({required this.festival});
-
-  final Festival festival;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.appColors;
-    final typography = context.appTypography;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        gradient: const LinearGradient(
-          colors: [Color(0xFFFFAE4D), Color(0xFFF97316), Color(0xFFC74E0E)],
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: colors.primary.withValues(alpha: 0.28),
-            blurRadius: 24,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'SHREE GANESH UTSAV MANDAL',
-            style: typography.labelSmall.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: 11,
-              letterSpacing: 1.2,
-              color: Colors.white.withValues(alpha: 0.85),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '${festival.name} ${festival.startDate.year}',
-            style: typography.headlineMedium.copyWith(
-              fontWeight: FontWeight.w800,
-              fontSize: 26,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            'Visarjan on ${DateFormat("dd MMM").format(festival.endDate)} · Day 10',
-            style: typography.bodyMedium.copyWith(
-              fontSize: 14,
-              color: Colors.white.withValues(alpha: 0.9),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          const Row(
-            children: [
-              _CountdownBox(number: '12', label: 'DAYS'),
-              SizedBox(width: 10),
-              _CountdownBox(number: '06', label: 'HOURS'),
-              SizedBox(width: 10),
-              _CountdownBox(number: '41', label: 'MINS'),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class _HeroSection extends StatelessWidget {
+//   const _HeroSection({required this.festival});
+//
+//   final Festival festival;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final colors = context.appColors;
+//     final typography = context.appTypography;
+//
+//     return Container(
+//       width: double.infinity,
+//       padding: const EdgeInsets.all(22),
+//       decoration: BoxDecoration(
+//         borderRadius: BorderRadius.circular(24),
+//         gradient: const LinearGradient(
+//           colors: [Color(0xFFFFAE4D), Color(0xFFF97316), Color(0xFFC74E0E)],
+//           begin: Alignment.topRight,
+//           end: Alignment.bottomLeft,
+//         ),
+//         boxShadow: [
+//           BoxShadow(
+//             color: colors.primary.withValues(alpha: 0.28),
+//             blurRadius: 24,
+//             offset: const Offset(0, 10),
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             'SHREE GANESH UTSAV MANDAL',
+//             style: typography.labelSmall.copyWith(
+//               fontWeight: FontWeight.w700,
+//               fontSize: 11,
+//               letterSpacing: 1.2,
+//               color: Colors.white.withValues(alpha: 0.85),
+//             ),
+//           ),
+//           const SizedBox(height: 4),
+//           Text(
+//             '${festival.name} ${festival.startDate.year}',
+//             style: typography.headlineMedium.copyWith(
+//               fontWeight: FontWeight.w800,
+//               fontSize: 26,
+//               color: Colors.white,
+//             ),
+//           ),
+//           const SizedBox(height: 2),
+//           Text(
+//             'Visarjan on ${DateFormat("dd MMM").format(festival.endDate)} · Day 10',
+//             style: typography.bodyMedium.copyWith(
+//               fontSize: 14,
+//               color: Colors.white.withValues(alpha: 0.9),
+//             ),
+//           ),
+//           const SizedBox(height: 16),
+//
+//           const Row(
+//             children: [
+//               _CountdownBox(number: '12', label: 'DAYS'),
+//               SizedBox(width: 10),
+//               _CountdownBox(number: '06', label: 'HOURS'),
+//               SizedBox(width: 10),
+//               _CountdownBox(number: '41', label: 'MINS'),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class _CountdownBox extends StatelessWidget {
   final String number;
@@ -491,68 +512,52 @@ class _StatisticsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.appColors;
 
-    return BlocSelector<ExpenseBloc, ExpenseState, List<Expense>>(
+    return BlocSelector<DonationBloc, DonationState, List<Donation>>(
       selector: (state) {
-        return state.expenses;
+        return state.donations;
       },
-      builder: (context, expenses) {
-        return BlocSelector<DonationBloc, DonationState, List<Donation>>(
-          selector: (state) {
-            return state.donations;
-          },
-          builder: (context, donations) {
-            final totalRaised = festival.totalDonationAmount;
-            final totalExpenseAmount = expenses.fold<double>(
-              0.0,
-              (sum, e) =>
-                  sum + (e.status == ExpenseStatus.paid ? e.amount : 0.0),
-            );
-            final availableBalance = (totalRaised - totalExpenseAmount).clamp(
-              0.0,
-              double.infinity,
-            );
+      builder: (context, donations) {
+        final totalRaised = festival.totalDonationAmount;
+        final availableBalance = (totalRaised - festival.totalExpenseAmount)
+            .clamp(0.0, double.infinity);
 
-            return GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1.45,
-              children: [
-                _StatCard(
-                  icon: Icons.bar_chart_rounded,
-                  iconBg: colors.success.withValues(alpha: 0.15),
-                  iconColor: colors.success,
-                  value: formatAmount(
-                    DonationUtils.getTodayCollection(donations),
-                  ),
-                  label: "Today's Collection",
-                ),
-                _StatCard(
-                  icon: Icons.remove_rounded,
-                  iconBg: colors.error.withValues(alpha: 0.15),
-                  iconColor: colors.error,
-                  value: formatAmount(totalExpenseAmount),
-                  label: 'Total Expenses',
-                ),
-                _StatCard(
-                  icon: Icons.currency_rupee_rounded,
-                  iconBg: const Color(0xFFD4AF37).withValues(alpha: 0.15),
-                  iconColor: const Color(0xFF9A7B1E),
-                  value: formatAmount(availableBalance),
-                  label: 'Available Balance',
-                ),
-                _StatCard(
-                  icon: Icons.group_outlined,
-                  iconBg: colors.primary.withValues(alpha: 0.12),
-                  iconColor: colors.primary,
-                  value: donations.length.toString(),
-                  label: 'Total Donors',
-                ),
-              ],
-            );
-          },
+        return GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 1.45,
+          children: [
+            _StatCard(
+              icon: Icons.bar_chart_rounded,
+              iconBg: colors.success.withValues(alpha: 0.15),
+              iconColor: colors.success,
+              value: formatAmount(DonationUtils.getTodayCollection(donations)),
+              label: "Today's Collection",
+            ),
+            _StatCard(
+              icon: Icons.remove_rounded,
+              iconBg: colors.error.withValues(alpha: 0.15),
+              iconColor: colors.error,
+              value: formatAmount(festival.totalExpenseAmount),
+              label: 'Total Expenses',
+            ),
+            _StatCard(
+              icon: Icons.currency_rupee_rounded,
+              iconBg: const Color(0xFFD4AF37).withValues(alpha: 0.15),
+              iconColor: const Color(0xFF9A7B1E),
+              value: formatAmount(availableBalance),
+              label: 'Available Balance',
+            ),
+            _StatCard(
+              icon: Icons.group_outlined,
+              iconBg: colors.primary.withValues(alpha: 0.12),
+              iconColor: colors.primary,
+              value: donations.length.toString(),
+              label: 'Total Donors',
+            ),
+          ],
         );
       },
     );
@@ -935,6 +940,493 @@ class _RangoliDivider extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _UpcomingFestivalHero extends StatelessWidget {
+  const _UpcomingFestivalHero({required this.festival});
+
+  final Festival festival;
+
+  @override
+  Widget build(BuildContext context) {
+    final typography = context.appTypography;
+    final countdown = festival.upcomingCountdown;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFF3D06B), Color(0xFFD4AF37), Color(0xFF9A7B1E)],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFD4AF37).withValues(alpha: 0.25),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Banner Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+              borderRadius: BorderRadius.circular(99),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  'UPCOMING',
+                  style: typography.labelSmall.copyWith(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11,
+                    letterSpacing: 0.4,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${festival.name} ${festival.startDate.year}',
+            style: typography.headlineMedium.copyWith(
+              fontWeight: FontWeight.w800,
+              fontSize: 26,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Begins ${DateFormat("dd MMM").format(festival.startDate)} · Get your community ready',
+            style: typography.bodyMedium.copyWith(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.9),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          Row(
+            spacing: 10,
+            children: [
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.days.toString(),
+                  label: 'DAYS',
+                ),
+              ),
+              Expanded(child: _CountdownBox(number: countdown.hours.toString(), label: 'HOURS')),
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.minutes.toString(),
+                  label: 'MINS',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActiveFestivalHero extends StatelessWidget {
+  const _ActiveFestivalHero({required this.festival});
+
+  final Festival festival;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final typography = context.appTypography;
+    final countdown = festival.visarjanCountdown;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFFFAE4D), Color(0xFFF97316), Color(0xFFC74E0E)],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colors.primary.withValues(alpha: 0.28),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Live Now Pulse Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+              borderRadius: BorderRadius.circular(99),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  'LIVE NOW',
+                  style: typography.labelSmall.copyWith(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11,
+                    letterSpacing: 0.4,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${festival.name} ${festival.startDate.year}',
+            style: typography.headlineMedium.copyWith(
+              fontWeight: FontWeight.w800,
+              fontSize: 26,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Visarjan on ${DateFormat("dd MMM").format(festival.endDate)} · Day ${festival.currentDay} of ${festival.totalDays}',
+            style: typography.bodyMedium.copyWith(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.9),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Countdown Row
+          Row(
+            spacing: 10,
+            children: [
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.days.toString(),
+                  label: 'DAYS',
+                ),
+              ),
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.hours.toString(),
+                  label: 'HOURS',
+                ),
+              ),
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.minutes.toString(),
+                  label: 'MINS',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FinalDayFestivalHero extends StatelessWidget {
+  const _FinalDayFestivalHero({required this.festival});
+
+  final Festival festival;
+
+  @override
+  Widget build(BuildContext context) {
+    final typography = context.appTypography;
+    final countdown = festival.visarjanCountdown;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFE8542E), Color(0xFFC0392B), Color(0xFF7A1F1F)],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFC0392B).withValues(alpha: 0.32),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Final Day Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.35)),
+              borderRadius: BorderRadius.circular(99),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 7,
+                  height: 7,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Text(
+                  'FINAL DAY · VISARJAN TODAY',
+                  style: typography.labelSmall.copyWith(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11,
+                    letterSpacing: 0.4,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${festival.name} ${festival.startDate.year}',
+            style: typography.headlineMedium.copyWith(
+              fontWeight: FontWeight.w800,
+              fontSize: 26,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Procession begins ${DateFormat("dd MMM").format(festival.endDate)}',
+            style: typography.bodyMedium.copyWith(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.9),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Countdown Row (Hours & Mins only)
+          Row(
+            spacing: 10,
+            children: [
+              Expanded(child: _CountdownBox(number: countdown.hours.toString(), label: 'HOURS')),
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.minutes.toString(),
+                  label: 'MINS',
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CompletedFestivalHero extends StatelessWidget {
+  const _CompletedFestivalHero({required this.festival});
+
+  final Festival festival;
+
+  @override
+  Widget build(BuildContext context) {
+    final typography = context.appTypography;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6B5A4A), Color(0xFF4A3B2E)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF2D1B12).withValues(alpha: 0.18),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Concluded Badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.14),
+              borderRadius: BorderRadius.circular(99),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.check_rounded, size: 13, color: Colors.white),
+                const SizedBox(width: 4),
+                Text(
+                  'CONCLUDED',
+                  style: typography.labelSmall.copyWith(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11,
+                    letterSpacing: 0.4,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            '${festival.name} ${festival.startDate.year}',
+            style: typography.headlineMedium.copyWith(
+              fontWeight: FontWeight.w800,
+              fontSize: 26,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'Visarjan completed ${DateFormat("dd MMM").format(festival.endDate)} · ${festival.totalDays} wonderful days 🙏',
+            style: typography.bodyMedium.copyWith(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.85),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Stat Chip Recap Row
+          Row(
+            children: [
+              _StatChipBox(
+                value: formatAmount(festival.totalDonationAmount),
+                label: 'COLLECTED',
+              ),
+              SizedBox(width: 10),
+              _StatChipBox(
+                value: festival.totalDonationCount.toString(),
+                label: 'DONORS',
+              ),
+              SizedBox(width: 10),
+              _StatChipBox(value: festival.totalDays.toString(), label: 'DAYS'),
+            ],
+          ),
+          const SizedBox(height: 16),
+
+          // CTA Ghost Button
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.16),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
+              borderRadius: BorderRadius.circular(99),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'View Festival Report',
+                  style: typography.titleSmall.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12.5,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                const Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 14,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatChipBox extends StatelessWidget {
+  final String value;
+  final String label;
+
+  const _StatChipBox({required this.value, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.10),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.20)),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Column(
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 9.5,
+                letterSpacing: 0.5,
+                color: Colors.white.withValues(alpha: 0.75),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

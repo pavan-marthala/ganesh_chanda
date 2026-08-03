@@ -79,7 +79,6 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     return endDay.isBefore(today);
   }
 
-
   String _formatDateRange(DateTime start, DateTime end) {
     final startFormat = DateFormat('d MMM');
     final endFormat = DateFormat('d MMM');
@@ -617,62 +616,67 @@ class _FestivalsHomeScreenState extends State<FestivalsHomeScreen> {
     final colors = context.appColors;
     final typography = context.appTypography;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: colors.border)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: colors.surfaceLight,
+    return GestureDetector(
+      onTap: () {
+        context.push(AppRoutes.dashboard, extra: festival.id);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: colors.border)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colors.surfaceLight,
+              ),
+              child: Icon(Icons.check_rounded, color: colors.text4, size: 20),
             ),
-            child: Icon(Icons.check_rounded, color: colors.text4, size: 20),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  festival.name,
-                  style: typography.titleMedium.copyWith(
-                    fontWeight: FontWeight.w700,
-                    color: colors.textPrimary,
-                    fontSize: 15,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    festival.name,
+                    style: typography.titleMedium.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: colors.textPrimary,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${formatAmountINRupee(festival.totalDonationAmount)} collected',
-                  style: typography.caption.copyWith(
-                    color: colors.text4,
-                    fontSize: 12,
+                  const SizedBox(height: 2),
+                  Text(
+                    '${formatAmountINRupee(festival.totalDonationAmount)} collected',
+                    style: typography.caption.copyWith(
+                      color: colors.text4,
+                      fontSize: 12,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: colors.surfaceLight,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Text(
-              'Completed',
-              style: TextStyle(
-                color: colors.textPrimary,
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
+                ],
               ),
             ),
-          ),
-        ],
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: colors.surfaceLight,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                'Completed',
+                style: TextStyle(
+                  color: colors.textPrimary,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

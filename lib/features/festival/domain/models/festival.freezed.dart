@@ -238,8 +238,8 @@ return $default(_that.id,_that.communityId,_that.name,_that.description,_that.ba
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _Festival implements Festival {
-  const _Festival({required this.id, required this.communityId, required this.name, this.description = '', this.bannerUrl, required this.startDate, required this.endDate, this.status = FestivalStatus.draft, this.goal = 0.0, this.totalDonationAmount = 0.0, this.totalDonationCount = 0, this.totalExpenseAmount = 0.0, this.totalExpenseCount = 0, this.totalVolunteerCount = 0, final  List<String> assignedVolunteerIds = const [], this.paymentDetails, required this.createdBy, required this.createdAt, required this.updatedAt}): _assignedVolunteerIds = assignedVolunteerIds;
+class _Festival extends Festival {
+  const _Festival({required this.id, required this.communityId, required this.name, this.description = '', this.bannerUrl, required this.startDate, required this.endDate, this.status = FestivalStatus.draft, this.goal = 0.0, this.totalDonationAmount = 0.0, this.totalDonationCount = 0, this.totalExpenseAmount = 0.0, this.totalExpenseCount = 0, this.totalVolunteerCount = 0, final  List<String> assignedVolunteerIds = const [], this.paymentDetails, required this.createdBy, required this.createdAt, required this.updatedAt}): _assignedVolunteerIds = assignedVolunteerIds,super._();
   factory _Festival.fromJson(Map<String, dynamic> json) => _$FestivalFromJson(json);
 
 @override final  String id;

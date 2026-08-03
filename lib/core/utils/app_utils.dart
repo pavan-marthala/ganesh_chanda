@@ -163,3 +163,15 @@ class DonationUtils {
     );
   }
 }
+
+class CountdownInfo {
+  final int days;
+  final int hours;
+  final int minutes;
+
+  const CountdownInfo({
+    required this.days,
+    required this.hours,
+    required this.minutes,
+  });
+}
