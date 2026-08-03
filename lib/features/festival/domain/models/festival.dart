@@ -15,6 +15,7 @@ abstract class Festival with _$Festival {
     required DateTime startDate,
     required DateTime endDate,
     @Default(FestivalStatus.draft) FestivalStatus status,
+    @Default(0.0) double goal,
     @Default(0.0) double totalDonationAmount,
     @Default(0) int totalDonationCount,
     @Default(0.0) double totalExpenseAmount,

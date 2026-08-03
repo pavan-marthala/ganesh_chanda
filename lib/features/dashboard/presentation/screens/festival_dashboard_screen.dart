@@ -10,6 +10,7 @@ import 'package:ganesh_chanda/features/event/presentation/bloc/event_bloc.dart';
 import 'package:ganesh_chanda/features/expense/presentation/bloc/expense_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_home_screen.dart';
+import 'package:ganesh_chanda/features/festival/presentation/widgets/create_festival_bottom_sheet.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -147,7 +148,12 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
                           color: colors.textPrimary,
                           size: 20,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          CreateFestivalBottomSheet.show(
+                            context,
+                            festival: festival,
+                          );
+                        },
                       ),
                     ),
                   ),

@@ -12,17 +12,24 @@ import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.
 import 'package:intl/intl.dart';
 
 class CreateFestivalBottomSheet extends StatefulWidget {
-  const CreateFestivalBottomSheet({super.key});
+  final Festival? festival;
 
-  static Future<void> show(BuildContext context) {
+  const CreateFestivalBottomSheet({
+    super.key,
+    this.festival,
+  });
+
+  static Future<void> show(BuildContext context, {Festival? festival}) {
     final festivalBloc = context.read<FestivalBloc>();
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      useRootNavigator: true,
+      useSafeArea: true,
       builder: (sheetContext) => BlocProvider.value(
         value: festivalBloc,
-        child: const CreateFestivalBottomSheet(),
+        child: CreateFestivalBottomSheet(festival: festival),
       ),
     );
   }
@@ -35,6 +42,7 @@ class CreateFestivalBottomSheet extends StatefulWidget {
 class _CreateFestivalBottomSheetState
     extends State<CreateFestivalBottomSheet> {
   final _nameController = TextEditingController();
+  final _goalController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _startDateController = TextEditingController();
   final _endDateController = TextEditingController();
@@ -47,9 +55,29 @@ class _CreateFestivalBottomSheetState
 
   final DateFormat _dateFormat = DateFormat('d MMM yyyy');
 
+  bool get _isEditMode => widget.festival != null;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_isEditMode) {
+      final f = widget.festival!;
+      _nameController.text = f.name;
+      _descriptionController.text = f.description;
+      _goalController.text = f.goal > 0 ? f.goal.toStringAsFixed(0) : '';
+
+      _startDate = f.startDate;
+      _startDateController.text = _dateFormat.format(f.startDate);
+
+      _endDate = f.endDate;
+      _endDateController.text = _dateFormat.format(f.endDate);
+    }
+  }
+
   @override
   void dispose() {
     _nameController.dispose();
+    _goalController.dispose();
     _descriptionController.dispose();
     _startDateController.dispose();
     _endDateController.dispose();
@@ -120,24 +148,56 @@ class _CreateFestivalBottomSheetState
       return;
     }
 
+    final goalText = _goalController.text.trim();
+    double goalAmount = 0.0;
+    if (goalText.isNotEmpty) {
+      final parsedGoal = double.tryParse(goalText);
+      if (parsedGoal == null || parsedGoal < 0) {
+        HapticFeedback.mediumImpact();
+        showErrorToast(message: 'Please enter a valid donation goal');
+        return;
+      }
+      goalAmount = parsedGoal;
+    }
+
     final calculatedStatus = _calculateStatus(_startDate!, _endDate!);
 
-    final festival = Festival(
-      id: '',
-      communityId: '',
-      name: name,
-      description: _descriptionController.text.trim(),
-      startDate: _startDate!,
-      endDate: _endDate!,
-      status: calculatedStatus,
-      createdBy: '',
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
+    if (_isEditMode) {
+      final updatedFestival = widget.festival!.copyWith(
+        name: name,
+        goal: goalAmount,
+        description: _descriptionController.text.trim(),
+        startDate: _startDate!,
+        endDate: _endDate!,
+        status: calculatedStatus,
+        updatedAt: DateTime.now(),
+      );
 
-    context.read<FestivalBloc>().add(
-          FestivalEvent.createFestivalRequested(festival: festival),
-        );
+      context.read<FestivalBloc>().add(
+            FestivalEvent.updateFestivalRequested(
+              festival: updatedFestival,
+              communityId: updatedFestival.communityId,
+            ),
+          );
+    } else {
+      final newFestival = Festival(
+        id: '',
+        communityId: '',
+        name: name,
+        goal: goalAmount,
+        description: _descriptionController.text.trim(),
+        startDate: _startDate!,
+        endDate: _endDate!,
+        status: calculatedStatus,
+        createdBy: '',
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      context.read<FestivalBloc>().add(
+            FestivalEvent.createFestivalRequested(festival: newFestival),
+          );
+    }
   }
 
   @override
@@ -158,6 +218,11 @@ class _CreateFestivalBottomSheetState
         if (state.festivalActionStatus == StateStatus.loaded &&
             _prevActionStatus == StateStatus.loading) {
           HapticFeedback.lightImpact();
+          showSuccessToast(
+            message: _isEditMode
+                ? 'Festival Updated Successfully!'
+                : 'Festival Created Successfully!',
+          );
           Navigator.of(context).pop();
         }
 
@@ -167,6 +232,11 @@ class _CreateFestivalBottomSheetState
       builder: (context, state) {
         final isLoading =
             state.festivalActionStatus == StateStatus.loading;
+
+        final titleText = _isEditMode ? 'Edit Festival' : 'Create Festival';
+        final buttonText = isLoading
+            ? (_isEditMode ? 'Updating...' : 'Creating...')
+            : (_isEditMode ? 'Update Festival' : 'Create Festival');
 
         return Container(
           decoration: BoxDecoration(
@@ -213,7 +283,7 @@ class _CreateFestivalBottomSheetState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Create Festival',
+                      titleText,
                       style: typography.headlineSmall.copyWith(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
@@ -304,6 +374,21 @@ class _CreateFestivalBottomSheetState
                 ),
                 const SizedBox(height: 20),
 
+                // Donation Goal Field
+                AppTextField(
+                  controller: _goalController,
+                  labelText: 'Donation Goal (₹)',
+                  hintText: 'e.g. 500000',
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  prefixIcon: Icon(
+                    Icons.currency_rupee_rounded,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+
                 // Start & End Date Row
                 Row(
                   children: [
@@ -378,15 +463,17 @@ class _CreateFestivalBottomSheetState
                 ),
                 const SizedBox(height: 24),
 
-                // Create Festival Submit Button
+                // Create / Edit Festival Submit Button
                 AppButton(
                   width: double.infinity,
                   onPressed: isLoading ? null : () => _onSubmit(context),
                   isLoading: isLoading,
-                  text: isLoading ? 'Creating...' : 'Create Festival',
+                  text: buttonText,
                   color: colors.primary,
                   icon: Icon(
-                    Icons.arrow_forward_rounded,
+                    _isEditMode
+                        ? Icons.check_rounded
+                        : Icons.arrow_forward_rounded,
                     color: colors.white,
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 14),

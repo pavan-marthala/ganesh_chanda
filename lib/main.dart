@@ -114,7 +114,6 @@ class _MyAppState extends State<MyApp> {
         final isSignUp = matchedLocation == AppRoutes.signUp;
         final isJoinCommunity = matchedLocation == AppRoutes.joinCommunity;
         final isSignUpVolunteer = matchedLocation == AppRoutes.signUpVolunteer;
-
         return authState.map(
           initial: (_) {
             if (!isSplash) {
@@ -129,13 +128,11 @@ class _MyAppState extends State<MyApp> {
               AccountSetupStatus.communityCreated => AppRoutes.festivalsHome,
               AccountSetupStatus.onboardingCompleted => AppRoutes.festivalsHome,
             };
-
             if ((isSplash ||
                     isSignIn ||
                     isSignUp ||
                     isJoinCommunity ||
-                    isSignUpVolunteer) &&
-                appUser.role != "ADMIN") {
+                    isSignUpVolunteer)) {
               return targetRoute;
             }
 
