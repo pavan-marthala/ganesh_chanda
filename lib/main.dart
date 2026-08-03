@@ -19,6 +19,7 @@ import 'package:ganesh_chanda/features/community/presentation/screens/create_com
 import 'package:ganesh_chanda/features/dashboard/presentation/screens/festival_dashboard_screen.dart';
 import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart';
 import 'package:ganesh_chanda/features/donation/presentation/screens/donation_screen.dart';
+import 'package:ganesh_chanda/features/event/presentation/bloc/event_bloc.dart';
 import 'package:ganesh_chanda/features/event/presentation/screens/event_screen.dart';
 import 'package:ganesh_chanda/features/expense/presentation/bloc/expense_bloc.dart';
 import 'package:ganesh_chanda/features/expense/presentation/screens/expense_screen.dart';
@@ -61,6 +62,7 @@ void main() async {
         BlocProvider(create: (context) => getIt<VolunteerBloc>()),
         BlocProvider(create: (context) => getIt<DonationBloc>()),
         BlocProvider(create: (context) => getIt<ExpenseBloc>()),
+        BlocProvider(create: (context) => getIt<EventBloc>()),
       ],
       child: const MyApp(),
     ),
