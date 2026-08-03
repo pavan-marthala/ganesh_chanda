@@ -6,6 +6,7 @@ import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_routes.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart';
+import 'package:ganesh_chanda/features/event/presentation/bloc/event_bloc.dart';
 import 'package:ganesh_chanda/features/expense/presentation/bloc/expense_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_home_screen.dart';
@@ -48,6 +49,11 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
           );
           context.read<ExpenseBloc>().add(
             ExpenseEvent.loadExpensesByFestivalRequested(
+              festivalId: state.festival!.id,
+            ),
+          );
+          context.read<EventBloc>().add(
+            EventEvent.loadEventsByFestivalRequested(
               festivalId: state.festival!.id,
             ),
           );

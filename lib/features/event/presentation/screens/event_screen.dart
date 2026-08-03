@@ -5,6 +5,7 @@ import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/event/domain/enums/event_status.dart';
 import 'package:ganesh_chanda/features/event/domain/models/event.dart';
 import 'package:ganesh_chanda/features/event/presentation/bloc/event_bloc.dart';
+import 'package:ganesh_chanda/features/event/presentation/widgets/add_event_bottom_sheet.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -18,12 +19,6 @@ class EventScreen extends StatefulWidget {
 
 class _EventScreenState extends State<EventScreen> {
   DateTime? _selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadEvents();
-  }
 
   void _loadEvents() {
     final festival = context.read<FestivalBloc>().state.festival;
@@ -122,7 +117,9 @@ class _EventScreenState extends State<EventScreen> {
                   color: colors.textPrimary,
                   size: 20,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  AddEventBottomSheet.show(context);
+                },
               ),
             ),
           ),
@@ -304,7 +301,6 @@ class _EventScreenState extends State<EventScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Dynamic Horizontal Date Timeline
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
@@ -382,7 +378,6 @@ class _EventScreenState extends State<EventScreen> {
 
           const SizedBox(height: 22),
 
-          // Header Date Label
           if (_selectedDate != null)
             Text(
               _formatHeaderDate(_selectedDate!),
@@ -395,7 +390,6 @@ class _EventScreenState extends State<EventScreen> {
 
           const SizedBox(height: 16),
 
-          // Event Timeline
           if (selectedDateEvents.isEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 36),
@@ -433,30 +427,24 @@ class _EventScreenState extends State<EventScreen> {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 12,
         children: [
-          // Timeline Node Line & Dot
-          SizedBox(
-            width: 24,
-            child: Column(
-              children: [
-                Container(
-                  width: 16,
-                  height: 16,
-                  margin: const EdgeInsets.only(top: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isDone ? colors.primary : colors.card,
-                    border: Border.all(color: colors.primary, width: 3),
-                  ),
+          Column(
+            children: [
+              Container(
+                width: 16,
+                height: 16,
+                margin: const EdgeInsets.only(top: 4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDone ? colors.primary : colors.card,
+                  border: Border.all(color: colors.primary, width: 3),
                 ),
-                if (!isLast)
-                  Expanded(child: Container(width: 2, color: colors.border)),
-              ],
-            ),
+              ),
+              if (!isLast)
+                Expanded(child: Container(width: 2, color: colors.border)),
+            ],
           ),
-          const SizedBox(width: 12),
-
-          // Timeline Content Card
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 24),
