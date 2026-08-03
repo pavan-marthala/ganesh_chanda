@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
+import 'package:ganesh_chanda/core/utils/app_utils.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/donation/domain/enums/donation_status.dart';
 import 'package:ganesh_chanda/features/donation/domain/enums/payment_mode.dart';
@@ -36,14 +37,6 @@ class _DonationScreenState extends State<DonationScreen> {
     return parts[0][0].toUpperCase();
   }
 
-  String _formatAmount(double amount) {
-    final formatter = NumberFormat.currency(
-      locale: 'en_IN',
-      symbol: '₹',
-      decimalDigits: 0,
-    );
-    return formatter.format(amount);
-  }
 
   String _getPaymentModeLabel(PaymentMode mode) {
     switch (mode) {
@@ -323,7 +316,6 @@ class _DonationScreenState extends State<DonationScreen> {
 
           const SizedBox(height: 16),
 
-          // Summary Strip
           Row(
             children: [
               Expanded(
@@ -338,7 +330,7 @@ class _DonationScreenState extends State<DonationScreen> {
                 child: _buildSummaryMini(
                   context,
                   label: 'Total Raised',
-                  value: _formatAmount(totalAmount),
+                  value: formatAmount(totalAmount),
                 ),
               ),
               const SizedBox(width: 10),
@@ -346,7 +338,7 @@ class _DonationScreenState extends State<DonationScreen> {
                 child: _buildSummaryMini(
                   context,
                   label: 'Avg. / Donor',
-                  value: _formatAmount(avgAmount),
+                  value: formatAmount(avgAmount),
                 ),
               ),
             ],
@@ -518,7 +510,7 @@ class _DonationScreenState extends State<DonationScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                _formatAmount(donation.amount),
+                formatAmount(donation.amount),
                 style: typography.titleMedium.copyWith(
                   fontWeight: FontWeight.w700,
                   color: isCancelled ? colors.warning : colors.success,
