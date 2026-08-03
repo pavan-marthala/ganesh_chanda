@@ -41,7 +41,6 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
       },
       listener: (context, state) {
         if (state.festivalStatus == .loaded && state.festival != null) {
-          log("Loaded donations");
           context.read<DonationBloc>().add(
             DonationEvent.loadDonationsByFestivalRequested(
               festivalId: state.festival!.id,

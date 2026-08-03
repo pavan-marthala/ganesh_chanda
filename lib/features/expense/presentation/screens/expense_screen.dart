@@ -7,6 +7,7 @@ import 'package:ganesh_chanda/features/expense/domain/enums/expense_category.dar
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_status.dart';
 import 'package:ganesh_chanda/features/expense/domain/models/expense.dart';
 import 'package:ganesh_chanda/features/expense/presentation/bloc/expense_bloc.dart';
+import 'package:ganesh_chanda/features/expense/presentation/widgets/add_expense_bottom_sheet.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -25,8 +26,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final festival = context.read<FestivalBloc>().state.festival;
     if (festival != null && festival.id.isNotEmpty) {
       context.read<ExpenseBloc>().add(
-        ExpenseEvent.loadExpensesByFestivalRequested(festivalId: festival.id),
-      );
+            ExpenseEvent.loadExpensesByFestivalRequested(
+              festivalId: festival.id,
+            ),
+          );
     }
   }
 
@@ -94,7 +97,9 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   color: colors.textPrimary,
                   size: 20,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  AddExpenseBottomSheet.show(context);
+                },
               ),
             ),
           ),
@@ -109,7 +114,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           builder: (context, expenseState) {
             final isLoading =
                 expenseState.expensesStatus == StateStatus.loading ||
-                expenseState.expensesStatus == StateStatus.initial;
+                    expenseState.expensesStatus == StateStatus.initial;
             final isError = expenseState.expensesStatus == StateStatus.error;
             final expenses = expenseState.expenses;
 
@@ -123,7 +128,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             if (isLoading) {
               return Skeletonizer(
                 enabled: true,
-                child: _buildExpensesContent(context, _getMockExpenses()),
+                child: _buildExpensesContent(
+                  context,
+                  _getMockExpenses(),
+                ),
               );
             }
 
@@ -223,7 +231,10 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: colors.surfaceLight,
-                border: Border.all(color: colors.border, width: 1.5),
+                border: Border.all(
+                  color: colors.border,
+                  width: 1.5,
+                ),
               ),
               child: Center(
                 child: Icon(
@@ -251,13 +262,37 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                 fontSize: 13.5,
               ),
             ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colors.secondary,
+                foregroundColor: Colors.white,
+                shape: const StadiumBorder(),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                elevation: 4,
+              ),
+              onPressed: () {
+                AddExpenseBottomSheet.show(context);
+              },
+              icon: const Icon(Icons.add_rounded, size: 20),
+              label: const Text(
+                'Add First Expense',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildExpensesContent(BuildContext context, List<Expense> expenses) {
+  Widget _buildExpensesContent(
+    BuildContext context,
+    List<Expense> expenses,
+  ) {
     final colors = context.appColors;
     final typography = context.appTypography;
 
