@@ -10,37 +10,65 @@ class VolunteerRepositoryImpl implements VolunteerRepository {
   VolunteerRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<List<AppUser>> getVolunteers(String communityId) {
-    return _remoteDataSource.getVolunteers(communityId);
+  Future<List<AppUser>> getVolunteers(String communityId) async {
+    try {
+      return await _remoteDataSource.getVolunteers(communityId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<List<AppUser>> getVolunteersByIds(List<String> volunteerIds) {
-    return _remoteDataSource.getVolunteersByIds(volunteerIds);
+  Future<List<AppUser>> getVolunteersByIds(List<String> volunteerIds) async {
+    try {
+      return await _remoteDataSource.getVolunteersByIds(volunteerIds);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<AppUser> addVolunteer(AppUser volunteer, String communityId) {
-    return _remoteDataSource.addVolunteer(volunteer, communityId);
+  Future<AppUser> addVolunteer(AppUser volunteer, String communityId) async {
+    try {
+      return await _remoteDataSource.addVolunteer(volunteer, communityId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<AppUser> updateVolunteer(AppUser volunteer) {
-    return _remoteDataSource.updateVolunteer(volunteer);
+  Future<AppUser> updateVolunteer(AppUser volunteer) async {
+    try {
+      return await _remoteDataSource.updateVolunteer(volunteer);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> activateVolunteer(String userId) {
-    return _remoteDataSource.activateVolunteer(userId);
+  Future<void> activateVolunteer(String userId) async {
+    try {
+      await _remoteDataSource.activateVolunteer(userId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> deactivateVolunteer(String userId) {
-    return _remoteDataSource.deactivateVolunteer(userId);
+  Future<void> deactivateVolunteer(String userId) async {
+    try {
+      await _remoteDataSource.deactivateVolunteer(userId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> deleteVolunteer(String userId) {
-    return _remoteDataSource.deleteVolunteer(userId);
+  Future<void> deleteVolunteer(String userId) async {
+    try {
+      await _remoteDataSource.deleteVolunteer(userId);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

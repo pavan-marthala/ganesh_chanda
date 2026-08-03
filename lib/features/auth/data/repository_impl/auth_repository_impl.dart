@@ -45,8 +45,13 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<AppUser?> get currentAppUser =>
-      _fetchAppUser(_remoteDataSource.currentUser);
+  Future<AppUser?> get currentAppUser async {
+    try {
+      return await _fetchAppUser(_remoteDataSource.currentUser);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Stream<AppUser?> get appUserChanges =>
@@ -54,13 +59,23 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<AppUser> signIn(String email, String password) async {
-    final firebaseUser = await _remoteDataSource.signIn(email, password);
-    final appUser = await _fetchAppUser(firebaseUser);
-    return appUser!;
+    try {
+      final firebaseUser = await _remoteDataSource.signIn(email, password);
+      final appUser = await _fetchAppUser(firebaseUser);
+      return appUser!;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
-  Future<void> signOut() => _remoteDataSource.signOut();
+  Future<void> signOut() async {
+    try {
+      await _remoteDataSource.signOut();
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   @override
   Future<AppUser> signUp({

@@ -12,31 +12,55 @@ class DonationRepositoryImpl implements DonationRepository {
 
   @override
   Future<Donation> createDonation(Donation donation) async {
-    return await _remoteDataSource.createDonation(donation);
+    try {
+      return await _remoteDataSource.createDonation(donation);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Donation> updateDonation(Donation donation) async {
-    return await _remoteDataSource.updateDonation(donation);
+    try {
+      return await _remoteDataSource.updateDonation(donation);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> deleteDonation(String donationId) async {
-    await _remoteDataSource.deleteDonation(donationId);
+    try {
+      await _remoteDataSource.deleteDonation(donationId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Donation?> getDonationById(String donationId) async {
-    return await _remoteDataSource.getDonationById(donationId);
+    try {
+      return await _remoteDataSource.getDonationById(donationId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<List<Donation>> getDonationsByFestival(String festivalId) async {
-    return await _remoteDataSource.getDonationsByFestival(festivalId);
+    try {
+      return await _remoteDataSource.getDonationsByFestival(festivalId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<List<Donation>> getDonationsByCommunity(String communityId) async {
-    return await _remoteDataSource.getDonationsByCommunity(communityId);
+    try {
+      return await _remoteDataSource.getDonationsByCommunity(communityId);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

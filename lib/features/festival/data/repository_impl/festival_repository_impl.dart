@@ -12,27 +12,47 @@ class FestivalRepositoryImpl implements FestivalRepository {
 
   @override
   Future<Festival> createFestival(Festival festival) async {
-    return await _remoteDataSource.createFestival(festival);
+    try {
+      return await _remoteDataSource.createFestival(festival);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Festival?> getFestivalById(String festivalId) async {
-    return await _remoteDataSource.getFestivalById(festivalId);
+    try {
+      return await _remoteDataSource.getFestivalById(festivalId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<List<Festival>> getCommunityFestivals(String communityId) async {
-    return await _remoteDataSource.getCommunityFestivals(communityId);
+    try {
+      return await _remoteDataSource.getCommunityFestivals(communityId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Festival> updateFestival(Festival festival) async {
-    return await _remoteDataSource.updateFestival(festival);
+    try {
+      return await _remoteDataSource.updateFestival(festival);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> deleteFestival(String festivalId) async {
-    await _remoteDataSource.deleteFestival(festivalId);
+    try {
+      await _remoteDataSource.deleteFestival(festivalId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -40,10 +60,14 @@ class FestivalRepositoryImpl implements FestivalRepository {
     required String festivalId,
     required String volunteerId,
   }) async {
-    await _remoteDataSource.assignVolunteer(
-      festivalId: festivalId,
-      volunteerId: volunteerId,
-    );
+    try {
+      await _remoteDataSource.assignVolunteer(
+        festivalId: festivalId,
+        volunteerId: volunteerId,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -51,9 +75,13 @@ class FestivalRepositoryImpl implements FestivalRepository {
     required String festivalId,
     required String volunteerId,
   }) async {
-    await _remoteDataSource.removeVolunteer(
-      festivalId: festivalId,
-      volunteerId: volunteerId,
-    );
+    try {
+      await _remoteDataSource.removeVolunteer(
+        festivalId: festivalId,
+        volunteerId: volunteerId,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -48,73 +48,85 @@ class CommunityRemoteDataSourceImpl implements CommunityRemoteDataSource {
 
   @override
   Future<Community> createCommunity(Community community) async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) {
-      throw Exception('User must be authenticated to create a community');
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user == null) {
+        throw Exception('User must be authenticated to create a community');
+      }
+
+      final docRef = _firestore.collection('communities').doc();
+      final now = DateTime.now();
+      final communityCode = _generateCommunityCode(docRef.id);
+
+      final fullCommunity = community.copyWith(
+        id: docRef.id,
+        communityCode: communityCode,
+        createdBy: user.uid,
+        createdAt: now,
+        updatedAt: now,
+      );
+
+      final jsonMap = fullCommunity.toJson();
+      jsonMap['createdAt'] = Timestamp.fromDate(now);
+      jsonMap['updatedAt'] = Timestamp.fromDate(now);
+
+      await docRef.set(jsonMap);
+
+      await _firestore.collection('users').doc(user.uid).update({
+        'communityId': docRef.id,
+        'onboardingState': 'COMMUNITY_CREATED',
+        'updatedAt': Timestamp.fromDate(now),
+      });
+
+      return fullCommunity;
+    } catch (e) {
+      rethrow;
     }
-
-    final docRef = _firestore.collection('communities').doc();
-    final now = DateTime.now();
-    final communityCode = _generateCommunityCode(docRef.id);
-
-    final fullCommunity = community.copyWith(
-      id: docRef.id,
-      communityCode: communityCode,
-      createdBy: user.uid,
-      createdAt: now,
-      updatedAt: now,
-    );
-
-    final jsonMap = fullCommunity.toJson();
-    jsonMap['createdAt'] = Timestamp.fromDate(now);
-    jsonMap['updatedAt'] = Timestamp.fromDate(now);
-
-    await docRef.set(jsonMap);
-
-    await _firestore.collection('users').doc(user.uid).update({
-      'communityId': docRef.id,
-      'onboardingState': 'COMMUNITY_CREATED',
-      'updatedAt': Timestamp.fromDate(now),
-    });
-
-    return fullCommunity;
   }
 
   @override
   Future<Community?> getCurrentUserCommunity() async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) return null;
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user == null) return null;
 
-    final userDoc = await _firestore.collection('users').doc(user.uid).get();
-    if (!userDoc.exists || userDoc.data() == null) return null;
+      final userDoc = await _firestore.collection('users').doc(user.uid).get();
+      if (!userDoc.exists || userDoc.data() == null) return null;
 
-    final communityId = userDoc.data()!['communityId'] as String?;
-    if (communityId == null || communityId.isEmpty) return null;
+      final communityId = userDoc.data()!['communityId'] as String?;
+      if (communityId == null || communityId.isEmpty) return null;
 
-    final communityDoc =
-        await _firestore.collection('communities').doc(communityId).get();
-    if (!communityDoc.exists || communityDoc.data() == null) return null;
+      final communityDoc =
+          await _firestore.collection('communities').doc(communityId).get();
+      if (!communityDoc.exists || communityDoc.data() == null) return null;
 
-    final data = communityDoc.data()!;
-    _convertTimestamps(data);
+      final data = communityDoc.data()!;
+      _convertTimestamps(data);
 
-    return Community.fromJson(data);
+      return Community.fromJson(data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Community?> getCommunityByCode(String communityCode) async {
-    final querySnapshot = await _firestore
-        .collection('communities')
-        .where('communityCode', isEqualTo: communityCode.toUpperCase().trim())
-        .limit(1)
-        .get();
+    try {
+      final querySnapshot = await _firestore
+          .collection('communities')
+          .where('communityCode', isEqualTo: communityCode.toUpperCase().trim())
+          .limit(1)
+          .get();
 
-    if (querySnapshot.docs.isEmpty) return null;
+      if (querySnapshot.docs.isEmpty) return null;
 
-    final data = querySnapshot.docs.first.data();
-    _convertTimestamps(data);
+      final data = querySnapshot.docs.first.data();
+      _convertTimestamps(data);
 
-    return Community.fromJson(data);
+      return Community.fromJson(data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void _convertTimestamps(Map<String, dynamic> data) {

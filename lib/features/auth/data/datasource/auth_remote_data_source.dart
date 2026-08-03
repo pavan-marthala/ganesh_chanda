@@ -23,28 +23,42 @@ class FirebaseAuthDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<User> signIn(String email, String password) async {
-    final credential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    if (credential.user == null) {
-      throw Exception('Sign in failed: Firebase user is null');
+    try {
+      final credential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (credential.user == null) {
+        throw Exception('Sign in failed: Firebase user is null');
+      }
+      return credential.user!;
+    } catch (e) {
+      rethrow;
     }
-    return credential.user!;
   }
 
   @override
   Future<User> signUp(String email, String password) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    if (credential.user == null) {
-      throw Exception('Sign up failed: Firebase user is null');
+    try {
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (credential.user == null) {
+        throw Exception('Sign up failed: Firebase user is null');
+      }
+      return credential.user!;
+    } catch (e) {
+      rethrow;
     }
-    return credential.user!;
   }
 
   @override
-  Future<void> signOut() => _firebaseAuth.signOut();
+  Future<void> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

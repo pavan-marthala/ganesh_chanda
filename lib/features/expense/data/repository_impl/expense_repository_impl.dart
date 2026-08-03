@@ -12,31 +12,55 @@ class ExpenseRepositoryImpl implements ExpenseRepository {
 
   @override
   Future<Expense> createExpense(Expense expense) async {
-    return await _remoteDataSource.createExpense(expense);
+    try {
+      return await _remoteDataSource.createExpense(expense);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Expense> updateExpense(Expense expense) async {
-    return await _remoteDataSource.updateExpense(expense);
+    try {
+      return await _remoteDataSource.updateExpense(expense);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> deleteExpense(String expenseId) async {
-    await _remoteDataSource.deleteExpense(expenseId);
+    try {
+      await _remoteDataSource.deleteExpense(expenseId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Expense?> getExpenseById(String expenseId) async {
-    return await _remoteDataSource.getExpenseById(expenseId);
+    try {
+      return await _remoteDataSource.getExpenseById(expenseId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<List<Expense>> getExpensesByFestival(String festivalId) async {
-    return await _remoteDataSource.getExpensesByFestival(festivalId);
+    try {
+      return await _remoteDataSource.getExpensesByFestival(festivalId);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<List<Expense>> getExpensesByCommunity(String communityId) async {
-    return await _remoteDataSource.getExpensesByCommunity(communityId);
+    try {
+      return await _remoteDataSource.getExpensesByCommunity(communityId);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

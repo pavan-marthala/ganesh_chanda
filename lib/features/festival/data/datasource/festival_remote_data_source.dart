@@ -29,94 +29,114 @@ class FestivalRemoteDataSourceImpl implements FestivalRemoteDataSource {
 
   @override
   Future<Festival> createFestival(Festival festival) async {
-    final user = _firebaseAuth.currentUser;
-    if (user == null) {
-      throw Exception('User must be authenticated to create a festival');
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user == null) {
+        throw Exception('User must be authenticated to create a festival');
+      }
+
+      final userDoc = await _firestore.collection('users').doc(user.uid).get();
+      if (!userDoc.exists || userDoc.data() == null) {
+        throw Exception('User data not found');
+      }
+
+      final communityId = userDoc.data()!['communityId'] as String?;
+      if (communityId == null || communityId.isEmpty) {
+        throw Exception('User is not associated with any community');
+      }
+
+      final docRef = _firestore.collection('festivals').doc();
+      final now = DateTime.now();
+
+      final fullFestival = festival.copyWith(
+        id: docRef.id,
+        communityId: communityId,
+        totalDonationAmount: 0.0,
+        totalDonationCount: 0,
+        totalExpenseAmount: 0.0,
+        totalExpenseCount: 0,
+        totalVolunteerCount: 0,
+        createdBy: user.uid,
+        createdAt: now,
+        updatedAt: now,
+      );
+
+      final jsonMap = fullFestival.toJson();
+      jsonMap['startDate'] = Timestamp.fromDate(festival.startDate);
+      jsonMap['endDate'] = Timestamp.fromDate(festival.endDate);
+      jsonMap['createdAt'] = Timestamp.fromDate(now);
+      jsonMap['updatedAt'] = Timestamp.fromDate(now);
+
+      await docRef.set(jsonMap);
+
+      return fullFestival;
+    } catch (e) {
+      rethrow;
     }
-
-    final userDoc = await _firestore.collection('users').doc(user.uid).get();
-    if (!userDoc.exists || userDoc.data() == null) {
-      throw Exception('User data not found');
-    }
-
-    final communityId = userDoc.data()!['communityId'] as String?;
-    if (communityId == null || communityId.isEmpty) {
-      throw Exception('User is not associated with any community');
-    }
-
-    final docRef = _firestore.collection('festivals').doc();
-    final now = DateTime.now();
-
-    final fullFestival = festival.copyWith(
-      id: docRef.id,
-      communityId: communityId,
-      totalDonationAmount: 0.0,
-      totalDonationCount: 0,
-      totalExpenseAmount: 0.0,
-      totalExpenseCount: 0,
-      totalVolunteerCount: 0,
-      createdBy: user.uid,
-      createdAt: now,
-      updatedAt: now,
-    );
-
-    final jsonMap = fullFestival.toJson();
-    jsonMap['startDate'] = Timestamp.fromDate(festival.startDate);
-    jsonMap['endDate'] = Timestamp.fromDate(festival.endDate);
-    jsonMap['createdAt'] = Timestamp.fromDate(now);
-    jsonMap['updatedAt'] = Timestamp.fromDate(now);
-
-    await docRef.set(jsonMap);
-
-    return fullFestival;
   }
 
   @override
   Future<Festival?> getFestivalById(String festivalId) async {
-    final docSnapshot =
-        await _firestore.collection('festivals').doc(festivalId).get();
+    try {
+      final docSnapshot =
+          await _firestore.collection('festivals').doc(festivalId).get();
 
-    if (!docSnapshot.exists || docSnapshot.data() == null) return null;
+      if (!docSnapshot.exists || docSnapshot.data() == null) return null;
 
-    final data = docSnapshot.data()!;
-    _convertTimestamps(data);
+      final data = docSnapshot.data()!;
+      _convertTimestamps(data);
 
-    return Festival.fromJson(data);
+      return Festival.fromJson(data);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<List<Festival>> getCommunityFestivals(String communityId) async {
-    final querySnapshot = await _firestore
-        .collection('festivals')
-        .where('communityId', isEqualTo: communityId)
-        .orderBy('createdAt', descending: true)
-        .get();
-    return querySnapshot.docs.map((doc) {
-      final data = doc.data();
-      _convertTimestamps(data);
-      return Festival.fromJson(data);
-    }).toList();
+    try {
+      final querySnapshot = await _firestore
+          .collection('festivals')
+          .where('communityId', isEqualTo: communityId)
+          .orderBy('createdAt', descending: true)
+          .get();
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        _convertTimestamps(data);
+        return Festival.fromJson(data);
+      }).toList();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Festival> updateFestival(Festival festival) async {
-    final docRef = _firestore.collection('festivals').doc(festival.id);
-    final now = DateTime.now();
-    final updatedFestival = festival.copyWith(updatedAt: now);
+    try {
+      final docRef = _firestore.collection('festivals').doc(festival.id);
+      final now = DateTime.now();
+      final updatedFestival = festival.copyWith(updatedAt: now);
 
-    final jsonMap = updatedFestival.toJson();
-    jsonMap['startDate'] = Timestamp.fromDate(updatedFestival.startDate);
-    jsonMap['endDate'] = Timestamp.fromDate(updatedFestival.endDate);
-    jsonMap['createdAt'] = Timestamp.fromDate(updatedFestival.createdAt);
-    jsonMap['updatedAt'] = Timestamp.fromDate(now);
+      final jsonMap = updatedFestival.toJson();
+      jsonMap['startDate'] = Timestamp.fromDate(updatedFestival.startDate);
+      jsonMap['endDate'] = Timestamp.fromDate(updatedFestival.endDate);
+      jsonMap['createdAt'] = Timestamp.fromDate(updatedFestival.createdAt);
+      jsonMap['updatedAt'] = Timestamp.fromDate(now);
 
-    await docRef.update(jsonMap);
-    return updatedFestival;
+      await docRef.update(jsonMap);
+      return updatedFestival;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<void> deleteFestival(String festivalId) async {
-    await _firestore.collection('festivals').doc(festivalId).delete();
+    try {
+      await _firestore.collection('festivals').doc(festivalId).delete();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -124,11 +144,15 @@ class FestivalRemoteDataSourceImpl implements FestivalRemoteDataSource {
     required String festivalId,
     required String volunteerId,
   }) async {
-    final docRef = _firestore.collection('festivals').doc(festivalId);
-    await docRef.update({
-      'assignedVolunteerIds': FieldValue.arrayUnion([volunteerId]),
-      'updatedAt': Timestamp.fromDate(DateTime.now()),
-    });
+    try {
+      final docRef = _firestore.collection('festivals').doc(festivalId);
+      await docRef.update({
+        'assignedVolunteerIds': FieldValue.arrayUnion([volunteerId]),
+        'updatedAt': Timestamp.fromDate(DateTime.now()),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
@@ -136,11 +160,15 @@ class FestivalRemoteDataSourceImpl implements FestivalRemoteDataSource {
     required String festivalId,
     required String volunteerId,
   }) async {
-    final docRef = _firestore.collection('festivals').doc(festivalId);
-    await docRef.update({
-      'assignedVolunteerIds': FieldValue.arrayRemove([volunteerId]),
-      'updatedAt': Timestamp.fromDate(DateTime.now()),
-    });
+    try {
+      final docRef = _firestore.collection('festivals').doc(festivalId);
+      await docRef.update({
+        'assignedVolunteerIds': FieldValue.arrayRemove([volunteerId]),
+        'updatedAt': Timestamp.fromDate(DateTime.now()),
+      });
+    } catch (e) {
+      rethrow;
+    }
   }
 
   void _convertTimestamps(Map<String, dynamic> data) {

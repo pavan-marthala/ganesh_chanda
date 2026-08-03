@@ -12,16 +12,28 @@ class CommunityRepositoryImpl implements CommunityRepository {
 
   @override
   Future<Community> createCommunity(Community community) async {
-    return await _remoteDataSource.createCommunity(community);
+    try {
+      return await _remoteDataSource.createCommunity(community);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Community?> getCurrentUserCommunity() async {
-    return await _remoteDataSource.getCurrentUserCommunity();
+    try {
+      return await _remoteDataSource.getCurrentUserCommunity();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
   Future<Community?> getCommunityByCode(String communityCode) async {
-    return await _remoteDataSource.getCommunityByCode(communityCode);
+    try {
+      return await _remoteDataSource.getCommunityByCode(communityCode);
+    } catch (e) {
+      rethrow;
+    }
   }
 }
