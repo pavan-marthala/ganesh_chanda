@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_category.dart';
+import 'package:ganesh_chanda/generated/assets.dart';
 import 'package:intl/intl.dart';
 
 String formatAmount(double amount) {
@@ -37,28 +38,28 @@ String getCategoryDisplayName(ExpenseCategory category) {
   }
 }
 
-IconData getCategoryIcon(ExpenseCategory category) {
+String getCategoryIcon(ExpenseCategory category) {
   switch (category) {
     case ExpenseCategory.decoration:
-      return Icons.filter_vintage_rounded;
+      return Assets.svgDecoration;
     case ExpenseCategory.food:
-      return Icons.restaurant_rounded;
+      return Assets.svgFood;
     case ExpenseCategory.pooja:
-      return Icons.auto_awesome_rounded;
+      return Assets.svgPuja;
     case ExpenseCategory.sound:
-      return Icons.volume_up_rounded;
+      return Assets.svgSound;
     case ExpenseCategory.lighting:
-      return Icons.lightbulb_rounded;
+      return Assets.svgLight;
     case ExpenseCategory.tent:
-      return Icons.storefront_rounded;
+      return Assets.svgTent;
     case ExpenseCategory.transport:
-      return Icons.local_shipping_rounded;
+      return Assets.svgTransport;
     case ExpenseCategory.publicity:
-      return Icons.campaign_rounded;
+      return Assets.svgPublicity;
     case ExpenseCategory.electricity:
-      return Icons.bolt_rounded;
+      return Assets.svgElectricity;
     case ExpenseCategory.miscellaneous:
-      return Icons.category_rounded;
+      return Assets.svgMiscellaneous;
   }
 }
 

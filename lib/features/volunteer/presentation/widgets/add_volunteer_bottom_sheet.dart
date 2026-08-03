@@ -10,6 +10,7 @@ import 'package:ganesh_chanda/features/community/domain/models/community.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/festival/presentation/screens/festivals_home_screen.dart';
 import 'package:ganesh_chanda/features/volunteer/presentation/bloc/volunteer_bloc.dart';
+import 'package:ganesh_chanda/generated/assets.dart';
 
 class AddVolunteerBottomSheet extends StatefulWidget {
   const AddVolunteerBottomSheet({super.key});
@@ -79,7 +80,7 @@ class _AddVolunteerBottomSheetState extends State<AddVolunteerBottomSheet> {
       VolunteerEvent.sendInvite(
         to: email,
         subject: "You're invited to — Ganesh Chanda",
-        path: 'assets/html_templates/volunteer-invite-email.html',
+        path: Assets.htmlTemplatesVolunteerInviteEmail,
         parameters: {
           "volunteer_name": name,
           "volunteer_email": email,

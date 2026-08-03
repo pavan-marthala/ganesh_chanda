@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_text_field.dart';
 import 'package:ganesh_chanda/core/utils/app_toast.dart';
@@ -95,8 +96,8 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
     );
 
     context.read<ExpenseBloc>().add(
-          ExpenseEvent.createExpenseRequested(expense: expense),
-        );
+      ExpenseEvent.createExpenseRequested(expense: expense),
+    );
   }
 
   @override
@@ -265,12 +266,16 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(
+                                    SvgPicture.asset(
                                       getCategoryIcon(cat),
-                                      size: 22,
-                                      color: isSelected
-                                          ? accentColor
-                                          : colors.textTertiary,
+                                      width: 22,
+                                      height: 22,
+                                      colorFilter: ColorFilter.mode(
+                                        isSelected
+                                            ? accentColor
+                                            : colors.textTertiary,
+                                        .srcIn,
+                                      ),
                                     ),
                                     const SizedBox(height: 6),
                                     Text(
@@ -348,7 +353,6 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Reusable Payment Method Selector
                         PaymentMethodSelector(
                           selectedMode: _selectedPaymentMode,
                           onChanged: (mode) {
@@ -396,8 +400,9 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                             shape: const StadiumBorder(),
                             elevation: 4,
                           ),
-                          onPressed:
-                              isLoading ? null : () => _onSaveExpense(context),
+                          onPressed: isLoading
+                              ? null
+                              : () => _onSaveExpense(context),
                           child: isLoading
                               ? const SizedBox(
                                   width: 24,

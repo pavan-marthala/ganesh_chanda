@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ganesh_chanda/core/theme/app_colors.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/sized_context.dart';
+import 'package:ganesh_chanda/generated/assets.dart';
 
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({
@@ -25,26 +27,22 @@ class AppNavigationBar extends StatelessWidget {
       NavigationItem(
         title: 'Dashboard',
         unreadCount: unreadCount,
-        icon: Icon(
-          CupertinoIcons.home,
-          color: colors.textPrimary,
-          size: 24,
-        ),
+        icon: Icon(CupertinoIcons.home, color: colors.textPrimary, size: 24),
       ),
       NavigationItem(
         title: 'Donations',
         unreadCount: 0,
-        icon: Icon(Icons.currency_rupee, color: colors.textPrimary, size: 24),
+        icon: SvgPicture.asset(Assets.svgDonations, height: 24, width: 24),
       ),
       NavigationItem(
         title: 'Expense',
         unreadCount: 0,
-        icon: Icon(Icons.money, color: colors.textPrimary, size: 24),
+        icon: SvgPicture.asset(Assets.svgExpenses, height: 24, width: 24),
       ),
       NavigationItem(
         title: 'Events',
         unreadCount: 0,
-        icon: Icon(CupertinoIcons.calendar, color: colors.textPrimary, size: 24),
+        icon: SvgPicture.asset(Assets.svgEvents, height: 24, width: 24),
       ),
       // NavigationItem(
       //   title: 'Profile',
@@ -55,7 +53,9 @@ class AppNavigationBar extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: context.isMobile ? context.widthPx : 450),
+        constraints: BoxConstraints(
+          maxWidth: context.isMobile ? context.widthPx : 450,
+        ),
         child: LayoutBuilder(
           builder: (context, constraints) {
             final size = Size(constraints.maxWidth, constraints.maxHeight);

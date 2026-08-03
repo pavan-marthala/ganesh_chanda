@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_utils.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
@@ -26,10 +27,8 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     final festival = context.read<FestivalBloc>().state.festival;
     if (festival != null && festival.id.isNotEmpty) {
       context.read<ExpenseBloc>().add(
-            ExpenseEvent.loadExpensesByFestivalRequested(
-              festivalId: festival.id,
-            ),
-          );
+        ExpenseEvent.loadExpensesByFestivalRequested(festivalId: festival.id),
+      );
     }
   }
 
@@ -114,7 +113,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
           builder: (context, expenseState) {
             final isLoading =
                 expenseState.expensesStatus == StateStatus.loading ||
-                    expenseState.expensesStatus == StateStatus.initial;
+                expenseState.expensesStatus == StateStatus.initial;
             final isError = expenseState.expensesStatus == StateStatus.error;
             final expenses = expenseState.expenses;
 
@@ -128,10 +127,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
             if (isLoading) {
               return Skeletonizer(
                 enabled: true,
-                child: _buildExpensesContent(
-                  context,
-                  _getMockExpenses(),
-                ),
+                child: _buildExpensesContent(context, _getMockExpenses()),
               );
             }
 
@@ -231,10 +227,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: colors.surfaceLight,
-                border: Border.all(
-                  color: colors.border,
-                  width: 1.5,
-                ),
+                border: Border.all(color: colors.border, width: 1.5),
               ),
               child: Center(
                 child: Icon(
@@ -289,10 +282,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     );
   }
 
-  Widget _buildExpensesContent(
-    BuildContext context,
-    List<Expense> expenses,
-  ) {
+  Widget _buildExpensesContent(BuildContext context, List<Expense> expenses) {
     final colors = context.appColors;
     final typography = context.appTypography;
 
@@ -539,10 +529,14 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
               color: getCategoryIconBg(context, expense.category),
             ),
             child: Center(
-              child: Icon(
+              child: SvgPicture.asset(
                 getCategoryIcon(expense.category),
-                size: 22,
-                color: getCategoryIconColor(context, expense.category),
+                width: 22,
+                height: 22,
+                colorFilter: ColorFilter.mode(
+                  getCategoryIconColor(context, expense.category),
+                  .srcIn,
+                ),
               ),
             ),
           ),
