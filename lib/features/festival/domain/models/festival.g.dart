@@ -28,6 +28,9 @@ _Festival _$FestivalFromJson(Map<String, dynamic> json) => _Festival(
           ?.map((e) => e as String)
           .toList() ??
       const [],
+  paymentDetails: json['paymentDetails'] == null
+      ? null
+      : PaymentDetails.fromJson(json['paymentDetails'] as Map<String, dynamic>),
   createdBy: json['createdBy'] as String,
   createdAt: DateTime.parse(json['createdAt'] as String),
   updatedAt: DateTime.parse(json['updatedAt'] as String),
@@ -49,6 +52,7 @@ Map<String, dynamic> _$FestivalToJson(_Festival instance) => <String, dynamic>{
   'totalExpenseCount': instance.totalExpenseCount,
   'totalVolunteerCount': instance.totalVolunteerCount,
   'assignedVolunteerIds': instance.assignedVolunteerIds,
+  'paymentDetails': instance.paymentDetails?.toJson(),
   'createdBy': instance.createdBy,
   'createdAt': instance.createdAt.toIso8601String(),
   'updatedAt': instance.updatedAt.toIso8601String(),

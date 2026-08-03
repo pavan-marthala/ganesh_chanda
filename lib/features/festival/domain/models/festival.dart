@@ -1,11 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'festival_status.dart';
+import 'payment_details.dart';
 
 part 'festival.freezed.dart';
 part 'festival.g.dart';
 
 @freezed
 abstract class Festival with _$Festival {
+  @JsonSerializable(explicitToJson: true)
   const factory Festival({
     required String id,
     required String communityId,
@@ -22,6 +24,7 @@ abstract class Festival with _$Festival {
     @Default(0) int totalExpenseCount,
     @Default(0) int totalVolunteerCount,
     @Default([]) List<String> assignedVolunteerIds,
+    PaymentDetails? paymentDetails,
     required String createdBy,
     required DateTime createdAt,
     required DateTime updatedAt,

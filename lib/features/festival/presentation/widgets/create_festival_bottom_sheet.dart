@@ -8,6 +8,7 @@ import 'package:ganesh_chanda/core/utils/app_toast.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival_status.dart';
+import 'package:ganesh_chanda/features/festival/domain/models/payment_details.dart';
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -47,6 +48,14 @@ class _CreateFestivalBottomSheetState
   final _startDateController = TextEditingController();
   final _endDateController = TextEditingController();
 
+  // Payment Details Controllers
+  final _upiIdController = TextEditingController();
+  final _bankNameController = TextEditingController();
+  final _accountHolderNameController = TextEditingController();
+  final _accountNumberController = TextEditingController();
+  final _ifscCodeController = TextEditingController();
+  final _chequePayeeNameController = TextEditingController();
+
   DateTime? _startDate;
   DateTime? _endDate;
 
@@ -71,6 +80,16 @@ class _CreateFestivalBottomSheetState
 
       _endDate = f.endDate;
       _endDateController.text = _dateFormat.format(f.endDate);
+
+      final p = f.paymentDetails;
+      if (p != null) {
+        _upiIdController.text = p.upiId;
+        _bankNameController.text = p.bankName;
+        _accountHolderNameController.text = p.accountHolderName;
+        _accountNumberController.text = p.accountNumber;
+        _ifscCodeController.text = p.ifscCode;
+        _chequePayeeNameController.text = p.chequePayeeName;
+      }
     }
   }
 
@@ -81,6 +100,12 @@ class _CreateFestivalBottomSheetState
     _descriptionController.dispose();
     _startDateController.dispose();
     _endDateController.dispose();
+    _upiIdController.dispose();
+    _bankNameController.dispose();
+    _accountHolderNameController.dispose();
+    _accountNumberController.dispose();
+    _ifscCodeController.dispose();
+    _chequePayeeNameController.dispose();
     super.dispose();
   }
 
@@ -160,6 +185,15 @@ class _CreateFestivalBottomSheetState
       goalAmount = parsedGoal;
     }
 
+    final paymentDetails = PaymentDetails(
+      upiId: _upiIdController.text.trim(),
+      bankName: _bankNameController.text.trim(),
+      accountHolderName: _accountHolderNameController.text.trim(),
+      accountNumber: _accountNumberController.text.trim(),
+      ifscCode: _ifscCodeController.text.trim(),
+      chequePayeeName: _chequePayeeNameController.text.trim(),
+    );
+
     final calculatedStatus = _calculateStatus(_startDate!, _endDate!);
 
     if (_isEditMode) {
@@ -170,6 +204,7 @@ class _CreateFestivalBottomSheetState
         startDate: _startDate!,
         endDate: _endDate!,
         status: calculatedStatus,
+        paymentDetails: paymentDetails,
         updatedAt: DateTime.now(),
       );
 
@@ -189,6 +224,7 @@ class _CreateFestivalBottomSheetState
         startDate: _startDate!,
         endDate: _endDate!,
         status: calculatedStatus,
+        paymentDetails: paymentDetails,
         createdBy: '',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -463,7 +499,99 @@ class _CreateFestivalBottomSheetState
                 ),
                 const SizedBox(height: 24),
 
-                // Create / Edit Festival Submit Button
+                // Payment Details Section Header
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: colors.border)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        'Payment Details (optional)',
+                        style: typography.titleMedium.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: colors.textSecondary,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    Expanded(child: Divider(color: colors.border)),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                AppTextField(
+                  controller: _upiIdController,
+                  labelText: 'UPI ID',
+                  hintText: 'e.g. ganeshchanda@upi',
+                  prefixIcon: Icon(
+                    Icons.qr_code_rounded,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                AppTextField(
+                  controller: _bankNameController,
+                  labelText: 'Bank Name',
+                  hintText: 'e.g. State Bank of India',
+                  prefixIcon: Icon(
+                    Icons.account_balance_rounded,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 12),
+                AppTextField(
+                  controller: _accountHolderNameController,
+                  labelText: 'Account Holder Name',
+                  hintText: 'e.g. Ganesh Chanda Samiti',
+                  prefixIcon: Icon(
+                    Icons.person_outline_rounded,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 12),
+                AppTextField(
+                  controller: _accountNumberController,
+                  labelText: 'Account Number',
+                  hintText: 'e.g. 1234567890',
+                  keyboardType: TextInputType.number,
+                  prefixIcon: Icon(
+                    Icons.numbers_rounded,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 12),
+                AppTextField(
+                  controller: _ifscCodeController,
+                  labelText: 'IFSC Code',
+                  hintText: 'e.g. SBIN0001234',
+                  prefixIcon: Icon(
+                    Icons.code_rounded,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.next,
+                ),
+                const SizedBox(height: 20),
+                AppTextField(
+                  controller: _chequePayeeNameController,
+                  labelText: 'Cheque Payee Name',
+                  hintText: 'e.g. Payable to Ganesh Chanda Samiti',
+                  prefixIcon: Icon(
+                    Icons.badge_outlined,
+                    color: colors.text4,
+                    size: 18,
+                  ),
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(height: 28),
+
                 AppButton(
                   width: double.infinity,
                   onPressed: isLoading ? null : () => _onSubmit(context),
