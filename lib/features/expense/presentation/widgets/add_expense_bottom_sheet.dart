@@ -7,6 +7,7 @@ import 'package:ganesh_chanda/core/utils/app_toast.dart';
 import 'package:ganesh_chanda/core/utils/app_utils.dart';
 import 'package:ganesh_chanda/core/utils/sized_context.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
+import 'package:ganesh_chanda/core/widgets/payment_method_selector.dart';
 import 'package:ganesh_chanda/features/community/presentation/bloc/community_bloc.dart';
 import 'package:ganesh_chanda/features/donation/domain/enums/payment_mode.dart';
 import 'package:ganesh_chanda/features/expense/domain/enums/expense_category.dart';
@@ -94,8 +95,8 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
     );
 
     context.read<ExpenseBloc>().add(
-      ExpenseEvent.createExpenseRequested(expense: expense),
-    );
+          ExpenseEvent.createExpenseRequested(expense: expense),
+        );
   }
 
   @override
@@ -347,47 +348,14 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                         ),
                         const SizedBox(height: 16),
 
-                        // Payment Method Selector
-                        Text(
-                          'Payment Method',
-                          style: typography.titleMedium.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: colors.textSecondary,
-                            fontSize: 13,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: colors.surfaceLight,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: colors.border),
-                          ),
-                          padding: const EdgeInsets.all(4),
-                          child: Row(
-                            children: [
-                              _buildPaymentSegment(
-                                label: 'Cash',
-                                mode: PaymentMode.cash,
-                                icon: Icons.payments_outlined,
-                              ),
-                              _buildPaymentSegment(
-                                label: 'UPI',
-                                mode: PaymentMode.upi,
-                                icon: Icons.qr_code_scanner_rounded,
-                              ),
-                              _buildPaymentSegment(
-                                label: 'Bank',
-                                mode: PaymentMode.bankTransfer,
-                                icon: Icons.account_balance_outlined,
-                              ),
-                              _buildPaymentSegment(
-                                label: 'Cheque',
-                                mode: PaymentMode.cheque,
-                                icon: Icons.receipt_long_outlined,
-                              ),
-                            ],
-                          ),
+                        // Reusable Payment Method Selector
+                        PaymentMethodSelector(
+                          selectedMode: _selectedPaymentMode,
+                          onChanged: (mode) {
+                            setState(() {
+                              _selectedPaymentMode = mode;
+                            });
+                          },
                         ),
                         const SizedBox(height: 16),
                         if (_selectedPaymentMode != PaymentMode.cash) ...[
@@ -428,9 +396,8 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                             shape: const StadiumBorder(),
                             elevation: 4,
                           ),
-                          onPressed: isLoading
-                              ? null
-                              : () => _onSaveExpense(context),
+                          onPressed:
+                              isLoading ? null : () => _onSaveExpense(context),
                           child: isLoading
                               ? const SizedBox(
                                   width: 24,
@@ -467,61 +434,6 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildPaymentSegment({
-    required String label,
-    required PaymentMode mode,
-    required IconData icon,
-  }) {
-    final colors = context.appColors;
-    final typography = context.appTypography;
-    final isSelected = _selectedPaymentMode == mode;
-
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _selectedPaymentMode = mode;
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: isSelected ? colors.card : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: colors.black.withValues(alpha: 0.06),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                size: 16,
-                color: isSelected ? colors.primary : colors.text4,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                label,
-                style: typography.titleSmall.copyWith(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                  color: isSelected ? colors.primary : colors.text4,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
