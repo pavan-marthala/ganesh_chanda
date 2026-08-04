@@ -110,7 +110,7 @@ class NotificationRouter {
       case NotificationType.donationReceived:
       case NotificationType.donationGoalReached:
         final id = payload.data["festivalId"] as String?;
-        if (id != null) {
+        if (id == null) {
           context.go(AppRoutes.festivalsHome);
         } else {
           context.go(AppRoutes.dashboard, extra: id);

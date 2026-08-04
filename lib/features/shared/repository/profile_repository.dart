@@ -23,8 +23,36 @@ class ProfileRepositoryImpl extends ProfileRepository {
       if (currentUserId == null || currentUserId.isEmpty) {
         throw Exception('User is not logged in');
       }
-      await _firestore.collection('users').doc(currentUserId).update({
-        'notificationDevices': FieldValue.arrayUnion([device.toJson()]),
+
+      final userDocRef = _firestore.collection('users').doc(currentUserId);
+      final snapshot = await userDocRef.get();
+
+      if (!snapshot.exists) {
+        throw Exception('User document does not exist');
+      }
+
+      final data = snapshot.data() ?? {};
+      final rawDevices = data['notificationDevices'] as List<dynamic>? ?? [];
+
+      final devices = rawDevices
+          .map((item) => NotificationDevice.fromJson(
+                Map<String, dynamic>.from(item as Map),
+              ))
+          .toList();
+
+      final existingIndex =
+          devices.indexWhere((d) => d.deviceId == device.deviceId);
+
+      if (existingIndex != -1) {
+        devices[existingIndex] = device;
+      } else {
+        devices.add(device);
+      }
+
+      final updatedJsonList = devices.map((d) => d.toJson()).toList();
+
+      await userDocRef.update({
+        'notificationDevices': updatedJsonList,
       });
     } catch (e) {
       rethrow;
@@ -34,7 +62,35 @@ class ProfileRepositoryImpl extends ProfileRepository {
   @override
   Future<void> removeNotificationDevice(String deviceId, String userId) async {
     try {
-      // TODO: Impl remove here
+      final targetUserId =
+          userId.isNotEmpty ? userId : _auth.currentUser?.uid;
+      if (targetUserId == null || targetUserId.isEmpty) {
+        throw Exception('User ID is required to remove device');
+      }
+
+      final userDocRef = _firestore.collection('users').doc(targetUserId);
+      final snapshot = await userDocRef.get();
+
+      if (!snapshot.exists) {
+        return;
+      }
+
+      final data = snapshot.data() ?? {};
+      final rawDevices = data['notificationDevices'] as List<dynamic>? ?? [];
+
+      final devices = rawDevices
+          .map((item) => NotificationDevice.fromJson(
+                Map<String, dynamic>.from(item as Map),
+              ))
+          .toList();
+
+      devices.removeWhere((d) => d.deviceId == deviceId);
+
+      final updatedJsonList = devices.map((d) => d.toJson()).toList();
+
+      await userDocRef.update({
+        'notificationDevices': updatedJsonList,
+      });
     } catch (e) {
       rethrow;
     }

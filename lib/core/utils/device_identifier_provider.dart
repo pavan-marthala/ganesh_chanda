@@ -60,7 +60,7 @@ class DeviceIdentifierProviderImpl implements DeviceIdentifierProvider {
 
   Future<String> _getOrGeneratePersistentUuid() async {
     final storage = FlutterSecureStorage();
-    const key = 'vanish_link_persistent_device_id';
+    const key = 'ganesh_chanda_persistent_device_id';
     var cachedId = await storage.read(key: key);
     if (cachedId == null) {
       cachedId = const Uuid().v4();

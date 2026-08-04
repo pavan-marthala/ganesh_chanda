@@ -43,7 +43,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     final data = message.data;
     final id =
         message.messageId ?? DateTime.now().millisecondsSinceEpoch.toString();
-    final title = data['title'] as String? ?? 'VanishLink';
+    final title = data['title'] as String? ?? 'Ganesh Chanda';
     final body = data['body'] as String? ?? '';
 
     final String channelId;
