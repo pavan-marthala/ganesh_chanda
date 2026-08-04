@@ -3,12 +3,37 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ganesh_chanda/core/services/app_notification_channels.dart';
 import 'package:ganesh_chanda/core/utils/check_platforms.dart';
 import 'package:ganesh_chanda/features/shared/models/app_notification.dart';
 import 'package:injectable/injectable.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ganesh_chanda/core/services/web_notification_helper.dart'
     if (dart.library.html) 'package:ganesh_chanda/core/services/web_notification_helper_web.dart';
+
+FlutterLocalNotificationsPlugin? _bgLocalNotifications;
+bool _bgLocalNotificationsInitialized = false;
+
+Future<FlutterLocalNotificationsPlugin> _getBackgroundLocalNotifications() async {
+  if (_bgLocalNotifications != null && _bgLocalNotificationsInitialized) {
+    return _bgLocalNotifications!;
+  }
+  _bgLocalNotifications = FlutterLocalNotificationsPlugin();
+  const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const iosInit = DarwinInitializationSettings(
+    requestAlertPermission: false,
+    requestBadgePermission: false,
+    requestSoundPermission: false,
+  );
+  const initSettings = InitializationSettings(
+    android: androidInit,
+    iOS: iosInit,
+  );
+  await _bgLocalNotifications!.initialize(settings: initSettings);
+  _bgLocalNotificationsInitialized = true;
+  return _bgLocalNotifications!;
+}
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -26,19 +51,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
 
   try {
-    final localNotifications = FlutterLocalNotificationsPlugin();
-    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosInit = DarwinInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
-    );
-    const initSettings = InitializationSettings(
-      android: androidInit,
-      iOS: iosInit,
-    );
-
-    await localNotifications.initialize(settings: initSettings);
+    final localNotifications = await _getBackgroundLocalNotifications();
 
     final data = message.data;
     final id =
@@ -46,34 +59,35 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     final title = data['title'] as String? ?? 'Ganesh Chanda';
     final body = data['body'] as String? ?? '';
 
-    final String channelId;
-    final String channelName;
-    final String channelDesc;
-
-    final type = data['type'] as String? ?? 'system';
-    if (type == 'newMessage' || type == 'mention') {
-      channelId = 'chat_notifications_v2';
-      channelName = 'Chat Messages';
-      channelDesc = 'Direct messages and mentions';
-    } else if (type == 'missedCall') {
-      channelId = 'missed_call_notifications_v2';
-      channelName = 'Missed Calls';
-      channelDesc = 'Missed call notifications';
+    final type = data['type'] as String? ?? 'general';
+    final AndroidNotificationChannel channel;
+    if (type == 'donationReceived' ||
+        type == 'donationGoalReached' ||
+        type == 'expenseAdded') {
+      channel = AppNotificationChannels.donationsChannel;
+    } else if (type == 'eventCreated' ||
+        type == 'eventStarting' ||
+        type == 'eventUpdated') {
+      channel = AppNotificationChannels.eventsChannel;
+    } else if (type == 'volunteerInvitation' ||
+        type == 'volunteerAssigned' ||
+        type == 'volunteerRemoved') {
+      channel = AppNotificationChannels.volunteersChannel;
+    } else if (type == 'festivalStarted' || type == 'festivalCompleted') {
+      channel = AppNotificationChannels.festivalChannel;
     } else {
-      channelId = 'system_notifications_v2';
-      channelName = 'System Alerts';
-      channelDesc = 'Administrative and service alerts';
+      channel = AppNotificationChannels.generalChannel;
     }
 
     final androidDetails = AndroidNotificationDetails(
-      channelId,
-      channelName,
-      channelDescription: channelDesc,
-      importance: Importance.max,
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: channel.importance,
       priority: Priority.max,
-      playSound: true,
+      playSound: channel.playSound,
     );
-    final iosDetails = const DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails();
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
@@ -106,11 +120,38 @@ class NotificationService {
   final StreamController<AppNotification> _tapStreamController =
       StreamController<AppNotification>.broadcast();
 
+  AppNotification? _initialLaunchNotification;
+  bool _hasInitialLaunchBeenHandled = false;
+
   NotificationService(this._fcm);
 
   Stream<AppNotification> get onNotification =>
       _notificationStreamController.stream;
-  Stream<AppNotification> get onTapNotification => _tapStreamController.stream;
+
+  Stream<AppNotification> get onTapNotification {
+    if (_initialLaunchNotification != null && !_hasInitialLaunchBeenHandled) {
+      _hasInitialLaunchBeenHandled = true;
+      final initialPayload = _initialLaunchNotification!;
+      _initialLaunchNotification = null;
+
+      final controller = StreamController<AppNotification>.broadcast();
+      StreamSubscription<AppNotification>? sub;
+
+      controller.onListen = () {
+        controller.add(initialPayload);
+        sub = _tapStreamController.stream.listen(
+          controller.add,
+          onError: controller.addError,
+          onDone: controller.close,
+        );
+      };
+      controller.onCancel = () {
+        sub?.cancel();
+      };
+      return controller.stream;
+    }
+    return _tapStreamController.stream;
+  }
 
   bool _isInitialized = false;
 
@@ -150,7 +191,11 @@ class NotificationService {
 
     // Fetch token for diagnostics
     try {
-      final token = await _fcm.getToken();
+      final vapidKey =
+          PlatformChecker.isWeb() ? dotenv.env['WEB_VAPID_KEY'] : null;
+      final token = await _fcm.getToken(
+        vapidKey: (vapidKey != null && vapidKey.isNotEmpty) ? vapidKey : null,
+      );
       log('FCM Token retrieved successfully: $token', name: "PUSH-Token");
     } catch (e) {
       log('Diagnostics error fetching token: $e', name: "PUSH-Token");
@@ -177,11 +222,7 @@ class NotificationService {
         log(
           'App launched from terminated state via initial message: ${initialMessage.messageId}',
         );
-        final payload = _parseRemoteMessage(initialMessage);
-        // Wait a short delay so listeners have registered
-        Future.delayed(const Duration(milliseconds: 500), () {
-          _tapStreamController.add(payload);
-        });
+        _initialLaunchNotification = _parseRemoteMessage(initialMessage);
       }
     }
 
@@ -199,7 +240,6 @@ class NotificationService {
         'Ganesh Chanda';
     final body = message.notification?.body ?? data['body'] as String? ?? '';
 
-    // Extract structure from raw FCM data payload
     return AppNotification(
       id: id,
       type: _parseType(data['type'] as String?),
@@ -208,6 +248,7 @@ class NotificationService {
       referenceId: data['referenceId'] as String? ?? "",
       userId: data['receiverId'] as String? ?? "",
       referenceType: _parseReferenceType(data['referenceType'] as String?),
+      data: Map<String, dynamic>.from(data),
       createdAt: DateTime.now(),
     );
   }

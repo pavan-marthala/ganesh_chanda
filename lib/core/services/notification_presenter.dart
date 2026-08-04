@@ -1,8 +1,10 @@
 import 'dart:developer';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:ganesh_chanda/core/services/app_notification_channels.dart';
 import 'package:ganesh_chanda/core/utils/check_platforms.dart';
 import 'package:injectable/injectable.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 @LazySingleton()
 class NotificationPresenter {
@@ -48,55 +50,11 @@ class NotificationPresenter {
         >();
 
     if (androidPlugin != null) {
-      const generalChannel = AndroidNotificationChannel(
-        'general',
-        'General Notifications',
-        description:
-            'General announcements, app updates, informational messages',
-        importance: Importance.max,
-        playSound: true,
-      );
-
-      // 2. System notifications channel
-      const festivalChannel = AndroidNotificationChannel(
-        'festival',
-        'Festival Updates',
-        description:
-            'Festival started, Festival completed, major festival updates',
-        importance: Importance.max,
-        playSound: true,
-      );
-      const eventCallChannel = AndroidNotificationChannel(
-        'events',
-        'Event Notifications',
-        description: 'Event starting, Event updated, Event reminders',
-        importance: Importance.max,
-        playSound: true,
-      );
-      const donationsChannel = AndroidNotificationChannel(
-        'donations',
-        'Donation Updates',
-        description:
-            'Donation received, donation acknowledgements, goal reached',
-        importance: Importance.max,
-        playSound: true,
-      );
-      const volunteersChannel = AndroidNotificationChannel(
-        'volunteers',
-        'Volunteer Updates',
-        description:
-            'Volunteer invitations, assignments, removals, important volunteer updates',
-        importance: Importance.max,
-        playSound: true,
-      );
-
-      await androidPlugin.createNotificationChannel(generalChannel);
-      await androidPlugin.createNotificationChannel(festivalChannel);
-      await androidPlugin.createNotificationChannel(eventCallChannel);
-      await androidPlugin.createNotificationChannel(donationsChannel);
-      await androidPlugin.createNotificationChannel(volunteersChannel);
+      for (final channel in AppNotificationChannels.allChannels) {
+        await androidPlugin.createNotificationChannel(channel);
+      }
       log(
-        'Android Notification Channels (v2) created.',
+        'Android Notification Channels created from AppNotificationChannels.',
         name: "NotificationPresenter",
       );
     }
@@ -131,16 +89,16 @@ class NotificationPresenter {
     if (!await _checkPermission()) return;
 
     log('Showing general notification: $id', name: "NotificationPresenter");
+    final channel = AppNotificationChannels.generalChannel;
     final androidDetails = AndroidNotificationDetails(
-      'general',
-      'General Notifications',
-      channelDescription:
-          'General announcements, app updates, informational messages',
-      importance: Importance.max,
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: channel.importance,
       priority: Priority.max,
-      playSound: true,
+      playSound: channel.playSound,
     );
-    final iosDetails = const DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails();
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
@@ -164,16 +122,16 @@ class NotificationPresenter {
     if (PlatformChecker.isWeb()) return;
     if (!await _checkPermission()) return;
     log('Showing festival notification: $id', name: "NotificationPresenter");
+    final channel = AppNotificationChannels.festivalChannel;
     final androidDetails = AndroidNotificationDetails(
-      'festival',
-      'Festival Updates',
-      channelDescription:
-          'Festival started, Festival completed, major festival updates',
-      importance: Importance.max,
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: channel.importance,
       priority: Priority.max,
-      playSound: true,
+      playSound: channel.playSound,
     );
-    final iosDetails = const DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails();
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
@@ -197,15 +155,16 @@ class NotificationPresenter {
     if (!await _checkPermission()) return;
 
     log('Showing event notification: $id', name: "NotificationPresenter");
+    final channel = AppNotificationChannels.eventsChannel;
     final androidDetails = AndroidNotificationDetails(
-      'events',
-      'Event Notifications',
-      channelDescription: 'Event starting, Event updated, Event reminders',
-      importance: Importance.max,
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: channel.importance,
       priority: Priority.max,
-      playSound: true,
+      playSound: channel.playSound,
     );
-    final iosDetails = const DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails();
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
@@ -228,16 +187,16 @@ class NotificationPresenter {
     if (PlatformChecker.isWeb()) return;
     if (!await _checkPermission()) return;
     log('Showing donation notification: $id', name: "NotificationPresenter");
+    final channel = AppNotificationChannels.donationsChannel;
     final androidDetails = AndroidNotificationDetails(
-      'donations',
-      'Donation Updates',
-      channelDescription:
-          'Donation received, donation acknowledgements, goal reached',
-      importance: Importance.max,
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: channel.importance,
       priority: Priority.max,
-      playSound: true,
+      playSound: channel.playSound,
     );
-    final iosDetails = const DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails();
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
@@ -260,16 +219,16 @@ class NotificationPresenter {
     if (PlatformChecker.isWeb()) return;
     if (!await _checkPermission()) return;
     log('Showing volunteer notification: $id', name: "NotificationPresenter");
+    final channel = AppNotificationChannels.volunteersChannel;
     final androidDetails = AndroidNotificationDetails(
-      'volunteers',
-      'Volunteer Updates',
-      channelDescription:
-          'Volunteer invitations, assignments, removals, important volunteer updates',
-      importance: Importance.max,
+      channel.id,
+      channel.name,
+      channelDescription: channel.description,
+      importance: channel.importance,
       priority: Priority.max,
-      playSound: true,
+      playSound: channel.playSound,
     );
-    final iosDetails = const DarwinNotificationDetails();
+    const iosDetails = DarwinNotificationDetails();
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
