@@ -78,6 +78,8 @@ import 'package:ganesh_chanda/features/festival/domain/repository/festival_repos
     as _i984;
 import 'package:ganesh_chanda/features/festival/presentation/bloc/festival_bloc.dart'
     as _i867;
+import 'package:ganesh_chanda/features/shared/repository/profile_repository.dart'
+    as _i276;
 import 'package:ganesh_chanda/features/volunteer/data/datasource/volunteer_remote_data_source.dart'
     as _i254;
 import 'package:ganesh_chanda/features/volunteer/data/datasource/volunteer_remote_data_source_impl.dart'
@@ -134,6 +136,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i59.FirebaseAuth>(),
       ),
     );
+    gh.lazySingleton<_i276.ProfileRepository>(
+      () => _i276.ProfileRepositoryImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
+    );
     gh.lazySingleton<_i428.AuthRemoteDataSource>(
       () => _i428.FirebaseAuthDataSourceImpl(gh<_i59.FirebaseAuth>()),
     );
@@ -141,6 +149,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i13.ExpenseRemoteDataSourceImpl(
         gh<_i974.FirebaseFirestore>(),
         gh<_i59.FirebaseAuth>(),
+      ),
+    );
+    gh.lazySingleton<_i1002.PresenceService>(
+      () => _i1002.PresenceService(
+        gh<_i331.DeviceIdentifierProvider>(),
+        gh<_i59.FirebaseAuth>(),
+        gh<_i276.ProfileRepository>(),
       ),
     );
     gh.lazySingleton<_i990.EventRemoteDataSource>(
@@ -160,12 +175,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i71.VolunteerRepository>(
       () => _i3.VolunteerRepositoryImpl(gh<_i254.VolunteerRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i1002.PresenceService>(
-      () => _i1002.PresenceService(
-        gh<_i331.DeviceIdentifierProvider>(),
-        gh<_i59.FirebaseAuth>(),
-      ),
     );
     gh.lazySingleton<_i820.FestivalRemoteDataSource>(
       () => _i820.FestivalRemoteDataSourceImpl(

@@ -2,12 +2,14 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ganesh_chanda/features/auth/domain/models/app_user.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class DeviceIdentifierProvider {
   Future<String> getIdentifier();
-  Future<String> getPlatform();
+  Future<DevicePlatform> getPlatform();
+  Future<String> getDeviceName();
 }
 
 @LazySingleton(as: DeviceIdentifierProvider)
@@ -42,17 +44,17 @@ class DeviceIdentifierProviderImpl implements DeviceIdentifierProvider {
   }
 
   @override
-  Future<String> getPlatform() async {
-    if (kIsWeb) return 'web';
+  Future<DevicePlatform> getPlatform() async {
+    if (kIsWeb) return .web;
     try {
-      if (Platform.isAndroid) return 'android';
-      if (Platform.isIOS) return 'ios';
-      if (Platform.isWindows) return 'windows';
-      if (Platform.isMacOS) return 'macos';
-      if (Platform.isLinux) return 'linux';
-      return Platform.operatingSystem;
+      if (Platform.isAndroid) return .android;
+      if (Platform.isIOS) return .ios;
+      if (Platform.isWindows) return .windows;
+      if (Platform.isMacOS) return .macos;
+      if (Platform.isLinux) return .linux;
+      return .other;
     } catch (_) {
-      return 'unknown';
+      return .other;
     }
   }
 
@@ -65,5 +67,34 @@ class DeviceIdentifierProviderImpl implements DeviceIdentifierProvider {
       await storage.write(key: key, value: cachedId);
     }
     return cachedId;
+  }
+
+  @override
+  Future<String> getDeviceName() async {
+    String name;
+    if (kIsWeb) {
+      name = "Web";
+    } else {
+      try {
+        if (Platform.isAndroid) {
+          final androidInfo = await _deviceInfo.androidInfo;
+          name = androidInfo.name;
+        } else if (Platform.isIOS) {
+          final iosInfo = await _deviceInfo.iosInfo;
+          name = iosInfo.name;
+        } else if (Platform.isMacOS) {
+          final iosInfo = await _deviceInfo.macOsInfo;
+          name = iosInfo.computerName;
+        } else if (Platform.isWindows) {
+          final iosInfo = await _deviceInfo.windowsInfo;
+          name = iosInfo.computerName;
+        } else {
+          name = "Unknown";
+        }
+      } catch (_) {
+        name = "Unknown";
+      }
+    }
+    return name;
   }
 }
