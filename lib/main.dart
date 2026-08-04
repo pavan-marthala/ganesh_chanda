@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,6 +12,7 @@ import 'package:ganesh_chanda/core/services/notification_service.dart';
 import 'package:ganesh_chanda/core/services/presence_service.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_routes.dart';
+import 'package:ganesh_chanda/core/utils/check_platforms.dart';
 import 'package:ganesh_chanda/features/app_shell/presentation/screens/app_shell_screen.dart';
 import 'package:ganesh_chanda/features/auth/domain/models/account_setup_status.dart';
 import 'package:ganesh_chanda/features/auth/presentation/bloc/auth_bloc.dart';
@@ -54,6 +56,10 @@ void main() async {
   await dotenv.load(fileName: "app_config.env");
   await configureDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  if (!PlatformChecker.isWeb()) {
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    debugPrint('[PUSH-ANDROID] Registered top-level background push handler before runApp.');
+  }
   getIt<PresenceService>().start();
   WidgetsBinding.instance.addPostFrameCallback((_) async {
     try {
