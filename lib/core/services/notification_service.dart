@@ -21,14 +21,15 @@ Future<FlutterLocalNotificationsPlugin> _getBackgroundLocalNotifications() async
   }
   _bgLocalNotifications = FlutterLocalNotificationsPlugin();
   const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-  const iosInit = DarwinInitializationSettings(
+  const darwinInit = DarwinInitializationSettings(
     requestAlertPermission: false,
     requestBadgePermission: false,
     requestSoundPermission: false,
   );
   const initSettings = InitializationSettings(
     android: androidInit,
-    iOS: iosInit,
+    iOS: darwinInit,
+    macOS: darwinInit,
   );
   await _bgLocalNotifications!.initialize(settings: initSettings);
   _bgLocalNotificationsInitialized = true;
@@ -39,13 +40,13 @@ Future<FlutterLocalNotificationsPlugin> _getBackgroundLocalNotifications() async
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   log(
     'Handling background message: ${message.messageId}',
-    name: "PUSH-ANDROID",
+    name: "PUSH-BACKGROUND",
   );
 
   if (message.notification != null) {
     log(
       'Skipping local display: message has native notification payload.',
-      name: "PUSH-ANDROID",
+      name: "PUSH-BACKGROUND",
     );
     return;
   }
@@ -87,10 +88,15 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
       priority: Priority.max,
       playSound: channel.playSound,
     );
-    const iosDetails = DarwinNotificationDetails();
+    const darwinDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
     final details = NotificationDetails(
       android: androidDetails,
-      iOS: iosDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
     );
 
     await localNotifications.show(
@@ -102,12 +108,12 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     );
     log(
       'Local background notification shown successfully for data-only message.',
-      name: "PUSH-ANDROID",
+      name: "PUSH-BACKGROUND",
     );
   } catch (e) {
     log(
       'Error displaying local background notification: $e',
-      name: "PUSH-ANDROID",
+      name: "PUSH-BACKGROUND",
     );
   }
 }
@@ -165,7 +171,7 @@ class NotificationService {
     if (_isInitialized) return;
 
     log(
-      'Initializing Notification Stack (Web support enabled)...',
+      'Initializing Notification Stack (iOS/macOS & Web support enabled)...',
       name: "NotificationService",
     );
 
@@ -178,15 +184,27 @@ class NotificationService {
       );
     }
 
-    // Request permissions dynamically
-    await _fcm.requestPermission(
+    // Configure FCM foreground presentation options for Apple (iOS & macOS)
+    await _fcm.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    // Request FCM permissions dynamically for all platforms
+    final settings = await _fcm.requestPermission(
       alert: true,
       announcement: false,
       badge: true,
       carPlay: false,
       criticalAlert: false,
-      provisional: false,
+      provisional: true,
       sound: true,
+    );
+
+    log(
+      'FCM Permission Status: ${settings.authorizationStatus}',
+      name: "NotificationService",
     );
 
     // Fetch token for diagnostics

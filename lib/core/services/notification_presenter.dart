@@ -17,7 +17,7 @@ class NotificationPresenter {
     if (_isInitialized) return;
 
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosInit = DarwinInitializationSettings(
+    const darwinInit = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
@@ -25,7 +25,8 @@ class NotificationPresenter {
 
     const initSettings = InitializationSettings(
       android: androidInit,
-      iOS: iosInit,
+      iOS: darwinInit,
+      macOS: darwinInit,
     );
 
     await _localNotifications.initialize(
@@ -38,7 +39,7 @@ class NotificationPresenter {
 
     _isInitialized = true;
     log(
-      'NotificationPresenter initialized successfully.',
+      'NotificationPresenter initialized successfully (Android, iOS & macOS supported).',
       name: "NotificationPresenter",
     );
   }
@@ -79,6 +80,14 @@ class NotificationPresenter {
     return granted;
   }
 
+  DarwinNotificationDetails _getDarwinDetails() {
+    return const DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+  }
+
   Future<void> showGeneralNotification({
     required String id,
     required String title,
@@ -98,10 +107,11 @@ class NotificationPresenter {
       priority: Priority.max,
       playSound: channel.playSound,
     );
-    const iosDetails = DarwinNotificationDetails();
+    final darwinDetails = _getDarwinDetails();
     final details = NotificationDetails(
       android: androidDetails,
-      iOS: iosDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
     );
 
     await _localNotifications.show(
@@ -131,10 +141,11 @@ class NotificationPresenter {
       priority: Priority.max,
       playSound: channel.playSound,
     );
-    const iosDetails = DarwinNotificationDetails();
+    final darwinDetails = _getDarwinDetails();
     final details = NotificationDetails(
       android: androidDetails,
-      iOS: iosDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
     );
     await _localNotifications.show(
       id: id.hashCode,
@@ -164,10 +175,11 @@ class NotificationPresenter {
       priority: Priority.max,
       playSound: channel.playSound,
     );
-    const iosDetails = DarwinNotificationDetails();
+    final darwinDetails = _getDarwinDetails();
     final details = NotificationDetails(
       android: androidDetails,
-      iOS: iosDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
     );
     await _localNotifications.show(
       id: id.hashCode,
@@ -196,10 +208,11 @@ class NotificationPresenter {
       priority: Priority.max,
       playSound: channel.playSound,
     );
-    const iosDetails = DarwinNotificationDetails();
+    final darwinDetails = _getDarwinDetails();
     final details = NotificationDetails(
       android: androidDetails,
-      iOS: iosDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
     );
     await _localNotifications.show(
       id: id.hashCode,
@@ -228,10 +241,11 @@ class NotificationPresenter {
       priority: Priority.max,
       playSound: channel.playSound,
     );
-    const iosDetails = DarwinNotificationDetails();
+    final darwinDetails = _getDarwinDetails();
     final details = NotificationDetails(
       android: androidDetails,
-      iOS: iosDetails,
+      iOS: darwinDetails,
+      macOS: darwinDetails,
     );
     await _localNotifications.show(
       id: id.hashCode,
