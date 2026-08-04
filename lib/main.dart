@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:ganesh_chanda/core/DI/injection.dart';
+import 'package:ganesh_chanda/core/services/notification_presenter.dart';
+import 'package:ganesh_chanda/core/services/notification_router.dart';
+import 'package:ganesh_chanda/core/services/notification_service.dart';
+import 'package:ganesh_chanda/core/services/presence_service.dart';
 import 'package:ganesh_chanda/core/theme/app_theme.dart';
 import 'package:ganesh_chanda/core/utils/app_routes.dart';
 import 'package:ganesh_chanda/features/app_shell/presentation/screens/app_shell_screen.dart';
@@ -50,6 +54,16 @@ void main() async {
   await dotenv.load(fileName: "app_config.env");
   await configureDependencies();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  getIt<PresenceService>().start();
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    try {
+      await getIt<NotificationPresenter>().initialize();
+      await getIt<NotificationService>().initialize();
+      getIt<NotificationRouter>().start();
+    } catch (e, stack) {
+      debugPrint('Error initializing notifications: $e\n$stack');
+    }
+  });
   runApp(
     MultiBlocProvider(
       providers: [
@@ -129,10 +143,10 @@ class _MyAppState extends State<MyApp> {
               AccountSetupStatus.onboardingCompleted => AppRoutes.festivalsHome,
             };
             if ((isSplash ||
-                    isSignIn ||
-                    isSignUp ||
-                    isJoinCommunity ||
-                    isSignUpVolunteer)) {
+                isSignIn ||
+                isSignUp ||
+                isJoinCommunity ||
+                isSignUpVolunteer)) {
               return targetRoute;
             }
 

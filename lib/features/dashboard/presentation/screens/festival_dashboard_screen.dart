@@ -9,8 +9,6 @@ import 'package:ganesh_chanda/features/donation/domain/models/donation.dart';
 import 'package:ganesh_chanda/features/donation/presentation/bloc/donation_bloc.dart';
 import 'package:ganesh_chanda/features/donation/presentation/widgets/add_donation_bottom_sheet.dart';
 import 'package:ganesh_chanda/features/event/presentation/bloc/event_bloc.dart';
-import 'package:ganesh_chanda/features/expense/domain/enums/expense_status.dart';
-import 'package:ganesh_chanda/features/expense/domain/models/expense.dart';
 import 'package:ganesh_chanda/features/expense/presentation/bloc/expense_bloc.dart';
 import 'package:ganesh_chanda/features/expense/presentation/widgets/add_expense_bottom_sheet.dart';
 import 'package:ganesh_chanda/features/festival/domain/models/festival.dart';
@@ -231,80 +229,6 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
     );
   }
 }
-
-// class _HeroSection extends StatelessWidget {
-//   const _HeroSection({required this.festival});
-//
-//   final Festival festival;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final colors = context.appColors;
-//     final typography = context.appTypography;
-//
-//     return Container(
-//       width: double.infinity,
-//       padding: const EdgeInsets.all(22),
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(24),
-//         gradient: const LinearGradient(
-//           colors: [Color(0xFFFFAE4D), Color(0xFFF97316), Color(0xFFC74E0E)],
-//           begin: Alignment.topRight,
-//           end: Alignment.bottomLeft,
-//         ),
-//         boxShadow: [
-//           BoxShadow(
-//             color: colors.primary.withValues(alpha: 0.28),
-//             blurRadius: 24,
-//             offset: const Offset(0, 10),
-//           ),
-//         ],
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           Text(
-//             'SHREE GANESH UTSAV MANDAL',
-//             style: typography.labelSmall.copyWith(
-//               fontWeight: FontWeight.w700,
-//               fontSize: 11,
-//               letterSpacing: 1.2,
-//               color: Colors.white.withValues(alpha: 0.85),
-//             ),
-//           ),
-//           const SizedBox(height: 4),
-//           Text(
-//             '${festival.name} ${festival.startDate.year}',
-//             style: typography.headlineMedium.copyWith(
-//               fontWeight: FontWeight.w800,
-//               fontSize: 26,
-//               color: Colors.white,
-//             ),
-//           ),
-//           const SizedBox(height: 2),
-//           Text(
-//             'Visarjan on ${DateFormat("dd MMM").format(festival.endDate)} · Day 10',
-//             style: typography.bodyMedium.copyWith(
-//               fontSize: 14,
-//               color: Colors.white.withValues(alpha: 0.9),
-//             ),
-//           ),
-//           const SizedBox(height: 16),
-//
-//           const Row(
-//             children: [
-//               _CountdownBox(number: '12', label: 'DAYS'),
-//               SizedBox(width: 10),
-//               _CountdownBox(number: '06', label: 'HOURS'),
-//               SizedBox(width: 10),
-//               _CountdownBox(number: '41', label: 'MINS'),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class _CountdownBox extends StatelessWidget {
   final String number;

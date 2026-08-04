@@ -11,8 +11,19 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
+import 'package:firebase_messaging/firebase_messaging.dart' as _i892;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    as _i163;
 import 'package:ganesh_chanda/core/DI/firebase_module.dart' as _i723;
+import 'package:ganesh_chanda/core/DI/notification_module.dart' as _i963;
 import 'package:ganesh_chanda/core/services/email_service.dart' as _i307;
+import 'package:ganesh_chanda/core/services/notification_presenter.dart'
+    as _i453;
+import 'package:ganesh_chanda/core/services/notification_router.dart' as _i475;
+import 'package:ganesh_chanda/core/services/notification_service.dart' as _i181;
+import 'package:ganesh_chanda/core/services/presence_service.dart' as _i1002;
+import 'package:ganesh_chanda/core/utils/device_identifier_provider.dart'
+    as _i331;
 import 'package:ganesh_chanda/features/auth/data/datasource/auth_remote_data_source.dart'
     as _i428;
 import 'package:ganesh_chanda/features/auth/data/repository_impl/auth_repository_impl.dart'
@@ -88,11 +99,29 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final firebaseModule = _$FirebaseModule();
+    final notificationModule = _$NotificationModule();
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.firebaseAuth);
     gh.lazySingleton<_i974.FirebaseFirestore>(
       () => firebaseModule.firebaseFirestore,
     );
+    gh.lazySingleton<_i892.FirebaseMessaging>(
+      () => notificationModule.firebaseAuth,
+    );
+    gh.lazySingleton<_i163.FlutterLocalNotificationsPlugin>(
+      () => notificationModule.flutterLocalNotificationsPlugin,
+    );
     gh.lazySingleton<_i307.EmailService>(() => _i307.EmailService());
+    gh.lazySingleton<_i453.NotificationPresenter>(
+      () => _i453.NotificationPresenter(
+        gh<_i163.FlutterLocalNotificationsPlugin>(),
+      ),
+    );
+    gh.lazySingleton<_i331.DeviceIdentifierProvider>(
+      () => _i331.DeviceIdentifierProviderImpl(),
+    );
+    gh.lazySingleton<_i181.NotificationService>(
+      () => _i181.NotificationService(gh<_i892.FirebaseMessaging>()),
+    );
     gh.lazySingleton<_i681.DonationRemoteDataSource>(
       () => _i681.DonationRemoteDataSourceImpl(
         gh<_i974.FirebaseFirestore>(),
@@ -123,8 +152,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i254.VolunteerRemoteDataSource>(
       () => _i195.VolunteerRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
+    gh.lazySingleton<_i475.NotificationRouter>(
+      () => _i475.NotificationRouter(
+        gh<_i181.NotificationService>(),
+        gh<_i453.NotificationPresenter>(),
+      ),
+    );
     gh.lazySingleton<_i71.VolunteerRepository>(
       () => _i3.VolunteerRepositoryImpl(gh<_i254.VolunteerRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i1002.PresenceService>(
+      () => _i1002.PresenceService(
+        gh<_i331.DeviceIdentifierProvider>(),
+        gh<_i59.FirebaseAuth>(),
+      ),
     );
     gh.lazySingleton<_i820.FestivalRemoteDataSource>(
       () => _i820.FestivalRemoteDataSourceImpl(
@@ -189,3 +230,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$FirebaseModule extends _i723.FirebaseModule {}
+
+class _$NotificationModule extends _i963.NotificationModule {}
