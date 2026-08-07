@@ -69,17 +69,19 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
         final isFestivalLoading =
             festivalState.festivalStatus == .loading ||
             festivalState.festivalStatus == .initial;
-        final festival = festivalState.festival;
+        final festival = isFestivalLoading
+            ? Festival.skeleton()
+            : festivalState.festival!;
         return BlocBuilder<CommunityBloc, CommunityState>(
           builder: (context, communityState) {
             final isCommunityLoading =
                 communityState.communityStatus == .loading ||
                 communityState.communityStatus == .initial;
             final community = communityState.community;
-            final isUpcoming = festival == null ? false : festival.isUpcoming;
-            final isActive = festival == null ? false : festival.isActive;
-            final isFinalDay = festival == null ? false : festival.isFinalDay;
-            final isCompleted = festival == null ? false : festival.isCompleted;
+            final isUpcoming = festival.isUpcoming;
+            final isActive = festival.isActive;
+            final isFinalDay = festival.isFinalDay;
+            final isCompleted = festival.isCompleted;
 
             return Scaffold(
               appBar: AppBar(
@@ -184,30 +186,18 @@ class _FestivalDashboardScreenState extends State<FestivalDashboardScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (isUpcoming)
-                              _UpcomingFestivalHero(
-                                festival: festivalState.festival!,
-                              ),
+                              _UpcomingFestivalHero(festival: festival),
                             if (isActive)
-                              _ActiveFestivalHero(
-                                festival: festivalState.festival!,
-                              ),
+                              _ActiveFestivalHero(festival: festival),
                             if (isFinalDay)
-                              _FinalDayFestivalHero(
-                                festival: festivalState.festival!,
-                              ),
+                              _FinalDayFestivalHero(festival: festival),
                             if (isCompleted)
-                              _CompletedFestivalHero(
-                                festival: festivalState.festival!,
-                              ),
+                              _CompletedFestivalHero(festival: festival),
                             // _HeroSection(festival: festivalState.festival!),
                             const SizedBox(height: 20),
-                            _CollectionProgressCard(
-                              festival: festivalState.festival!,
-                            ),
+                            _CollectionProgressCard(festival: festival),
                             const SizedBox(height: 16),
-                            _StatisticsSection(
-                              festival: festivalState.festival!,
-                            ),
+                            _StatisticsSection(festival: festival),
                             const SizedBox(height: 24),
                             const _QuickActionsSection(),
                             const SizedBox(height: 24),
@@ -958,7 +948,12 @@ class _UpcomingFestivalHero extends StatelessWidget {
                   label: 'DAYS',
                 ),
               ),
-              Expanded(child: _CountdownBox(number: countdown.hours.toString(), label: 'HOURS')),
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.hours.toString(),
+                  label: 'HOURS',
+                ),
+              ),
               Expanded(
                 child: _CountdownBox(
                   number: countdown.minutes.toString(),
@@ -1172,7 +1167,12 @@ class _FinalDayFestivalHero extends StatelessWidget {
           Row(
             spacing: 10,
             children: [
-              Expanded(child: _CountdownBox(number: countdown.hours.toString(), label: 'HOURS')),
+              Expanded(
+                child: _CountdownBox(
+                  number: countdown.hours.toString(),
+                  label: 'HOURS',
+                ),
+              ),
               Expanded(
                 child: _CountdownBox(
                   number: countdown.minutes.toString(),

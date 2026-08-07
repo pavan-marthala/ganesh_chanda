@@ -55,7 +55,7 @@ extension FestivalEventPatterns on FestivalEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetFestivalByIdRequested value)?  getFestivalByIdRequested,TResult Function( _LoadFestivalsRequested value)?  loadFestivalsRequested,TResult Function( _CreateFestivalRequested value)?  createFestivalRequested,TResult Function( _UpdateFestivalRequested value)?  updateFestivalRequested,TResult Function( _DeleteFestivalRequested value)?  deleteFestivalRequested,TResult Function( _AssignVolunteerRequested value)?  assignVolunteerRequested,TResult Function( _RemoveVolunteerRequested value)?  removeVolunteerRequested,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GetFestivalByIdRequested value)?  getFestivalByIdRequested,TResult Function( _LoadFestivalsRequested value)?  loadFestivalsRequested,TResult Function( _CreateFestivalRequested value)?  createFestivalRequested,TResult Function( _UpdateFestivalRequested value)?  updateFestivalRequested,TResult Function( _DeleteFestivalRequested value)?  deleteFestivalRequested,TResult Function( _AssignVolunteerRequested value)?  assignVolunteerRequested,TResult Function( _RemoveVolunteerRequested value)?  removeVolunteerRequested,TResult Function( _UpdateSummary value)?  updateSummary,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _GetFestivalByIdRequested() when getFestivalByIdRequested != null:
@@ -65,7 +65,8 @@ return createFestivalRequested(_that);case _UpdateFestivalRequested() when updat
 return updateFestivalRequested(_that);case _DeleteFestivalRequested() when deleteFestivalRequested != null:
 return deleteFestivalRequested(_that);case _AssignVolunteerRequested() when assignVolunteerRequested != null:
 return assignVolunteerRequested(_that);case _RemoveVolunteerRequested() when removeVolunteerRequested != null:
-return removeVolunteerRequested(_that);case _:
+return removeVolunteerRequested(_that);case _UpdateSummary() when updateSummary != null:
+return updateSummary(_that);case _:
   return orElse();
 
 }
@@ -83,7 +84,7 @@ return removeVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetFestivalByIdRequested value)  getFestivalByIdRequested,required TResult Function( _LoadFestivalsRequested value)  loadFestivalsRequested,required TResult Function( _CreateFestivalRequested value)  createFestivalRequested,required TResult Function( _UpdateFestivalRequested value)  updateFestivalRequested,required TResult Function( _DeleteFestivalRequested value)  deleteFestivalRequested,required TResult Function( _AssignVolunteerRequested value)  assignVolunteerRequested,required TResult Function( _RemoveVolunteerRequested value)  removeVolunteerRequested,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GetFestivalByIdRequested value)  getFestivalByIdRequested,required TResult Function( _LoadFestivalsRequested value)  loadFestivalsRequested,required TResult Function( _CreateFestivalRequested value)  createFestivalRequested,required TResult Function( _UpdateFestivalRequested value)  updateFestivalRequested,required TResult Function( _DeleteFestivalRequested value)  deleteFestivalRequested,required TResult Function( _AssignVolunteerRequested value)  assignVolunteerRequested,required TResult Function( _RemoveVolunteerRequested value)  removeVolunteerRequested,required TResult Function( _UpdateSummary value)  updateSummary,}){
 final _that = this;
 switch (_that) {
 case _GetFestivalByIdRequested():
@@ -93,7 +94,8 @@ return createFestivalRequested(_that);case _UpdateFestivalRequested():
 return updateFestivalRequested(_that);case _DeleteFestivalRequested():
 return deleteFestivalRequested(_that);case _AssignVolunteerRequested():
 return assignVolunteerRequested(_that);case _RemoveVolunteerRequested():
-return removeVolunteerRequested(_that);case _:
+return removeVolunteerRequested(_that);case _UpdateSummary():
+return updateSummary(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -110,7 +112,7 @@ return removeVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetFestivalByIdRequested value)?  getFestivalByIdRequested,TResult? Function( _LoadFestivalsRequested value)?  loadFestivalsRequested,TResult? Function( _CreateFestivalRequested value)?  createFestivalRequested,TResult? Function( _UpdateFestivalRequested value)?  updateFestivalRequested,TResult? Function( _DeleteFestivalRequested value)?  deleteFestivalRequested,TResult? Function( _AssignVolunteerRequested value)?  assignVolunteerRequested,TResult? Function( _RemoveVolunteerRequested value)?  removeVolunteerRequested,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GetFestivalByIdRequested value)?  getFestivalByIdRequested,TResult? Function( _LoadFestivalsRequested value)?  loadFestivalsRequested,TResult? Function( _CreateFestivalRequested value)?  createFestivalRequested,TResult? Function( _UpdateFestivalRequested value)?  updateFestivalRequested,TResult? Function( _DeleteFestivalRequested value)?  deleteFestivalRequested,TResult? Function( _AssignVolunteerRequested value)?  assignVolunteerRequested,TResult? Function( _RemoveVolunteerRequested value)?  removeVolunteerRequested,TResult? Function( _UpdateSummary value)?  updateSummary,}){
 final _that = this;
 switch (_that) {
 case _GetFestivalByIdRequested() when getFestivalByIdRequested != null:
@@ -120,7 +122,8 @@ return createFestivalRequested(_that);case _UpdateFestivalRequested() when updat
 return updateFestivalRequested(_that);case _DeleteFestivalRequested() when deleteFestivalRequested != null:
 return deleteFestivalRequested(_that);case _AssignVolunteerRequested() when assignVolunteerRequested != null:
 return assignVolunteerRequested(_that);case _RemoveVolunteerRequested() when removeVolunteerRequested != null:
-return removeVolunteerRequested(_that);case _:
+return removeVolunteerRequested(_that);case _UpdateSummary() when updateSummary != null:
+return updateSummary(_that);case _:
   return null;
 
 }
@@ -137,7 +140,7 @@ return removeVolunteerRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String festivalId)?  getFestivalByIdRequested,TResult Function( String communityId)?  loadFestivalsRequested,TResult Function( Festival festival)?  createFestivalRequested,TResult Function( Festival festival,  String communityId)?  updateFestivalRequested,TResult Function( String festivalId,  String communityId)?  deleteFestivalRequested,TResult Function( String festivalId,  String volunteerId,  String communityId)?  assignVolunteerRequested,TResult Function( String festivalId,  String volunteerId,  String communityId)?  removeVolunteerRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String festivalId)?  getFestivalByIdRequested,TResult Function( String communityId)?  loadFestivalsRequested,TResult Function( Festival festival)?  createFestivalRequested,TResult Function( Festival festival,  String communityId)?  updateFestivalRequested,TResult Function( String festivalId,  String communityId)?  deleteFestivalRequested,TResult Function( String festivalId,  String volunteerId,  String communityId)?  assignVolunteerRequested,TResult Function( String festivalId,  String volunteerId,  String communityId)?  removeVolunteerRequested,TResult Function()?  updateSummary,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetFestivalByIdRequested() when getFestivalByIdRequested != null:
 return getFestivalByIdRequested(_that.festivalId);case _LoadFestivalsRequested() when loadFestivalsRequested != null:
@@ -146,7 +149,8 @@ return createFestivalRequested(_that.festival);case _UpdateFestivalRequested() w
 return updateFestivalRequested(_that.festival,_that.communityId);case _DeleteFestivalRequested() when deleteFestivalRequested != null:
 return deleteFestivalRequested(_that.festivalId,_that.communityId);case _AssignVolunteerRequested() when assignVolunteerRequested != null:
 return assignVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _RemoveVolunteerRequested() when removeVolunteerRequested != null:
-return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _:
+return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _UpdateSummary() when updateSummary != null:
+return updateSummary();case _:
   return orElse();
 
 }
@@ -164,7 +168,7 @@ return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String festivalId)  getFestivalByIdRequested,required TResult Function( String communityId)  loadFestivalsRequested,required TResult Function( Festival festival)  createFestivalRequested,required TResult Function( Festival festival,  String communityId)  updateFestivalRequested,required TResult Function( String festivalId,  String communityId)  deleteFestivalRequested,required TResult Function( String festivalId,  String volunteerId,  String communityId)  assignVolunteerRequested,required TResult Function( String festivalId,  String volunteerId,  String communityId)  removeVolunteerRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String festivalId)  getFestivalByIdRequested,required TResult Function( String communityId)  loadFestivalsRequested,required TResult Function( Festival festival)  createFestivalRequested,required TResult Function( Festival festival,  String communityId)  updateFestivalRequested,required TResult Function( String festivalId,  String communityId)  deleteFestivalRequested,required TResult Function( String festivalId,  String volunteerId,  String communityId)  assignVolunteerRequested,required TResult Function( String festivalId,  String volunteerId,  String communityId)  removeVolunteerRequested,required TResult Function()  updateSummary,}) {final _that = this;
 switch (_that) {
 case _GetFestivalByIdRequested():
 return getFestivalByIdRequested(_that.festivalId);case _LoadFestivalsRequested():
@@ -173,7 +177,8 @@ return createFestivalRequested(_that.festival);case _UpdateFestivalRequested():
 return updateFestivalRequested(_that.festival,_that.communityId);case _DeleteFestivalRequested():
 return deleteFestivalRequested(_that.festivalId,_that.communityId);case _AssignVolunteerRequested():
 return assignVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _RemoveVolunteerRequested():
-return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _:
+return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _UpdateSummary():
+return updateSummary();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -190,7 +195,7 @@ return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String festivalId)?  getFestivalByIdRequested,TResult? Function( String communityId)?  loadFestivalsRequested,TResult? Function( Festival festival)?  createFestivalRequested,TResult? Function( Festival festival,  String communityId)?  updateFestivalRequested,TResult? Function( String festivalId,  String communityId)?  deleteFestivalRequested,TResult? Function( String festivalId,  String volunteerId,  String communityId)?  assignVolunteerRequested,TResult? Function( String festivalId,  String volunteerId,  String communityId)?  removeVolunteerRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String festivalId)?  getFestivalByIdRequested,TResult? Function( String communityId)?  loadFestivalsRequested,TResult? Function( Festival festival)?  createFestivalRequested,TResult? Function( Festival festival,  String communityId)?  updateFestivalRequested,TResult? Function( String festivalId,  String communityId)?  deleteFestivalRequested,TResult? Function( String festivalId,  String volunteerId,  String communityId)?  assignVolunteerRequested,TResult? Function( String festivalId,  String volunteerId,  String communityId)?  removeVolunteerRequested,TResult? Function()?  updateSummary,}) {final _that = this;
 switch (_that) {
 case _GetFestivalByIdRequested() when getFestivalByIdRequested != null:
 return getFestivalByIdRequested(_that.festivalId);case _LoadFestivalsRequested() when loadFestivalsRequested != null:
@@ -199,7 +204,8 @@ return createFestivalRequested(_that.festival);case _UpdateFestivalRequested() w
 return updateFestivalRequested(_that.festival,_that.communityId);case _DeleteFestivalRequested() when deleteFestivalRequested != null:
 return deleteFestivalRequested(_that.festivalId,_that.communityId);case _AssignVolunteerRequested() when assignVolunteerRequested != null:
 return assignVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _RemoveVolunteerRequested() when removeVolunteerRequested != null:
-return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _:
+return removeVolunteerRequested(_that.festivalId,_that.volunteerId,_that.communityId);case _UpdateSummary() when updateSummary != null:
+return updateSummary();case _:
   return null;
 
 }
@@ -698,6 +704,38 @@ as String,
 
 
 }
+
+/// @nodoc
+
+
+class _UpdateSummary implements FestivalEvent {
+  const _UpdateSummary();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UpdateSummary);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'FestivalEvent.updateSummary()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 mixin _$FestivalState {

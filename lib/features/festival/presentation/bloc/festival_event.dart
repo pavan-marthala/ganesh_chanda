@@ -35,4 +35,5 @@ class FestivalEvent with _$FestivalEvent {
     required String volunteerId,
     required String communityId,
   }) = _RemoveVolunteerRequested;
+  const factory FestivalEvent.updateSummary() = _UpdateSummary;
 }
