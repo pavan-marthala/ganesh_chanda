@@ -109,6 +109,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
       listener: (context, expenseState) {
         if (expenseState.expenseActionStatus == StateStatus.loaded &&
             _prevActionStatus == StateStatus.loading) {
+          context.read<FestivalBloc>().add(FestivalEvent.updateSummary());
           HapticFeedback.lightImpact();
           showSuccessToast(message: 'Expense Recorded Successfully!');
           Navigator.of(context).pop();

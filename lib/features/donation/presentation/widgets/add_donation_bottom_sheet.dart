@@ -116,6 +116,7 @@ class _AddDonationBottomSheetState extends State<AddDonationBottomSheet> {
       listener: (context, donationState) {
         if (donationState.donationActionStatus == StateStatus.loaded &&
             _prevActionStatus == StateStatus.loading) {
+          context.read<FestivalBloc>().add(FestivalEvent.updateSummary());
           HapticFeedback.lightImpact();
           showSuccessToast(message: 'Donation Recorded Successfully!');
           Navigator.of(context).pop();

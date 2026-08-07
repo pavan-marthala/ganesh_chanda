@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ganesh_chanda/core/utils/state_status.dart';
@@ -125,6 +127,43 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             );
           }
         },
+        updateSummary: (e) async {
+          emit(
+            state.copyWith(
+              festivalStatus: StateStatus.loading,
+              festivalsStatus: .loading,
+              festivalError: null,
+            ),
+          );
+          try {
+            final festival = await _festivalRepository.getFestivalById(
+              state.festival!.id,
+            );
+            if (festival != null) {
+              emit(
+                state.copyWith(
+                  festival: festival,
+                  festivalStatus: StateStatus.loaded,
+                  festivalError: null,
+                ),
+              );
+            }
+            final festivals = await _festivalRepository.getCommunityFestivals(
+              state.festival!.communityId,
+            );
+            emit(
+              state.copyWith(
+                festivals: festivals,
+                festivalsStatus: festivals.isEmpty
+                    ? StateStatus.empty
+                    : StateStatus.loaded,
+                festivalsError: null,
+              ),
+            );
+          } catch (error) {
+            log(error.toString());
+          }
+        },
         updateFestivalRequested: (e) async {
           emit(
             state.copyWith(
@@ -202,7 +241,9 @@ class FestivalBloc extends Bloc<FestivalEvent, FestivalState> {
             if (currentFestival != null && currentFestival.id == e.festivalId) {
               final updatedAssignedIds = [
                 ...currentFestival.assignedVolunteerIds,
-                if (!currentFestival.assignedVolunteerIds.contains(e.volunteerId))
+                if (!currentFestival.assignedVolunteerIds.contains(
+                  e.volunteerId,
+                ))
                   e.volunteerId,
               ];
               final updatedFestival = currentFestival.copyWith(

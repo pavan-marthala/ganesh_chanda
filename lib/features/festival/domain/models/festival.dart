@@ -84,4 +84,15 @@ abstract class Festival with _$Festival {
 
   factory Festival.fromJson(Map<String, dynamic> json) =>
       _$FestivalFromJson(json);
+
+  factory Festival.skeleton() => Festival(
+    id: '',
+    communityId: '',
+    name: '',
+    startDate: DateTime.now(),
+    endDate: DateTime.now(),
+    createdBy: '',
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 }
