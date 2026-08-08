@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
+import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i892;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
@@ -21,6 +22,8 @@ import 'package:ganesh_chanda/core/services/notification_presenter.dart'
     as _i453;
 import 'package:ganesh_chanda/core/services/notification_router.dart' as _i475;
 import 'package:ganesh_chanda/core/services/notification_service.dart' as _i181;
+import 'package:ganesh_chanda/core/services/outbound_notification_service.dart'
+    as _i748;
 import 'package:ganesh_chanda/core/services/presence_service.dart' as _i1002;
 import 'package:ganesh_chanda/core/utils/device_identifier_provider.dart'
     as _i331;
@@ -112,6 +115,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i163.FlutterLocalNotificationsPlugin>(
       () => notificationModule.flutterLocalNotificationsPlugin,
     );
+    gh.lazySingleton<_i361.Dio>(() => notificationModule.dio);
     gh.lazySingleton<_i307.EmailService>(() => _i307.EmailService());
     gh.lazySingleton<_i453.NotificationPresenter>(
       () => _i453.NotificationPresenter(
@@ -120,6 +124,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i331.DeviceIdentifierProvider>(
       () => _i331.DeviceIdentifierProviderImpl(),
+    );
+    gh.lazySingleton<_i748.OutboundNotificationService>(
+      () => _i748.OutboundNotificationService(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i181.NotificationService>(
       () => _i181.NotificationService(gh<_i892.FirebaseMessaging>()),
